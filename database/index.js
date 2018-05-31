@@ -10,7 +10,6 @@ const db = mongoose.connection;
 db.on('error', function() {
   console.log('No connection to database');
 });
-
 db.once('open',function() {
   console.log('Database connection established');
 });
