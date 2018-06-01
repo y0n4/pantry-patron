@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require('express');
 const bodyParser = require('body-parser');
 const database = require('../database/index.js');
@@ -39,5 +38,3 @@ const port = 3000;
 app.listen(process.env.port || port, function() {
   console.log(`Listening on port ${port}`);
 });
-
-
