@@ -43,9 +43,11 @@ class EditableListItem extends React.Component {
   render() {
     if (this.state.editFormOpen) {
       return (
+        <div></div>
       );
     } else {
       return (
+        <div></div>
       );
     }
   }
