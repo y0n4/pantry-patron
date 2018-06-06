@@ -26,15 +26,15 @@ export default class ListItemEntry extends React.Component {
     }
     console.log(updatedItem);
 
-    // $.ajax({
-    //   url: '/updateHistory',
-    //   type: 'POST',
-    //   data: JSON.stringify(updatedItem),
-    //   contentType: 'application/json',
-    //   success: (data) => {
-    //     console.log(data)
-    //   }
-    // });
+    $.ajax({
+      url: '/updateHistory',
+      type: 'POST',
+      data: JSON.stringify(updatedItem),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log(data)
+      }
+    });
   }
 
   componentDidUpdate() {
