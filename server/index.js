@@ -78,7 +78,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/updateHistory', (req, res) => {
-  console.log(req.body)
+  console.log('A;ALSKJSDFJ;LKSDJAF;LKJADSF;LKJA', req.body)
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
     console.log('check me out ', historyItem)
     res.end(JSON.stringify(historyItem));

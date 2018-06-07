@@ -38,7 +38,7 @@ class ItemForm extends React.Component {
 
   handlePriceChange(e) {
     // console.log('new price', e.target.value);
-    this.setState({price: Number(e.target.value).toFixed(2)});
+    this.setState({price: e.target.value});
   }
 
   // handle submit of edit
@@ -52,11 +52,12 @@ class ItemForm extends React.Component {
     let newItem = {
       name: itemName
     };
-
     // sends the item to the database and returns
     // the item with the corresponding item id
     // then sends it to be added to the list
     newItem = this.transformItem(newItem, (newItem) => {
+          // newItem.price = this.state.price;
+          // newItem.quantity = this.state.quantity;
       this.props.updateList(newItem, false);
     });
   }
@@ -71,7 +72,6 @@ class ItemForm extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(newItem),
       success: (data) => {
-        console.log('transformed', JSON.parse(data));
         callback(JSON.parse(data));
       },
       error: (err) => {
@@ -91,7 +91,7 @@ class ItemForm extends React.Component {
             name="item"
             value={this.state.name}
             onChange={this.handleNameChange}/>
-          <input
+         {/* <input
             type="number"
             placeholder="Quantity"
             name="quantity"
@@ -101,9 +101,9 @@ class ItemForm extends React.Component {
             type="number"
             placeholder="Price"
             name="price"
-            step="any"
             value={this.state.price}
-            onChange={this.handlePriceChange}/>
+            onChange={this.handlePriceChange}
+            step="any"/>*/}
           <button
             type="button"
             className="glyphicon glyphicon-plus"

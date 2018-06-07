@@ -12,7 +12,7 @@ export default class Category extends React.Component{
 
   handleCategoryChange(e) {
     this.setState({category: e.target.value});
-    console.log(e.target.value);
+    // console.log(e.target.value);
   } //end handleCategoryChange
 
   handleNewCategory() {

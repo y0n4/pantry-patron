@@ -177,18 +177,13 @@ var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
         if(err) { console.error(err) };
       });
 
-      Category.find({_id: item.category_id}).exec((err, category) => {
-        console.log('category search returned this', category);
-        oldItem[0].price = item.price;
-        oldItem[0].quantity = item.quantity;
-        oldItem[0].category_id = category._id;
+      oldItem[0].price = item.price;
+      oldItem[0].quantity = item.quantity;
 
-        oldItem[0].save((err) => {
-          if(err) { console.error(err) };
-          callback(oldItem);
-        })
-      });
-
+      oldItem[0].save((err) => {
+        if(err) { console.error(err) };
+        callback(oldItem);
+      })
     } else {
       callback(oldItem)
     }
@@ -244,8 +239,7 @@ var searchForCategory = (query, callback) => {
         createCategory(query, callback)
       } else {
         // else error out or maybe return error so we can display it
-        console.error('cannot create empty category');
-        callback([]);
+        console.error('cannot create empty category')
       }
     } else {
       // if they made a query with an item name

@@ -17,14 +17,13 @@ class ListEntry extends React.Component {
   } // end constructor
 
   updateList(newItem, callback) {
-
     $.ajax({
       url: '/addItem',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({
         newItem: newItem,
-        list: this.props.list._id
+        list: this.props.list._id,
       }),
       success: (data) => {
         data = JSON.parse(data);
