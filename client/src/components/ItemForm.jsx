@@ -57,7 +57,7 @@ class ItemForm extends React.Component {
     // the item with the corresponding item id
     // then sends it to be added to the list
     newItem = this.transformItem(newItem, (newItem) => {
-      this.props.updateList(newItem);
+      this.props.updateList(newItem, false);
     });
   }
 
@@ -83,15 +83,32 @@ class ItemForm extends React.Component {
 
   render() {
     return(
-      <div className="form-group">
-        <form className="navbar-form navbar-left" role="submit">
-          <input type="text" className="form-control" placeholder="Enter an item..." name="item" value={this.state.name} onChange={this.handleNameChange}/>
-          <input type="number" className="form-control" placeholder="Quantity" name="quantity" value={this.state.quantity} onChange={this.handleQuantChange}/>
-          <input type="number" className="form-control" placeholder="Price" name="price" step="any" value={this.state.price} onChange={this.handlePriceChange}/>
 
-          <a href="#">
-            <span className="glyphicon glyphicon-plus" type="submit" onClick={()=> (this.handleSubmit())}></span>
-          </a>
+      <div>
+        <form>
+          <input
+            type="text"
+            placeholder="Enter an item..."
+            name="item"
+            value={this.state.name}
+            onChange={this.handleNameChange}/>
+          <input
+            type="number"
+            placeholder="Quantity"
+            name="quantity"
+            value={this.state.quantity}
+            onChange={this.handleQuantChange}/>
+          <input
+            type="number"
+            placeholder="Price"
+            name="price"
+            step="any"
+            value={this.state.price}
+            onChange={this.handlePriceChange}/>
+          <button
+            type="button"
+            className="glyphicon glyphicon-plus"
+            onClick={()=> (this.handleSubmit())}></button>
 
         </form>
        </div>
@@ -100,11 +117,3 @@ class ItemForm extends React.Component {
 }
 
 export default ItemForm;
-
-
-
-/*
-+-----------+  +---+  +-------+
-| ITEM NAME |  |QTY|  | PRICE |
-+-----------+  +---+  +-------+
-*/

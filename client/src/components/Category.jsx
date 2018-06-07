@@ -23,7 +23,7 @@ export default class Category extends React.Component{
     let set = this.setState.bind(this);
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/category/create',
+      url: '/category/create',
       contentType: 'application/json',
       data: JSON.stringify(newCategory),
       success: (data) => {
