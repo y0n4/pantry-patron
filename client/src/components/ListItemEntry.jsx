@@ -10,7 +10,7 @@ export default class ListItemEntry extends React.Component {
       item: props.item,
       quantity: props.item.quantity,
       price: props.item.price,
-      category_id: ''
+      category_id: props.item.category_id
     };
 
     this.typingTimer = 2000;
@@ -24,7 +24,8 @@ export default class ListItemEntry extends React.Component {
       _id: this.props.item._id,
       name: this.state.item.item_id.name,
       price: this.state.price,
-      quantity: this.state.quantity
+      quantity: this.state.quantity,
+      category_id: this.state.category_id
     }
     console.log( updatedItem);
 
@@ -35,8 +36,6 @@ export default class ListItemEntry extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         console.log('returned', JSON.parse(data))
-        // this.setState({
-        // })
       }
     });
   }
@@ -61,6 +60,9 @@ export default class ListItemEntry extends React.Component {
     this.timer();
   }
 
+  grabCategory(e) {
+    console.log(e)
+  }
   render() {
     // console.log('item entry : ', this.state)
     // var cats = [{name: 'food'}, {name: 'self-care'}];
@@ -70,7 +72,7 @@ export default class ListItemEntry extends React.Component {
         <input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/>
         <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/>
         <input type="number" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/>
-        <Category update={this.props.update} categories={this.props.categories}/>
+        <Category update={this.props.update} setItemCategory={this.grabCategory.bind(this)} categories={this.props.categories}/>
         </td>
       </tr>
     );

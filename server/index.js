@@ -64,7 +64,7 @@ app.post('/login', (req, res) => {
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
           database.searchForCategory({}, (categories) => {
           let results = {'loc': '\/', 'lists': lists, 'userData': user, 'categories': categories};
-          res.end(JSON.stringify(results));
+            res.end(JSON.stringify(results));
           })
 
         })
@@ -90,7 +90,11 @@ app.get('/logout', (req, res) => {
   // Remove user
   console.log('Logout', req.session);
   req.session.destroy();
+<<<<<<< 565b26291694f8c844d96ddbf4a91f0533aa6ff2
   res.redirect('/login');
+=======
+  res.end();
+>>>>>>> working on categories
 });
 
 app.post('/register', (req, res) => {

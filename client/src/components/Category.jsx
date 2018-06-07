@@ -11,8 +11,8 @@ export default class Category extends React.Component{
   }// end constructor
 
   handleCategoryChange(e) {
-    console.log(e.target.value, '+++++++++++++++++++++++++++++++++++++++++++')
     this.setState({category: e.target.value});
+    console.log(this.state._id)
   } //end handleCategoryChange
 
   handleNewCategory() {
@@ -30,7 +30,8 @@ export default class Category extends React.Component{
         console.log('response to category', data)
         data = JSON.parse(data);
         this.setState({
-          category: data.name
+          category: data.name,
+          _id: data._id
         })
 
         this.props.update({categories: this.props.categories.concat([data])})
@@ -53,7 +54,7 @@ export default class Category extends React.Component{
           {
             /*render options dynamically*/
             this.props.categories.map((category) => {
-            return <option value={category.name} key={category._id}>{category.name}</option>
+            return <option value={{name: category.name, _id: category._id}} >{category.name}</option>
           })
           }
         </select>
