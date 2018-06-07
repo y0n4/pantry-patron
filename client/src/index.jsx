@@ -43,12 +43,10 @@ class App extends React.Component {
       stores: [],
       user: {},
       lists: [],
-      categories: []
     };
     console.log(`the user is logged in: ${this.state.isLoggedIn}, under user info ${this.state.user.username}`);
 
     this.verify = this.verify.bind(this);
-    // this.sendNewUserCredentials = this.sendNewUserCredentials.bind(this);
     this.update = this.update.bind(this);
   }
 
@@ -127,7 +125,6 @@ class App extends React.Component {
               user={this.state.user}
               lists={this.state.lists}
               update={this.update.bind(this)}
-              categories={this.state.categories}
               stores={['walmart', 'kmart', 'target', 'giant', 'wegmans']}
               {...props}
             />)}

@@ -61,13 +61,9 @@ app.post('/login', (req, res) => {
         req.session.username = username;
         req.session.hash = hash;
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
-          database.searchForCategory({}, (categories) => {
-          let results = {'loc': '\/', 'lists': lists, 'userData': user, 'categories': categories};
-            res.end(JSON.stringify(results));
-          })
-
+          let results = {'loc': '\/', 'lists': lists, 'userData': user};
+          res.end(JSON.stringify(results));
         })
-
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
@@ -120,14 +116,6 @@ app.post('/register', (req, res) => {
   } else {
     res.end('/register');
   }
-});
-
-// All private API calls
-// add new categories into DB if not found in DB
-app.post('/category/create', util.checkLoggedIn, (req, res) => {
-  database.searchForCategory(req.body, (category) => {
-    res.end(JSON.stringify(category));
-  });
 });
 
 // searches the database for an item, if it doesn't exists a new item

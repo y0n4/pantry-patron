@@ -77,7 +77,7 @@ class Lists extends React.Component{
     } else {
 
       display = this.state.selectedList.name !== null ?
-     <ListEntry stores={this.props.stores} categories={this.props.categories} update={this.props.update} className='list' list={this.state.selectedList} /> :
+     <ListEntry stores={this.props.stores} update={this.props.update} className='list' list={this.state.selectedList} /> :
      <div id='warning'>Select a list from the<br/>from drop down menu</div>;
     }
 
