@@ -10,10 +10,10 @@ export default class Category extends React.Component{
     };
   }// end constructor
 
-  handleCategoryChange(e) {
-    this.setState({category: e.target.value});
-    console.log(this.state._id)
-  } //end handleCategoryChange
+  // handleCategoryChange(e) {
+  //   this.setState({category: e.target.value});
+  //   console.log(e.target.value);
+  // } //end handleCategoryChange
 
   handleNewCategory() {
     let newCategory = {
@@ -48,13 +48,13 @@ export default class Category extends React.Component{
     }
     return(
 
-        <select onChange={this.handleCategoryChange.bind(this)}>
+        <select onChange={this.props.onChange.bind(this)}>
           <option value="" key=""></option>
           <option value="new" key="new">New Category</option>
           {
             /*render options dynamically*/
             this.props.categories.map((category) => {
-            return <option value={{name: category.name, _id: category._id}} >{category.name}</option>
+            return <option value={category._id} >{category.name}</option>
           })
           }
         </select>

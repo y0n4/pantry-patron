@@ -18,21 +18,22 @@ import Register from './components/Register.jsx';
 import Lists from './components/Lists.jsx';
 // WE NEED TO DOWNLOAD AND IMPORT BCRYPT
 
-// function sendNewUserCredentials(newUserCreds, callback) {
-//   $.ajax({
-//     url: '/register',
-//     type: 'POST',
-//     contentType: 'application/json',
-//     data: JSON.stringify(newUserCreds),
-//     success: (loc) => {
-//       console.log('New user information saved to db');
-//       callback(loc);
-//     },
-//     error: (err) => {
-//       console.error(err);
-//     },
-//   });
-// }
+function sendNewUserCredentials(newUserCreds, callback) {
+  $.ajax({
+    url: '/register',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(newUserCreds),
+    success: (loc) => {
+      console.log('New user information saved to db');
+      callback(loc);
+      // console.log(loc)
+    },
+    error: (err) => {
+      console.error(err);
+    },
+  });
+}
 
 class App extends React.Component {
   constructor(props) {

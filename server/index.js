@@ -60,7 +60,6 @@ app.post('/login', (req, res) => {
         }
         req.session.username = username;
         req.session.hash = hash;
-        console.log('here', user);
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
           database.searchForCategory({}, (categories) => {
           let results = {'loc': '\/', 'lists': lists, 'userData': user, 'categories': categories};
@@ -90,11 +89,8 @@ app.get('/logout', (req, res) => {
   // Remove user
   console.log('Logout', req.session);
   req.session.destroy();
-<<<<<<< 565b26291694f8c844d96ddbf4a91f0533aa6ff2
   res.redirect('/login');
-=======
-  res.end();
->>>>>>> working on categories
+
 });
 
 app.post('/register', (req, res) => {
@@ -118,11 +114,11 @@ app.post('/register', (req, res) => {
         req.session.username = username;
         req.session.hash = hash;
 
-        res.redirect('/');
+        res.end('/login');
       })
       .catch();
   } else {
-    res.redirect('/register');
+    res.end('/register');
   }
 });
 

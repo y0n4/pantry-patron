@@ -71,7 +71,6 @@ class ItemForm extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(newItem),
       success: (data) => {
-
         console.log('transformed', JSON.parse(data));
         callback(JSON.parse(data));
       },
@@ -109,7 +108,6 @@ class ItemForm extends React.Component {
             type="button"
             className="glyphicon glyphicon-plus"
             onClick={()=> (this.handleSubmit())}></button>
-
         </form>
        </div>
     );
