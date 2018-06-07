@@ -11,7 +11,7 @@ export default class Category extends React.Component{
   }// end constructor
 
   handleCategoryChange(e) {
-    console.log(e.target.value, '+++++++++++++++++++++++++++++++++++++++++++', e.target.key)
+    console.log(e.target.value, '+++++++++++++++++++++++++++++++++++++++++++')
     this.setState({category: e.target.value});
   } //end handleCategoryChange
 
