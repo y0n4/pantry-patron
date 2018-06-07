@@ -6,11 +6,13 @@ export default class ListItemEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      _id: props.item._id,
       item: props.item,
       quantity: props.item.quantity,
-      price: props.item.price
-
+      price: props.item.price,
+      category_id: ''
     };
+
     this.typingTimer = 2000;
     this.timeout ;
   }
@@ -24,7 +26,7 @@ export default class ListItemEntry extends React.Component {
       price: this.state.price,
       quantity: this.state.quantity
     }
-    console.log(updatedItem);
+    console.log( updatedItem);
 
     $.ajax({
       url: '/updateHistory',
@@ -32,39 +34,43 @@ export default class ListItemEntry extends React.Component {
       data: JSON.stringify(updatedItem),
       contentType: 'application/json',
       success: (data) => {
-        console.log(data)
+        console.log('returned', JSON.parse(data))
+        // this.setState({
+        // })
       }
     });
   }
 
-  componentDidUpdate() {
-    // timer that will update when after 2 seconds of no typing
+  timer() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => (this.updateItemHistory()), this.typingTimer)
   }
 
   handleQtyChange(e) {
     this.setState({ quantity : e.target.value});
+    this.timer();
   }
 
   handlePriceChange(e) {
     this.setState({ price : e.target.value});
+    this.timer();
   }
 
   handleNameChange(e) {
     this.setState({item: { item_id: { name: e.target.value}}})
+    this.timer();
   }
 
   render() {
     // console.log('item entry : ', this.state)
-    var cats = [{name: 'food'}, {name: 'self-care'}];
+    // var cats = [{name: 'food'}, {name: 'self-care'}];
     return (
       <tr>
         <td>
         <input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/>
         <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/>
         <input type="number" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/>
-        <Category categories={cats || this.props.categories}/>
+        <Category update={this.props.update} categories={this.props.categories}/>
         </td>
       </tr>
     );

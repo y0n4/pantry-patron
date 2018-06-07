@@ -19,7 +19,7 @@ class Lists extends React.Component{
     this.handleListSelect = this.handleListSelect.bind(this);
   }
 
-  handleNewList(user) {
+  handleNewList(user, callback) {
     console.log('This is the user I got', user)
     let listName = prompt('What\'s this lists name?');
 
@@ -50,8 +50,11 @@ class Lists extends React.Component{
 
           console.log('this is the state currently: ', this.state)
           // set the drop down to the list
-          $('#list-select').val(this.state.userLists.length -1);
+
           this.props.update({lists: this.state.userLists});
+          if(callback){
+            callback();
+          }
       },
       err: (err) => {
         console.error(err);
@@ -66,11 +69,15 @@ class Lists extends React.Component{
   render() {
     let display;
     console.log('======> ', this.state.selectedList)
+
     if(this.state.selectedList.name === 'new') {
-      this.handleNewList(this.props.user);
+      this.handleNewList(this.props.user, () => {
+        $('#list-select').val(this.state.userLists.length -1);
+      });
     } else {
-      display = !!this.state.selectedList.name ?
-     <ListEntry stores={this.props.stores} className='list' list={this.state.selectedList} /> :
+
+      display = this.state.selectedList.name !== null ?
+     <ListEntry stores={this.props.stores} categories={this.props.categories} update={this.props.update} className='list' list={this.state.selectedList} /> :
      <div id='warning'>Select a list from the<br/>from drop down menu</div>;
     }
 

@@ -56,7 +56,6 @@ class ListEntry extends React.Component {
           </select>
           <br/>
           <br/>
-<<<<<<< cd24036071bdfbc85b2b6984b40028ff208e9458
           <table>
             <tbody>
               {
@@ -67,14 +66,7 @@ class ListEntry extends React.Component {
               }
             </tbody>
           </table>
-=======
-          {
-            // console.log('these are the items', this.state.items)
-            this.state.items.map((item) => {
-              return <ListItemEntry key={item._id} categories ={this.props.categories} update={this.props.update} item={item}/>
-            })
-          }
->>>>>>> pass a few things into list component
+
           <br/>
           <ItemForm updateList={this.updateList.bind(this)}/>
           <button type="button">Edit</button>
