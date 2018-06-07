@@ -5,12 +5,14 @@ export default class Category extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      category: ''
+      category: '',
+      _id: ''
     };
   }// end constructor
 
   handleCategoryChange(e) {
     this.setState({category: e.target.value});
+    // console.log(e.target.value);
   } //end handleCategoryChange
 
   handleNewCategory() {
@@ -21,14 +23,18 @@ export default class Category extends React.Component{
     let set = this.setState.bind(this);
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/category/create',
+      url: '/category/create',
       contentType: 'application/json',
       data: JSON.stringify(newCategory),
       success: (data) => {
         console.log('response to category', data)
-        // if(res.status === 201) {
-        //   set({category: res.responseText.name})
-        // }
+        data = JSON.parse(data);
+        this.setState({
+          category: data.name,
+          _id: data._id
+        })
+
+        this.props.update({categories: this.props.categories.concat([data])})
       },
       error: (err) => {
         console.error(err);
@@ -48,7 +54,7 @@ export default class Category extends React.Component{
           {
             /*render options dynamically*/
             this.props.categories.map((category) => {
-            return <option value={category.name} key={category.name}>{category.name}</option>
+            return <option value={category._id} >{category.name}</option>
           })
           }
         </select>

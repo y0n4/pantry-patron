@@ -38,7 +38,7 @@ class ItemForm extends React.Component {
 
   handlePriceChange(e) {
     // console.log('new price', e.target.value);
-    this.setState({price: Number(e.target.value).toFixed(2)});
+    this.setState({price: e.target.value});
   }
 
   // handle submit of edit
@@ -52,12 +52,13 @@ class ItemForm extends React.Component {
     let newItem = {
       name: itemName
     };
-
     // sends the item to the database and returns
     // the item with the corresponding item id
     // then sends it to be added to the list
     newItem = this.transformItem(newItem, (newItem) => {
-      this.props.updateList(newItem);
+          // newItem.price = this.state.price;
+          // newItem.quantity = this.state.quantity;
+      this.props.updateList(newItem, false);
     });
   }
 
@@ -71,8 +72,6 @@ class ItemForm extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(newItem),
       success: (data) => {
-
-        console.log('transformed', JSON.parse(data));
         callback(JSON.parse(data));
       },
       error: (err) => {
@@ -83,16 +82,32 @@ class ItemForm extends React.Component {
 
   render() {
     return(
-      <div className="form-group">
-        <form className="navbar-form navbar-left" role="submit">
-          <input type="text" className="form-control" placeholder="Enter an item..." name="item" value={this.state.name} onChange={this.handleNameChange}/>
-          <input type="number" className="form-control" placeholder="Quantity" name="quantity" value={this.state.quantity} onChange={this.handleQuantChange}/>
-          <input type="number" className="form-control" placeholder="Price" name="price" step="any" value={this.state.price} onChange={this.handlePriceChange}/>
 
-          <a href="#">
-            <span className="glyphicon glyphicon-plus" type="submit" onClick={()=> (this.handleSubmit())}></span>
-          </a>
-
+      <div>
+        <form>
+          <input
+            type="text"
+            placeholder="Enter an item..."
+            name="item"
+            value={this.state.name}
+            onChange={this.handleNameChange}/>
+         {/* <input
+            type="number"
+            placeholder="Quantity"
+            name="quantity"
+            value={this.state.quantity}
+            onChange={this.handleQuantChange}/>
+          <input
+            type="number"
+            placeholder="Price"
+            name="price"
+            value={this.state.price}
+            onChange={this.handlePriceChange}
+            step="any"/>*/}
+          <button
+            type="button"
+            className="glyphicon glyphicon-plus"
+            onClick={()=> (this.handleSubmit())}></button>
         </form>
        </div>
     );
@@ -100,11 +115,3 @@ class ItemForm extends React.Component {
 }
 
 export default ItemForm;
-
-
-
-/*
-+-----------+  +---+  +-------+
-| ITEM NAME |  |QTY|  | PRICE |
-+-----------+  +---+  +-------+
-*/

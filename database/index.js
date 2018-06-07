@@ -17,12 +17,9 @@ db.once('open', () => {
 const User = require('./schemas/UserSchema.js');
 const Items = require('./schemas/ItemSchema.js');
 const Category = require('./schemas/CategorySchema.js');
-
 const Store = require('./schemas/StoreSchema.js');
-
 const ItemHistory = require('./schemas/ItemHistorySchema.js');
 const GroceryList = require('./schemas/GroceryListSchema.js');
-// const Store = require('./schemas/StoreSchema.js');
 
 
 var saveUser = function(user) {
@@ -165,9 +162,38 @@ var createStore = () => {
 
 }
 
-var searchForItemInHistoryAndPopulate = () => {
+var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
+  ItemHistory.find({_id: item._id})
+  .populate('item_id')
+  .populate('category_id')
+  .exec((err, oldItem) => {
+      console.log('old', oldItem)
+    if(err) { console.error(err) };
+
+    if(shouldUpdate) {
+      oldItem[0].item_id.name = item.name;
+
+      oldItem[0].item_id.save((err) => {
+        if(err) { console.error(err) };
+      });
+
+      oldItem[0].price = item.price;
+      oldItem[0].quantity = item.quantity;
+
+      oldItem[0].save((err) => {
+        if(err) { console.error(err) };
+        callback(oldItem);
+      })
+    } else {
+      callback(oldItem)
+    }
+  });
+}
+
+var updateHistoryItem = () => {
 
 }
+
 
 var searchForItemInHistory = (item, callback) => {
   /*CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS

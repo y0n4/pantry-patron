@@ -13,6 +13,7 @@ class ListEntry extends React.Component {
       items: this.props.list.items,
       stores: this.props.stores
     }
+    console.log('SET THE STATE TO BE ', this.state)
   } // end constructor
 
   updateList(newItem, callback) {
@@ -20,7 +21,10 @@ class ListEntry extends React.Component {
       url: '/addItem',
       type: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({newItem: newItem, list: this.props.list._id}),
+      data: JSON.stringify({
+        newItem: newItem,
+        list: this.props.list._id,
+      }),
       success: (data) => {
         data = JSON.parse(data);
         console.log('add item returned ', data)
@@ -30,16 +34,6 @@ class ListEntry extends React.Component {
         console.error(err);
       }
     })
-  }
-
-  searchForPrice() {
-    /*
-    search for the price of the item.
-    */
-
-  }
-  getCategories() {
-
   }
 
   handleStoreChange(e) {
@@ -71,6 +65,7 @@ class ListEntry extends React.Component {
               }
             </tbody>
           </table>
+
           <br/>
           <ItemForm updateList={this.updateList.bind(this)}/>
           <button type="button">Edit</button>

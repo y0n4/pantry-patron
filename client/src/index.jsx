@@ -27,6 +27,7 @@ function sendNewUserCredentials(newUserCreds, callback) {
     success: (loc) => {
       console.log('New user information saved to db');
       callback(loc);
+      // console.log(loc)
     },
     error: (err) => {
       console.error(err);
@@ -42,6 +43,7 @@ class App extends React.Component {
       stores: [],
       user: {},
       lists: [],
+      categories: []
     };
     console.log(`the user is logged in: ${this.state.isLoggedIn}, under user info ${this.state.user.username}`);
 
@@ -54,15 +56,19 @@ class App extends React.Component {
     // this.getStores();
   }
 
-  // getStores() {
-  //   $.ajax({
-  //     url: '/store/search',
-  //     type: 'GET',
-  //     success: () => {
-
-  //     }
-  //   });
-  // }
+  getStores() {
+    $.ajax({
+      url: '/store/search',
+      type: 'GET',
+      contentType: 'application/json',
+      success: (data) => {
+        console.log(data)
+      },
+      error: (err) => {
+        console.error(err + 'in getStores function');
+      }
+    });
+  }
 
   update(data) {
     this.setState(data);
@@ -75,12 +81,15 @@ class App extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(credentials),
       success: (data) => {
-        // console.log(JSON.parse(data), 'in verify credentials')
-        this.setState({ isLoggedIn: true });
-        // //get user information
-        this.setState({ lists: JSON.parse(data).lists || [] });
-        this.setState({ user: JSON.parse(data).userData || {} });
-        callback(JSON.parse(data).loc);
+
+        data = data;
+        console.log(JSON.parse(data), 'in verify credentials')
+          this.setState({isLoggedIn: true});
+          // //get user information
+          this.setState({lists: JSON.parse(data).lists || []})
+          this.setState({'user': JSON.parse(data).userData || {}});
+          this.setState({'categories': JSON.parse(data).categories || []});
+          callback(JSON.parse(data).loc);
       },
       error: (err) => {
         console.error(err);
@@ -117,7 +126,8 @@ class App extends React.Component {
             render={props => (<Lists
               user={this.state.user}
               lists={this.state.lists}
-              update={this.update}
+              update={this.update.bind(this)}
+              categories={this.state.categories}
               stores={['walmart', 'kmart', 'target', 'giant', 'wegmans']}
               {...props}
             />)}

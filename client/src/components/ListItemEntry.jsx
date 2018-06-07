@@ -6,11 +6,13 @@ export default class ListItemEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      _id: props.item._id,
       item: props.item,
       quantity: props.item.quantity,
-      price: props.item.price
-
+      price: props.item.price,
+      category_id: props.item.category_id
     };
+
     this.typingTimer = 2000;
     this.timeout ;
   }
@@ -22,49 +24,58 @@ export default class ListItemEntry extends React.Component {
       _id: this.props.item._id,
       name: this.state.item.item_id.name,
       price: this.state.price,
-      quantity: this.state.quantity
+      quantity: this.state.quantity,
+      category_id: this.state.category_id
     }
-    console.log(updatedItem);
+    console.log( updatedItem);
 
-    // $.ajax({
-    //   url: '/updateHistory',
-    //   type: 'POST',
-    //   data: JSON.stringify(updatedItem),
-    //   contentType: 'application/json',
-    //   success: (data) => {
-    //     console.log(data)
-    //   }
-    // });
+    $.ajax({
+      url: '/updateHistory',
+      type: 'POST',
+      data: JSON.stringify(updatedItem),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log('returned', JSON.parse(data))
+      }
+    });
   }
 
-  componentDidUpdate() {
-    // timer that will update when after 2 seconds of no typing
+  timer() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => (this.updateItemHistory()), this.typingTimer)
   }
 
   handleQtyChange(e) {
     this.setState({ quantity : e.target.value});
+    this.timer();
   }
 
   handlePriceChange(e) {
     this.setState({ price : e.target.value});
+    this.timer();
   }
 
   handleNameChange(e) {
     this.setState({item: { item_id: { name: e.target.value}}})
+    this.timer();
   }
 
+  handleCategoryChange(e) {
+    this.setState({category_id: e.target.value});
+    console.log(e.target.value, 'wooooooot');
+    this.timer();
+  } //end handleCategoryChange
+
   render() {
-    // console.log('item entry : ', this.state)
-    var cats = [{name: 'food'}, {name: 'self-care'}];
+    console.log('item entry : ', this.state)
+    // var cats = [{name: 'food'}, {name: 'self-care'}];
     return (
       <tr>
         <td>
         <input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/>
         <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/>
         <input type="number" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/>
-        <Category categories={cats || this.props.categories}/>
+        <Category  id={this.state.category_id} onChange={this.handleCategoryChange.bind(this)} update={this.props.update} categories={this.props.categories}/>
         </td>
       </tr>
     );
