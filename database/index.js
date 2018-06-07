@@ -197,6 +197,7 @@ var updateHistoryItem = () => {
 
 }
 
+
 var searchForItemInHistory = (item, callback) => {
   /*CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS
     IF NOT IT SHOULD CREATE A NEW ITEMHISTORY DOCUMENT*/
