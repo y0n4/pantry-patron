@@ -62,9 +62,13 @@ app.post('/login', (req, res) => {
         req.session.hash = hash;
         console.log('here', user);
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
-          const results = { lists, loc: '/', userData: user };
+          database.searchForCategory({}, (categories) => {
+          let results = {'loc': '\/', 'lists': lists, 'userData': user, 'categories': categories};
           res.end(JSON.stringify(results));
-        });
+          })
+
+        })
+
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
@@ -78,6 +82,7 @@ app.post('/updateHistory', (req, res) => {
   console.log(req.body)
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
     console.log('check me out ', historyItem)
+    res.end(JSON.stringify(historyItem));
   })
 });
 
@@ -133,11 +138,14 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
   });
 });
 
-app.post('/addItem', util.checkLoggedIn, (req, res) => {
-  console.log('add item endpoint', req.body);
-  database.searchForItemInHistory(req.body, (updatedList) => {
+app.post('/addItem', (req, res) => {
+  console.log('add item endpoint', req.body)
+  database.searchForItemInHistory(req.body, (updatedList) =>{
+    console.log('after itemHistory', updatedList);
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
-      res.end(JSON.stringify(populatedList));
+      console.log('after population', populatedList);
+      res.end(JSON.stringify(populatedList))
+
     });
   });
 });
@@ -153,7 +161,7 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
 app.get('/store/search', util.checkLoggedIn, (req, res) => {
   const { name } = req.query;
 
-  const promiseSearch = name ? database.storeSearch({ name }) : database.storeSearch({});
+  const promiseSearch = name ? database.storeSearch({ name }).exec() : database.storeSearch({}).exec();
 
   promiseSearch.then(stores => res.send(stores));
 });

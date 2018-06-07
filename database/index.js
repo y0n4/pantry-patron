@@ -17,12 +17,9 @@ db.once('open', () => {
 const User = require('./schemas/UserSchema.js');
 const Items = require('./schemas/ItemSchema.js');
 const Category = require('./schemas/CategorySchema.js');
-
 const Store = require('./schemas/StoreSchema.js');
-
 const ItemHistory = require('./schemas/ItemHistorySchema.js');
 const GroceryList = require('./schemas/GroceryListSchema.js');
-// const Store = require('./schemas/StoreSchema.js');
 
 
 var saveUser = function(user) {
