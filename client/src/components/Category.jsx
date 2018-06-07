@@ -10,10 +10,10 @@ export default class Category extends React.Component{
     };
   }// end constructor
 
-  // handleCategoryChange(e) {
-  //   this.setState({category: e.target.value});
-  //   console.log(e.target.value);
-  // } //end handleCategoryChange
+  handleCategoryChange(e) {
+    this.setState({category: e.target.value});
+    console.log(e.target.value);
+  } //end handleCategoryChange
 
   handleNewCategory() {
     let newCategory = {
@@ -48,7 +48,7 @@ export default class Category extends React.Component{
     }
     return(
 
-        <select onChange={this.props.onChange.bind(this)}>
+        <select onChange={this.handleCategoryChange.bind(this)}>
           <option value="" key=""></option>
           <option value="new" key="new">New Category</option>
           {
