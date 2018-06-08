@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 import ListItemEntry from './ListItemEntry.jsx';
 import ItemForm from './ItemForm.jsx';
 
@@ -11,8 +12,11 @@ class ListEntry extends React.Component {
       store_id: '' || this.props.stores.name,
       total_price: 0.00,
       items: this.props.list.items,
-      stores: this.props.stores
-    }
+      stores: this.props.stores,
+    };
+    this.updateItem = this.updateItem.bind(this);
+    this.handleStoreChange = this.handleStoreChange.bind(this);
+    this.updateList = this.updateList.bind(this);
   } // end constructor
 
   componentDidMount() {
@@ -51,17 +55,14 @@ class ListEntry extends React.Component {
         grab item index ref
           update item in the list array
     */
-    let oldItems = this.state.items;
+    const oldItems = this.state.items;
     oldItems.forEach((item) => {
-      if(item._id === updatedItem._id) {
+      if (item._id === updatedItem._id) {
         item.name = updatedItem.name;
         item.quantity = updatedItem.quantity;
         item.price = updatedItem.price;
       }
     });
-  }
-
-  onDeleteClick(e) {
   }
 
   render() {
@@ -98,17 +99,21 @@ class ListEntry extends React.Component {
           </table>
 
           <br/>
-<<<<<<< 4e61aa7d3d129081b5436c01eb49bf05a484a705
           <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
-          <button type="button">Delete</button>
-=======
-          <ItemForm updateList={this.updateList.bind(this)}/>
           <button type="button" onClick={this.onDeleteClick}>Delete</button>
->>>>>>> Delete list calls delete function
           <button type="calculate">Calculate</button>
         </div>
       );
   } // end render
 } // end component
+
+ListEntry.propTypes = {
+  list: PropTypes.shape({
+    name: PropTypes.string,
+    items: PropTypes.array,
+    _id: PropTypes.string,
+  }).isRequired,
+  deleteList: PropTypes.func.isRequired,
+};
 
 export default ListEntry;

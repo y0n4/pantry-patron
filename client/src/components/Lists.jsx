@@ -1,34 +1,39 @@
 import React from 'react';
 import $ from 'jquery';
+import PropTypes from 'prop-types';
 
 import ListEntry from './ListEntry.jsx';
 import NavBar from './Navigation.jsx';
 
-class Lists extends React.Component{
+class Lists extends React.Component {
   constructor(props) {
-
     super(props);
     this.state = {
-      userLists :  this.props.lists || [],
-      selectedList: {name: null, items: []}
+      userLists: this.props.lists || [],
+      selectedList: { name: null, items: [] },
     };
 
-    this.state.userLists['x'] = {name: null, items: []};
-    this.state.userLists['new'] = {name: 'new', items: []};
+    this.state.userLists.x = { name: null, items: [] };
+    this.state.userLists.new = { name: 'new', items: [] };
 
     this.handleListSelect = this.handleListSelect.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
   componentDidMount() {
-    var context = this;
-    $('#list-select').on( 'mouseover',(e) => {
+    const context = this;
+    $('#list-select').on('mouseover', () => {
       setTimeout(() => {
-        if( $('#list-select').is(':hover')) {
-          context.setState({selectedList: this.state.userLists['x']});
+        if ($('#list-select').is(':hover')) {
+          context.setState({ selectedList: this.state.userLists.x });
           $('#list-select').val('x').change();
         }
       }, 500);
-    })
+    });
+  }
+
+  onDeleteClick() {
+    this.props.deleteList(this.state.selectedList);
   }
 
   updateList(newItem, callback) {
@@ -57,17 +62,17 @@ class Lists extends React.Component{
   }
 
   handleNewList(user, callback) {
-    console.log('This is the user I got', user)
+    console.log('This is the user I got', user);
     let listName = prompt('What\'s this lists name?');
 
-    while(listName === '') {
+    while (listName === '') {
       listName = prompt('One cannot create a list with no name');
     }
 
-    var newList = {
+    const newList = {
       name: listName,
-      user_id: user._id
-    }
+      user_id: user._id,
+    };
 
     $.ajax({
       url: '/lists/create',
@@ -75,46 +80,45 @@ class Lists extends React.Component{
       contentType: 'application/json',
       data: JSON.stringify(newList),
       success: (data) => {
-        console.log(JSON.parse(data), 'here is the data')
+        console.log(JSON.parse(data), 'here is the data');
 
-          this.setState({
-            userLists: this.state.userLists.concat([JSON.parse(data)]),
-            selectedList: JSON.parse(data)
-          });
+        this.setState({
+          userLists: this.state.userLists.concat([JSON.parse(data)]),
+          selectedList: JSON.parse(data),
+        });
 
-          this.state.userLists['x'] = {name: null, items: []};
-          this.state.userLists['new'] = {name: 'new', items: []};
-          // set the drop down to the list
+        this.state.userLists.x = { name: null, items: [] };
+        this.state.userLists.new = { name: 'new', items: [] };
+        // set the drop down to the list
 
-          this.props.update({lists: this.state.userLists});
-          if(callback){
-            callback();
-          }
+        this.props.update({ lists: this.state.userLists });
+        if (callback) {
+          callback();
+        }
       },
       err: (err) => {
         console.error(err);
-      }
+      },
     });
   }
 
   handleListSelect(e) {
-    this.setState({selectedList: this.state.userLists[e.target.value]});
+    this.setState({ selectedList: this.state.userLists[e.target.value] });
   }
 
   render() {
     let display;
 
-    if(this.state.selectedList.name === 'new') {
+    if (this.state.selectedList.name === 'new') {
       this.handleNewList(this.props.user, () => {
-        $('#list-select').val(this.state.userLists.length -1);
+        $('#list-select').val(this.state.userLists.length - 1);
       });
     } else {
-
       display = this.state.selectedList.name !== null ?
      <ListEntry
       stores={this.props.stores}
       update={this.props.update}
-      deleteList={this.props.deleteList}
+      deleteList={this.onDeleteClick}
       updateItem={this.updateList.bind(this)}
       className='list'
       list={this.state.selectedList}
@@ -124,22 +128,31 @@ class Lists extends React.Component{
 
     return (
       <div className="text-center">
-      <NavBar {...this.props} />
-      <br/>
+        <NavBar {...this.props} />
+        <br />
         <select id="list-select" defaultValue="x" onChange={this.handleListSelect}>
-          <option value='x' key='x'> Select </option>
-          <option value='new' key='new'>New list</option>
+          <option value="x" key="x"> Select </option>
+          <option value="new" key="new">New list</option>
           {
-            this.state.userLists.map((list, index) => {
-              return <option value={index} key={index}>{list.name}</option>
-            })
+            this.state.userLists.map((list, index) =>
+              <option value={index} key={index}>{list.name}</option>)
           }
         </select>
-        <br className='line-break'/>
+        <br className="line-break" />
         {display}
       </div>
     );
   }
 }
+
+Lists.propTypes = {
+  lists: PropTypes.array.isRequired,
+  deleteList: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+  stores: PropTypes.array.isRequired,
+};
 
 export default Lists;
