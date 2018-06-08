@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ListItem from './Lists.jsx';
+import ItemForm from './ItemForm.jsx';
 class EditableListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -42,24 +43,25 @@ class EditableListItem extends React.Component {
   }
 
   render() {
-    if (this.state.editFormOpen) {
-      return (
-        <ItemForm
-          item={this.props.item}
-          onFormSubmit={this.handleSubmit}
-          onFormClose={this.handleFormClose}
-        />
-      );
-    } else {
-      return (
-       <ListItem
-          item={this.props.item}
-          id={this.props.item.id}
-          onEditClick={this.handleEditClick}
-          onTrashClick={this.props.onTrashClick}
-        />
-      );
-    }
+    // if (this.state.editFormOpen) {
+    //   return (
+    //     <ItemForm
+    //       item={this.props.item}
+    //       onFormSubmit={this.handleSubmit}
+    //       onFormClose={this.handleFormClose}
+    //     />
+    //   );
+    // } else {
+    //   return (
+    //    <ListItem
+    //       item={this.props.item}
+    //       id={this.props.item._id}
+    //       onEditClick={this.handleEditClick}
+    //       onTrashClick={this.props.onTrashClick}
+    //     />
+    //   );
+    // }
+    return(<div>Hey mother fucka</div>)
   }
 }
 
