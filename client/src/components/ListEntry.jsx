@@ -61,6 +61,9 @@ class ListEntry extends React.Component {
     });
   }
 
+  onDeleteClick(e) {
+  }
+
   render() {
       return (
         <div>
@@ -95,8 +98,13 @@ class ListEntry extends React.Component {
           </table>
 
           <br/>
+<<<<<<< 4e61aa7d3d129081b5436c01eb49bf05a484a705
           <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
           <button type="button">Delete</button>
+=======
+          <ItemForm updateList={this.updateList.bind(this)}/>
+          <button type="button" onClick={this.onDeleteClick}>Delete</button>
+>>>>>>> Delete list calls delete function
           <button type="calculate">Calculate</button>
         </div>
       );
