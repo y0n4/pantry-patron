@@ -34,28 +34,6 @@ var saveUser = function(user) {
   })
 };
 
-// var updateList = function(list) {
-//   var newList = new GroceryList(list.body);
-//   var name = newList.name;
-//   List.findOne({name: name}, function(noList, listExists) {
-//     // list doesn't exist
-//     if (noList) {
-//       newList.save()
-//       .then(function(category) {
-//         res.end('List saved to database');
-//       })
-//       .catch(function(err) {
-//         res.status(400).end('Unable to save list to database');
-//       })
-//     }
-//   }).then(listExists => {
-//     List.findOneAndUpdate({name: listExists.name}, { "$set": {"items": newList.items, "name": newList.name, "user_id": newList.user_id, "total_price": newList.total_price} }, {new: true}, function(err, doc) {
-//       if (err) return res.end(500, {error: err});
-//       res.end('Updated existing list');
-//     })
-//   }).catch(err => console.error(err));
-// }
-
 var addItemToList = function(item) {
   var newItem = new Items(item.body);
   newItem.save(function(err) {

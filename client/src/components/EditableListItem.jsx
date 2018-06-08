@@ -1,10 +1,11 @@
 import React from 'react';
 
+import ListItem from './Lists.jsx';
 class EditableListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editFormOpen = false;
+      editFormOpen : false
     }
     // bindings
     this.handleEdit = this.handleEdit.bind(this);

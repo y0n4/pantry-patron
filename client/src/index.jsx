@@ -56,7 +56,7 @@ class App extends React.Component {
       type: 'GET',
       contentType: 'application/json',
       success: (data) => {
-        console.log(data)
+        this.setState({stores: JSON.parse(data)});
       },
       error: (err) => {
         console.error(err + 'in getStores function');
@@ -121,7 +121,7 @@ class App extends React.Component {
               user={this.state.user}
               lists={this.state.lists}
               update={this.update.bind(this)}
-              stores={['walmart', 'kmart', 'target', 'giant', 'wegmans']}
+              stores={this.state.stores}
               {...props}
             />)}
           />

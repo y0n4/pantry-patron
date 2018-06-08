@@ -35,6 +35,9 @@ class ListEntry extends React.Component {
   }
 
   handleStoreChange(e) {
+    if(e.target.value === 'new') {
+      alert('You want to make a new store?')
+    }
     this.setState({store: e.target.value});
   }
 
@@ -61,10 +64,11 @@ class ListEntry extends React.Component {
           <h3>{this.props.list.name}</h3>
           <br/>
           <select className="store-selection" onChange={this.handleStoreChange.bind(this)}>
-            <option key="new">New store</option>
+            <option value={'select'} key="select">Stores</option>
+            <option value={'new'} key="new">New store</option>
             {
               this.state.stores.map((store, index) => {
-                return <option key={index}>{store}</option>
+                return <option value={store.name} key={store._id}>{store.name}</option>
               })
             }
           </select>
