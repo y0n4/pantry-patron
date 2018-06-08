@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Route,
-  // Link,
   Switch,
 } from 'react-router-dom';
 
@@ -14,9 +13,7 @@ import $ from 'jquery';
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
-// import Logout from './components/Logout.jsx';
 import Lists from './components/Lists.jsx';
-// WE NEED TO DOWNLOAD AND IMPORT BCRYPT
 
 function sendNewUserCredentials(newUserCreds, callback) {
   $.ajax({
@@ -27,7 +24,6 @@ function sendNewUserCredentials(newUserCreds, callback) {
     success: (loc) => {
       console.log('New user information saved to db');
       callback(loc);
-      // console.log(loc)
     },
     error: (err) => {
       console.error(err);
@@ -43,17 +39,15 @@ class App extends React.Component {
       stores: [],
       user: {},
       lists: [],
-      categories: []
     };
     console.log(`the user is logged in: ${this.state.isLoggedIn}, under user info ${this.state.user.username}`);
 
     this.verify = this.verify.bind(this);
-    // this.sendNewUserCredentials = this.sendNewUserCredentials.bind(this);
     this.update = this.update.bind(this);
   }
 
   componentDidMount() {
-    // this.getStores();
+    this.getStores();
   }
 
   getStores() {
@@ -127,7 +121,6 @@ class App extends React.Component {
               user={this.state.user}
               lists={this.state.lists}
               update={this.update.bind(this)}
-              categories={this.state.categories}
               stores={['walmart', 'kmart', 'target', 'giant', 'wegmans']}
               {...props}
             />)}

@@ -13,7 +13,6 @@ class ListEntry extends React.Component {
       items: this.props.list.items,
       stores: this.props.stores
     }
-    console.log('SET THE STATE TO BE ', this.state)
   } // end constructor
 
   updateList(newItem, callback) {
@@ -27,7 +26,6 @@ class ListEntry extends React.Component {
       }),
       success: (data) => {
         data = JSON.parse(data);
-        console.log('add item returned ', data)
         this.setState({items: data[0].items});
       },
       error: (err) => {
@@ -39,8 +37,25 @@ class ListEntry extends React.Component {
   handleStoreChange(e) {
     this.setState({store: e.target.value});
   }
+
+  updateItem(updatedItem) {
+    /*
+    grab current list
+      find item using id
+        grab item index ref
+          update item in the list array
+    */
+    let oldItems = this.state.items;
+    oldItems.forEach((item) => {
+      if(item._id === updatedItem._id) {
+        item.name = updatedItem.name;
+        item.quantity = updatedItem.quantity;
+        item.price = updatedItem.price;
+      }
+    });
+  }
+
   render() {
-    console.log(this.state,'from listEntry')
       return (
         <div>
           <h3>{this.props.list.name}</h3>
@@ -58,9 +73,8 @@ class ListEntry extends React.Component {
           <table>
             <tbody>
               {
-                // console.log('these are the items', this.state.items)
                 this.state.items.map((item) => {
-                  return <ListItemEntry key={item._id} item={item}/>
+                  return <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item}/>
                 })
               }
             </tbody>
@@ -68,7 +82,7 @@ class ListEntry extends React.Component {
 
           <br/>
           <ItemForm updateList={this.updateList.bind(this)}/>
-          <button type="button">Edit</button>
+          <button type="button">Delete</button>
           <button type="calculate">Calculate</button>
         </div>
       );

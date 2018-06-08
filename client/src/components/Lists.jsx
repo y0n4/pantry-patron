@@ -18,6 +18,17 @@ class Lists extends React.Component{
 
     this.handleListSelect = this.handleListSelect.bind(this);
   }
+  componentDidMount() {
+    var context = this;
+    $('#list-select').on( 'mouseover',(e) => {
+      setTimeout(() => {
+        if( $('#list-select').is(':hover')) {
+          context.setState({selectedList: this.state.userLists['x']});
+          $('#list-select').val('x').change();
+        }
+      }, 500);
+    })
+  }
 
   handleNewList(user, callback) {
     console.log('This is the user I got', user)
@@ -47,8 +58,6 @@ class Lists extends React.Component{
 
           this.state.userLists['x'] = {name: null, items: []};
           this.state.userLists['new'] = {name: 'new', items: []};
-
-          console.log('this is the state currently: ', this.state)
           // set the drop down to the list
 
           this.props.update({lists: this.state.userLists});
@@ -68,7 +77,6 @@ class Lists extends React.Component{
 
   render() {
     let display;
-    console.log('======> ', this.state.selectedList)
 
     if(this.state.selectedList.name === 'new') {
       this.handleNewList(this.props.user, () => {
@@ -77,8 +85,8 @@ class Lists extends React.Component{
     } else {
 
       display = this.state.selectedList.name !== null ?
-     <ListEntry stores={this.props.stores} categories={this.props.categories} update={this.props.update} className='list' list={this.state.selectedList} /> :
-     <div id='warning'>Select a list from the<br/>from drop down menu</div>;
+     <ListEntry stores={this.props.stores} update={this.props.update} className='list' list={this.state.selectedList} /> :
+     <div id='warning'>Select a list from the<br/>from drop down menu<br/>Hover over drop down to<br/> get back to this</div>;
     }
 
     return (

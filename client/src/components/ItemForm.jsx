@@ -91,19 +91,6 @@ class ItemForm extends React.Component {
             name="item"
             value={this.state.name}
             onChange={this.handleNameChange}/>
-         {/* <input
-            type="number"
-            placeholder="Quantity"
-            name="quantity"
-            value={this.state.quantity}
-            onChange={this.handleQuantChange}/>
-          <input
-            type="number"
-            placeholder="Price"
-            name="price"
-            value={this.state.price}
-            onChange={this.handlePriceChange}
-            step="any"/>*/}
           <button
             type="button"
             className="glyphicon glyphicon-plus"

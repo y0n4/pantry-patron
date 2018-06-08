@@ -11,10 +11,6 @@ const ItemHistorySchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'Items',
   },
-  category_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'Categories',
-  },
   quantity: {
     type: Number,
     default: 0,
