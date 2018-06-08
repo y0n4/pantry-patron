@@ -35,6 +35,7 @@ export default class ListItemEntry extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         console.log('returned', JSON.parse(data))
+        this.props.update(JSON.parse(data)[0]);
       }
     });
   }
@@ -58,12 +59,6 @@ export default class ListItemEntry extends React.Component {
     this.setState({item: { item_id: { name: e.target.value}}})
     this.timer();
   }
-
-  // handleCategoryChange(e) {
-  //   this.setState({category_id: e.target.value});
-  //   console.log(e.target.value, 'wooooooot');
-  //   this.timer();
-  // } //end handleCategoryChange
 
   render() {
     console.log('item entry : ', this.state)

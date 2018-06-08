@@ -58,8 +58,6 @@ class Lists extends React.Component{
 
           this.state.userLists['x'] = {name: null, items: []};
           this.state.userLists['new'] = {name: 'new', items: []};
-
-          console.log('this is the state currently: ', this.state)
           // set the drop down to the list
 
           this.props.update({lists: this.state.userLists});
@@ -74,13 +72,11 @@ class Lists extends React.Component{
   }
 
   handleListSelect(e) {
-    console.log('hey');
     this.setState({selectedList: this.state.userLists[e.target.value]});
   }
 
   render() {
     let display;
-    console.log('======> ', this.state.selectedList)
 
     if(this.state.selectedList.name === 'new') {
       this.handleNewList(this.props.user, () => {
