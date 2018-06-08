@@ -77,8 +77,8 @@ class App extends React.Component {
         this.setState({stores: JSON.parse(data)});
       },
       error: (err) => {
-        console.error(err + 'in getStores function');
-      }
+        console.error(`${err}in getStores function`);
+      },
     });
   }
 
@@ -93,15 +93,13 @@ class App extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(credentials),
       success: (data) => {
-
-        data = data;
-        console.log(JSON.parse(data), 'in verify credentials')
-          this.setState({isLoggedIn: true});
-          // //get user information
-          this.setState({lists: JSON.parse(data).lists || []})
-          this.setState({'user': JSON.parse(data).userData || {}});
-          this.setState({'categories': JSON.parse(data).categories || []});
-          callback(JSON.parse(data).loc);
+        console.log(JSON.parse(data), 'in verify credentials');
+        this.setState({ isLoggedIn: true });
+        // //get user information
+        this.setState({ lists: JSON.parse(data).lists || [] });
+        this.setState({ user: JSON.parse(data).userData || {} });
+        this.setState({ categories: JSON.parse(data).categories || [] });
+        callback(JSON.parse(data).loc);
       },
       error: (err) => {
         console.error(err);
@@ -109,6 +107,23 @@ class App extends React.Component {
       },
     });
   } // end verify
+
+  deleteList({ _id }) {
+    $.ajax({
+      url: '/lists/delete',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ _id }),
+      success: (data) => {
+        if (!data) {
+          console.error('No response from server');
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
 
   render() {
     // console.log('USER INFO', this.state)
@@ -131,7 +146,7 @@ class App extends React.Component {
             render={props => <Register grabUserCredentials={sendNewUserCredentials} {...props} />
           }
           />
-          <Route exact path="/logout" render={props => <Login verify={this.verify} {...props}/>} />
+          <Route exact path="/logout" render={props => <Login verify={this.verify} {...props} />} />
           <Route
             exact
             path="/lists"
@@ -141,6 +156,7 @@ class App extends React.Component {
               update={this.update.bind(this)}
               stores={this.state.stores}
               createStore={this.createNewStore.bind(this)}
+              deleteList={this.deleteList}
               {...props}
             />)}
           />

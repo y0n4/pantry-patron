@@ -65,9 +65,9 @@ app.post('/login', (req, res) => {
         req.session.username = username;
         req.session.hash = hash;
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
-          let results = {'loc': '\/', 'lists': lists, 'userData': user};
+          const results = { loc: '\/', lists, userData: user };
           res.end(JSON.stringify(results));
-        })
+        });
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
@@ -79,9 +79,9 @@ app.post('/login', (req, res) => {
 
 app.post('/updateHistory', (req, res) => {
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
-    console.log('check me out ', historyItem)
+    console.log('check me out ', historyItem);
     res.end(JSON.stringify(historyItem));
-  })
+  });
 });
 
 app.get('/logout', (req, res) => {
@@ -89,7 +89,6 @@ app.get('/logout', (req, res) => {
   console.log('Logout', req.session);
   req.session.destroy();
   res.redirect('/login');
-
 });
 
 app.post('/register', (req, res) => {
@@ -152,6 +151,11 @@ app.post('/updateList', (req, res) => {
   console.log(req.body)
 });
 
+app.post('/lists/delete', (req, res) => {
+  const { _id } = req.body;
+  database.deleteListById(_id);
+});
+
 app.get('/store/search', (req, res) => {
   const { name } = req.query;
 
@@ -177,7 +181,7 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
       res.status(500);
       console.error(`Could not create store ${name} in Stores database (Duplicate?)`, err);
       res.send('Apologies for this error. From our expreience this occurs when the store name is a duplicate. We advise checking the store name.');
-    })
+    });
 });
 
 // Initialization
