@@ -110,6 +110,10 @@ class App extends React.Component {
     });
   } // end verify
 
+  deleteList(e) {
+
+  }
+
   render() {
     // console.log('USER INFO', this.state)
     return (
@@ -141,6 +145,7 @@ class App extends React.Component {
               update={this.update.bind(this)}
               stores={this.state.stores}
               createStore={this.createNewStore.bind(this)}
+              deleteList={this.deleteList}
               {...props}
             />)}
           />
