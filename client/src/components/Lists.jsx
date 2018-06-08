@@ -114,7 +114,7 @@ class Lists extends React.Component{
      <ListEntry
       stores={this.props.stores}
       update={this.props.update}
-      updateList={this.updateList.bind(this)}
+      updateItem={this.updateList.bind(this)}
       className='list'
       list={this.state.selectedList}
       createStore={this.props.createStore} />   :

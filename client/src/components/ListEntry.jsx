@@ -8,7 +8,7 @@ class ListEntry extends React.Component {
     super(props);
     this.state = {
       _id: this.props.list._id,
-      store: '' || this.props.stores.name,
+      store_id: '' || this.props.stores.name,
       total_price: 0.00,
       items: this.props.list.items,
       stores: this.props.stores
@@ -27,10 +27,20 @@ class ListEntry extends React.Component {
       while(newStoreName === '') {
         newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
       }
-      this.props.createStore({name: newStoreName});
+
+      this.props.createStore({name: newStoreName}, (newStore) => {
+        let updatedList = {};
+        updatedList.name = this.state.name;
+        updatedList.items = this.state.items;
+        updatedList.total_price = this.state.total_price;
+        updatedList.store_id = newStore._id;
+        updatedList.update = true;
+
+
+      });
 
     } else {
-      this.setState({store: e.target.value});
+      this.setState({store_id: e.target.value});
     }
   }
 
@@ -61,7 +71,7 @@ class ListEntry extends React.Component {
             <option value={'new'} key="new">New store</option>
             {
               this.state.stores.map((store, index) => {
-                return <option value={store.name} key={store._id}>{store.name}</option>
+                return <option value={store._id} key={index}>{store.name}</option>
               })
             }
           </select>
@@ -85,7 +95,7 @@ class ListEntry extends React.Component {
           </table>
 
           <br/>
-          <ItemForm setListEntryState={this.setState.bind(this)} updateList={this.props.updateList}/>
+          <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
           <button type="button">Delete</button>
           <button type="calculate">Calculate</button>
         </div>

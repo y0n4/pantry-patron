@@ -56,7 +56,7 @@ class ItemForm extends React.Component {
     newItem = this.transformItem(newItem, (newItem) => {
           // newItem.price = this.state.price;
           // newItem.quantity = this.state.quantity;
-      this.props.updateList(newItem, (items) => {
+      this.props.updateItem(newItem, (items) => {
         this.props.setListEntryState({items: items});
       });
     });

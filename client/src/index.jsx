@@ -50,16 +50,17 @@ class App extends React.Component {
     this.getStores();
   }
 
-  createNewStore(newStoreNameObj) {
+  createNewStore(newStoreNameObj, callback) {
     // newStoreNameObj === { name: <storeName> }
     $.ajax({
       url: '/store/create',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(newStoreNameObj),
-      success: (res) => {
-        console.log(res)
+      success: (data) => {
         this.getStores();
+
+        if(callback){ callback(JSON.parse(data)) }
       },
       error: (err) => {
         console.error(err);
@@ -73,7 +74,7 @@ class App extends React.Component {
       type: 'GET',
       contentType: 'application/json',
       success: (data) => {
-        this.setState({stores: data});
+        this.setState({stores: JSON.parse(data)});
       },
       error: (err) => {
         console.error(err + 'in getStores function');
