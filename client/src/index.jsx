@@ -50,13 +50,30 @@ class App extends React.Component {
     this.getStores();
   }
 
+  createNewStore(newStoreNameObj) {
+    // newStoreNameObj === { name: <storeName> }
+    $.ajax({
+      url: '/store/create',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(newStoreNameObj),
+      success: (res) => {
+        console.log(res)
+        this.getStores();
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
+
   getStores() {
     $.ajax({
       url: '/store/search',
       type: 'GET',
       contentType: 'application/json',
       success: (data) => {
-        this.setState({stores: JSON.parse(data)});
+        this.setState({stores: data});
       },
       error: (err) => {
         console.error(err + 'in getStores function');
@@ -122,6 +139,7 @@ class App extends React.Component {
               lists={this.state.lists}
               update={this.update.bind(this)}
               stores={this.state.stores}
+              createStore={this.createNewStore.bind(this)}
               {...props}
             />)}
           />

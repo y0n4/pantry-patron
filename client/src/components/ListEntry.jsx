@@ -15,30 +15,19 @@ class ListEntry extends React.Component {
     }
   } // end constructor
 
-  updateList(newItem, callback) {
-    $.ajax({
-      url: '/addItem',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        newItem: newItem,
-        list: this.props.list._id,
-      }),
-      success: (data) => {
-        data = JSON.parse(data);
-        this.setState({items: data[0].items});
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
-  }
-
   handleStoreChange(e) {
     if(e.target.value === 'new') {
       alert('You want to make a new store?')
+      let newStoreName = prompt('What store are you at?');
+
+      while(newStoreName === '') {
+        newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
+      }
+      this.props.createStore({name: newStoreName});
+      this.render();
+    } else {
+      this.setState({store: e.target.value});
     }
-    this.setState({store: e.target.value});
   }
 
   updateItem(updatedItem) {
@@ -85,7 +74,7 @@ class ListEntry extends React.Component {
           </table>
 
           <br/>
-          <ItemForm updateList={this.updateList.bind(this)}/>
+          <ItemForm setListEntryState={this.setState.bind(this)} updateList={this.props.updateList}/>
           <button type="button">Delete</button>
           <button type="calculate">Calculate</button>
         </div>

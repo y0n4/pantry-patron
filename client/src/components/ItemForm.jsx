@@ -5,9 +5,7 @@ class ItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      quantity: 0,
-      price: 0
+      name: ''
     }
 
     //component-global timer and delay
@@ -58,7 +56,9 @@ class ItemForm extends React.Component {
     newItem = this.transformItem(newItem, (newItem) => {
           // newItem.price = this.state.price;
           // newItem.quantity = this.state.quantity;
-      this.props.updateList(newItem, false);
+      this.props.updateList(newItem, (items) => {
+        this.props.setListEntryState({items: items});
+      });
     });
   }
 

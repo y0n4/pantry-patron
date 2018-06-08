@@ -18,6 +18,7 @@ class Lists extends React.Component{
 
     this.handleListSelect = this.handleListSelect.bind(this);
   }
+
   componentDidMount() {
     var context = this;
     $('#list-select').on( 'mouseover',(e) => {
@@ -27,6 +28,31 @@ class Lists extends React.Component{
           $('#list-select').val('x').change();
         }
       }, 500);
+    })
+  }
+
+  updateList(newItem, callback) {
+    $.ajax({
+      url: '/addItem',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        newItem: newItem,
+        list: this.state.selectedList._id,
+      }),
+      success: (data) => {
+        data = JSON.parse(data);
+        let newState = this.state.selectedList;
+        newState.items = data[0].items;
+
+        this.setState({selectedList: newState});
+        if(callback) {
+          callback(data[0].items)
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
     })
   }
 
@@ -85,7 +111,13 @@ class Lists extends React.Component{
     } else {
 
       display = this.state.selectedList.name !== null ?
-     <ListEntry stores={this.props.stores} update={this.props.update} className='list' list={this.state.selectedList} /> :
+     <ListEntry
+      stores={this.props.stores}
+      update={this.props.update}
+      updateList={this.updateList.bind(this)}
+      className='list'
+      list={this.state.selectedList}
+      createStore={this.props.createStore} />   :
      <div id='warning'>Select a list from the<br/>from drop down menu<br/>Hover over drop down to<br/> get back to this</div>;
     }
 
