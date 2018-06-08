@@ -15,6 +15,10 @@ class ListEntry extends React.Component {
     }
   } // end constructor
 
+  componentDidMount() {
+    // set the store drop down to the store in state, if it exists
+  }
+
   handleStoreChange(e) {
     if(e.target.value === 'new') {
       alert('You want to make a new store?')
@@ -24,7 +28,7 @@ class ListEntry extends React.Component {
         newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
       }
       this.props.createStore({name: newStoreName});
-      this.render();
+
     } else {
       this.setState({store: e.target.value});
     }
@@ -64,6 +68,13 @@ class ListEntry extends React.Component {
           <br/>
           <br/>
           <table>
+            <thead>
+              <tr>
+                <th>Items</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
             <tbody>
               {
                 this.state.items.map((item) => {
