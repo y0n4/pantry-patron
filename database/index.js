@@ -34,28 +34,6 @@ var saveUser = function(user) {
   })
 };
 
-// var updateList = function(list) {
-//   var newList = new GroceryList(list.body);
-//   var name = newList.name;
-//   List.findOne({name: name}, function(noList, listExists) {
-//     // list doesn't exist
-//     if (noList) {
-//       newList.save()
-//       .then(function(category) {
-//         res.end('List saved to database');
-//       })
-//       .catch(function(err) {
-//         res.status(400).end('Unable to save list to database');
-//       })
-//     }
-//   }).then(listExists => {
-//     List.findOneAndUpdate({name: listExists.name}, { "$set": {"items": newList.items, "name": newList.name, "user_id": newList.user_id, "total_price": newList.total_price} }, {new: true}, function(err, doc) {
-//       if (err) return res.end(500, {error: err});
-//       res.end('Updated existing list');
-//     })
-//   }).catch(err => console.error(err));
-// }
-
 var addItemToList = function(item) {
   var newItem = new Items(item.body);
   newItem.save(function(err) {
@@ -137,14 +115,6 @@ var searchForListsAndPopulate = (listIds, callback) => {
 
 }
 
-var searchForStore = () => {
-
-}
-
-var createStore = () => {
-
-}
-
 var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
   ItemHistory.find({_id: item._id})
   .populate('item_id')
@@ -172,18 +142,15 @@ var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
   });
 }
 
-var updateHistoryItem = () => {
-
-}
-
 
 var searchForItemInHistory = (item, callback) => {
   /*CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS
     IF NOT IT SHOULD CREATE A NEW ITEMHISTORY DOCUMENT*/
   ItemHistory.find({item_id: item.newItem._id}).exec((err, histItem) => {
     if(!histItem.length) {
+      // add item functionality
       createHistoryItem(item, (newHistItem) => {
-
+        //find the current grocery list
         GroceryList.find({_id: item.list}).exec((err, list) => {
           console.log(newHistItem,'newHistoryItem')
           list[0].items.push(newHistItem)
@@ -196,6 +163,7 @@ var searchForItemInHistory = (item, callback) => {
 
       });
     } else {
+
       callback(histItem[0]);
     }
   })
@@ -206,6 +174,29 @@ var createHistoryItem = (item, callback) => {
       if(err) { console.error(err) };
       callback(newHistItem);
     })
+}
+
+var updateList = function(list, callback) {
+  console.log(list)
+  // var newList = new GroceryList(list.body);
+  // var name = newList.name;
+  // List.findOne({name: name}, function(noList, listExists) {
+  //   // list doesn't exist
+  //   if (noList) {
+  //     newList.save()
+  //     .then(function(category) {
+  //       res.end('List saved to database');
+  //     })
+  //     .catch(function(err) {
+  //       res.status(400).end('Unable to save list to database');
+  //     })
+  //   }
+  // }).then(listExists => {
+  //   List.findOneAndUpdate({name: listExists.name}, { "$set": {"items": newList.items, "name": newList.name, "user_id": newList.user_id, "total_price": newList.total_price} }, {new: true}, function(err, doc) {
+  //     if (err) return res.end(500, {error: err});
+  //     res.end('Updated existing list');
+  //   })
+  // }).catch(err => console.error(err));
 }
 
 const storeSave = async (store) => (await (new Store(store)).save());

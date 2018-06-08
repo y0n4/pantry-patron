@@ -39,6 +39,10 @@ allPrivateEndpoints.forEach(endpoint => serveStatic(endpoint, util.checkLoggedIn
 app.use(express.static(CLIENT_FOLDER));
 
 // All public API calls
+app.get('/', util.checkLoggedIn, (req, res) => {
+  res.end();
+});
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body; // might only be req.body
 
@@ -74,7 +78,6 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/updateHistory', (req, res) => {
-  console.log('A;ALSKJSDFJ;LKSDJAF;LKJADSF;LKJA', req.body)
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
     console.log('check me out ', historyItem)
     res.end(JSON.stringify(historyItem));
@@ -126,14 +129,13 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
   });
 });
 
+// adds an item to a specified grocerylist then returns
+// the list in populated form.
 app.post('/addItem', (req, res) => {
-  console.log('add item endpoint', req.body)
+  console.log('inside add item!!!!!!!!', req.body)
   database.searchForItemInHistory(req.body, (updatedList) =>{
-    console.log('after itemHistory', updatedList);
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
-      console.log('after population', populatedList);
       res.end(JSON.stringify(populatedList))
-
     });
   });
 });
@@ -146,12 +148,16 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
   });
 });
 
+app.post('/updateList', (req, res) => {
+  console.log(req.body)
+});
+
 app.get('/store/search', (req, res) => {
   const { name } = req.query;
 
   const promiseSearch = name ? database.storeSearch({ name }).exec() : database.storeSearch({}).exec();
 
-  promiseSearch.then(stores => res.send(stores));
+  promiseSearch.then(stores => res.end(JSON.stringify(stores)));
 });
 
 app.post('/store/create', util.checkLoggedIn, (req, res) => {
@@ -164,7 +170,9 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
   }
 
   database.storeSave({ name })
-    .then(store => res.send(store))
+    .then(store =>{
+      console.log('Wow a NEW store', store)
+     res.end(JSON.stringify(store))})
     .catch((err) => {
       res.status(500);
       console.error(`Could not create store ${name} in Stores database (Duplicate?)`, err);

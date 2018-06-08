@@ -8,34 +8,40 @@ class ListEntry extends React.Component {
     super(props);
     this.state = {
       _id: this.props.list._id,
-      store: '' || this.props.stores.name,
+      store_id: '' || this.props.stores.name,
       total_price: 0.00,
       items: this.props.list.items,
       stores: this.props.stores
     }
   } // end constructor
 
-  updateList(newItem, callback) {
-    $.ajax({
-      url: '/addItem',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        newItem: newItem,
-        list: this.props.list._id,
-      }),
-      success: (data) => {
-        data = JSON.parse(data);
-        this.setState({items: data[0].items});
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+  componentDidMount() {
+    // set the store drop down to the store in state, if it exists
   }
 
   handleStoreChange(e) {
-    this.setState({store: e.target.value});
+    if(e.target.value === 'new') {
+      alert('You want to make a new store?')
+      let newStoreName = prompt('What store are you at?');
+
+      while(newStoreName === '') {
+        newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
+      }
+
+      this.props.createStore({name: newStoreName}, (newStore) => {
+        let updatedList = {};
+        updatedList.name = this.state.name;
+        updatedList.items = this.state.items;
+        updatedList.total_price = this.state.total_price;
+        updatedList.store_id = newStore._id;
+        updatedList.update = true;
+
+
+      });
+
+    } else {
+      this.setState({store_id: e.target.value});
+    }
   }
 
   updateItem(updatedItem) {
@@ -61,16 +67,24 @@ class ListEntry extends React.Component {
           <h3>{this.props.list.name}</h3>
           <br/>
           <select className="store-selection" onChange={this.handleStoreChange.bind(this)}>
-            <option key="new">New store</option>
+            <option value={'select'} key="select">Stores</option>
+            <option value={'new'} key="new">New store</option>
             {
               this.state.stores.map((store, index) => {
-                return <option key={index}>{store}</option>
+                return <option value={store._id} key={index}>{store.name}</option>
               })
             }
           </select>
           <br/>
           <br/>
           <table>
+            <thead>
+              <tr>
+                <th>Items</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+            </thead>
             <tbody>
               {
                 this.state.items.map((item) => {
@@ -81,7 +95,7 @@ class ListEntry extends React.Component {
           </table>
 
           <br/>
-          <ItemForm updateList={this.updateList.bind(this)}/>
+          <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
           <button type="button">Delete</button>
           <button type="calculate">Calculate</button>
         </div>
