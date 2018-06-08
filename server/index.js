@@ -78,10 +78,6 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/updateHistory', (req, res) => {
-<<<<<<< 138b9ad753aafea140cfcab54c261bbb4237fe61
-=======
-  console.log('A;ALSKJSDFJ;LKSDJAF;LKJADSF;LKJA', req.body);
->>>>>>> Initial database list lookup
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
     console.log('check me out ', historyItem);
     res.end(JSON.stringify(historyItem));
@@ -135,19 +131,10 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
 // adds an item to a specified grocerylist then returns
 // the list in populated form.
 app.post('/addItem', (req, res) => {
-<<<<<<< 138b9ad753aafea140cfcab54c261bbb4237fe61
   console.log('inside add item!!!!!!!!', req.body)
   database.searchForItemInHistory(req.body, (updatedList) =>{
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
       res.end(JSON.stringify(populatedList))
-=======
-  console.log('add item endpoint', req.body);
-  database.searchForItemInHistory(req.body, (updatedList) => {
-    console.log('after itemHistory', updatedList);
-    database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
-      console.log('after population', populatedList);
-      res.end(JSON.stringify(populatedList));
->>>>>>> Initial database list lookup
     });
   });
 });
@@ -160,14 +147,13 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
   });
 });
 
-<<<<<<< 138b9ad753aafea140cfcab54c261bbb4237fe61
 app.post('/updateList', (req, res) => {
   console.log(req.body)
-=======
+});
+
 app.post('/lists/delete', (req, res) => {
   const { _id } = req.body;
   database.deleteListById(_id);
->>>>>>> Initial database list lookup
 });
 
 app.get('/store/search', (req, res) => {

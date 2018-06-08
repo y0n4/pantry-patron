@@ -153,13 +153,9 @@ class App extends React.Component {
             render={props => (<Lists
               user={this.state.user}
               lists={this.state.lists}
-<<<<<<< 39cdba4cababd0fc281a435f5cb43cc138f47239
               update={this.update.bind(this)}
               stores={this.state.stores}
               createStore={this.createNewStore.bind(this)}
-=======
-              update={this.update}
->>>>>>> Website deletes list
               deleteList={this.deleteList}
               {...props}
             />)}

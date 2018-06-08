@@ -16,7 +16,6 @@ class ListEntry extends React.Component {
     };
     this.updateItem = this.updateItem.bind(this);
     this.handleStoreChange = this.handleStoreChange.bind(this);
-    this.updateList = this.updateList.bind(this);
   } // end constructor
 
   componentDidMount() {
