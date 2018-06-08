@@ -68,7 +68,7 @@ class ListEntry extends React.Component {
 
           <br/>
           <ItemForm updateList={this.updateList.bind(this)}/>
-          <button type="button">Edit</button>
+          <button type="button">Delete</button>
           <button type="calculate">Calculate</button>
         </div>
       );

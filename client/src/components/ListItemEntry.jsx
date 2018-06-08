@@ -13,7 +13,7 @@ export default class ListItemEntry extends React.Component {
       category_id: props.item.category_id
     };
 
-    this.typingTimer = 2000;
+    this.typingTimer = 300;
     this.timeout ;
   }
 

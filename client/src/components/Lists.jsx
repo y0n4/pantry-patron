@@ -18,6 +18,17 @@ class Lists extends React.Component{
 
     this.handleListSelect = this.handleListSelect.bind(this);
   }
+  componentDidMount() {
+    var context = this;
+    $('#list-select').on( 'mouseover',(e) => {
+      setTimeout(() => {
+        if( $('#list-select').is(':hover')) {
+          context.setState({selectedList: this.state.userLists['x']});
+          $('#list-select').val('x').change();
+        }
+      }, 500);
+    })
+  }
 
   handleNewList(user, callback) {
     console.log('This is the user I got', user)
@@ -63,6 +74,7 @@ class Lists extends React.Component{
   }
 
   handleListSelect(e) {
+    console.log('hey');
     this.setState({selectedList: this.state.userLists[e.target.value]});
   }
 
@@ -78,7 +90,7 @@ class Lists extends React.Component{
 
       display = this.state.selectedList.name !== null ?
      <ListEntry stores={this.props.stores} update={this.props.update} className='list' list={this.state.selectedList} /> :
-     <div id='warning'>Select a list from the<br/>from drop down menu</div>;
+     <div id='warning'>Select a list from the<br/>from drop down menu<br/>Hover over drop down to<br/> get back to this</div>;
     }
 
     return (
