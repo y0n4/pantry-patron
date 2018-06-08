@@ -47,7 +47,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.getStores();
+    this.getStores();
   }
 
   getStores() {

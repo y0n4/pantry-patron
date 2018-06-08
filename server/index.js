@@ -146,7 +146,7 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
   });
 });
 
-app.get('/store/search', util.checkLoggedIn, (req, res) => {
+app.get('/store/search', (req, res) => {
   const { name } = req.query;
 
   const promiseSearch = name ? database.storeSearch({ name }).exec() : database.storeSearch({}).exec();
