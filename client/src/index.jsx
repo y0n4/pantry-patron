@@ -100,7 +100,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={props => <Home {...props} />}
+            render={props => <Home {...props} user={this.state.user} />}
           />
           <Route
             exact
