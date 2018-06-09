@@ -69,6 +69,9 @@ class App extends React.Component {
   }
 
   getStores() {
+    /*
+    gets all the stores from the database
+    */
     $.ajax({
       url: '/store/search',
       type: 'GET',

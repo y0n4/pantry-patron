@@ -9,7 +9,7 @@ class ListEntry extends React.Component {
     super(props);
     this.state = {
       _id: this.props.list._id,
-      store_id: '' || this.props.stores.name,
+      store_id: this.props.list.store_id || {_id: 'select'},
       total_price: 0.00,
       items: this.props.list.items,
       stores: this.props.stores,
@@ -20,6 +20,10 @@ class ListEntry extends React.Component {
 
   componentDidMount() {
     // set the store drop down to the store in state, if it exists
+    if(this.state.store_id._id) {
+      console.log(this.state.store_id._id)
+      $('.store-selection').val(this.state.store_id._id).change();
+    }
   }
 
   handleStoreChange(e) {
@@ -31,19 +35,21 @@ class ListEntry extends React.Component {
         newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
       }
 
+      // create the object needed for endpoint call.
       this.props.createStore({name: newStoreName}, (newStore) => {
         let updatedList = {};
+        updatedList._id = this.state._id;
         updatedList.name = this.state.name;
         updatedList.items = this.state.items;
         updatedList.total_price = this.state.total_price;
         updatedList.store_id = newStore._id;
-        updatedList.update = true;
 
-
+        // send it to the server to update current list
+        this.updateList(updatedList);
       });
 
     } else {
-      this.setState({store_id: e.target.value});
+      this.setState({store_id: { _id: e.target.value}});
     }
   }
 
@@ -56,7 +62,7 @@ class ListEntry extends React.Component {
     */
     const oldItems = this.state.items;
     oldItems.forEach((item) => {
-      if (item._id === updatedItem._id) {
+      if(item._id === updatedItem._id) {
         item.name = updatedItem.name;
         item.quantity = updatedItem.quantity;
         item.price = updatedItem.price;
@@ -64,12 +70,32 @@ class ListEntry extends React.Component {
     });
   }
 
+  updateList(updatedList) {
+    console.log('this is the updated item ', updatedList)
+    $.ajax({
+      url: '/updateList',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(updatedList),
+      success: () => {
+        this.setState({store_id: updatedList.store_id});
+      },
+      error: (err) => {
+        console.error(err);
+      }
+
+    })
+  }
+
   render() {
       return (
         <div>
-          <h3>{this.props.list.name}</h3>
+          <h3>
+            {this.props.list.name} total:
+            ${ this.state.items.reduce((sum, item) => { return sum + (Number(item.price) * Number(item.quantity)) }, 0).toFixed(2) }
+          </h3>
           <br/>
-          <select className="store-selection" onChange={this.handleStoreChange.bind(this)}>
+          <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
             <option value={'select'} key="select">Stores</option>
             <option value={'new'} key="new">New store</option>
             {
@@ -80,12 +106,12 @@ class ListEntry extends React.Component {
           </select>
           <br/>
           <br/>
-          <table>
+          <table className="table table-hover" id="table" align="center">
             <thead>
               <tr>
-                <th>Items</th>
-                <th>Qty</th>
-                <th>Price</th>
+                 <th>Item Name</th>
+                 <th># of Items/Pounds</th>
+                 <th>Price Per Item</th>
               </tr>
             </thead>
             <tbody>
@@ -99,8 +125,13 @@ class ListEntry extends React.Component {
 
           <br/>
           <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
-          <button type="button" onClick={this.onDeleteClick}>Delete</button>
-          <button type="calculate">Calculate</button>
+          <div>
+            <br></br>
+            <a href="#">
+              <span className="glyphicon glyphicon-trash"></span>Delete List
+            </a>
+          </div>
+          {/*<button type="calculate">Calculate</button>*/}
         </div>
       );
   } // end render

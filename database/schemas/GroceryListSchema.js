@@ -17,7 +17,7 @@ const GroceryListSchema = Schema({
   },
   store_id: {
     type: Schema.Types.ObjectId,
-    ref: 'Stores',
+    ref: 'Stores'
   },
 });
 
