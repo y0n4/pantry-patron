@@ -131,7 +131,7 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
 app.post('/addItem', (req, res) => {
   database.searchForItemInHistory(req.body, (updatedList) =>{
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
-      res.end(JSON.stringify(populatedList))
+      res.end(JSON.stringify(populatedList));
     });
   });
 });
@@ -145,15 +145,17 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
 });
 
 app.post('/updateList', (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   database.updateList(req.body, (updatedList) => {
-    res.end(JSON.stringify(updatedList))
-  })
+    res.end(JSON.stringify(updatedList));
+  });
 });
 
-app.post('/lists/delete', (req, res) => {
+app.post('/lists/delete', util.checkLoggedIn, (req, res) => {
   const { _id } = req.body;
-  database.deleteListById(_id);
+
+  database.deleteListById(_id)
+    .then(deletedId => res.send(deletedId));
 });
 
 app.get('/store/search', (req, res) => {
@@ -174,9 +176,10 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
   }
 
   database.storeSave({ name })
-    .then(store =>{
-      console.log('Wow a NEW store', store)
-     res.end(JSON.stringify(store))})
+    .then((store) => {
+      console.log('Wow a NEW store', store);
+      res.end(JSON.stringify(store));
+    })
     .catch((err) => {
       res.status(500);
       console.error(`Could not create store ${name} in Stores database (Duplicate?)`, err);
