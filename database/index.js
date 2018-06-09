@@ -36,9 +36,9 @@ const saveUser = function (user) {
   });
 };
 
-var addItemToList = function(item) {
-  var newItem = new Items(item.body);
-  newItem.save(function(err) {
+const addItemToList = function (item) {
+  const newItem = new Items(item.body);
+  newItem.save((err) => {
     if (err) return handleError(err);
     return 'Item saved to database';
   });
@@ -89,14 +89,15 @@ const createList = (query, callback) => {
   });
 };
 
-const deleteListById = (_id) => {
-  GroceryList.find({ _id })
+const deleteListById = async (_id) => {
+  await GroceryList.find({ _id })
     .then(([list]) => {
       list.items.forEach((_id) => {
         ItemHistory.find({ _id }).remove();
       });
       list.remove();
     });
+  return _id;
 };
 
 var searchForUserById = (query, callback) => {
@@ -124,7 +125,7 @@ const searchForListsAndPopulate = (listIds, callback) => {
     });
 };
 
-var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
+const searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
   ItemHistory.find({_id: item._id})
   .populate('item_id')
   .exec((err, oldItem) => {
@@ -149,21 +150,21 @@ var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
     });
 };
 
-var searchForItemInHistory = (item, callback) => {
-  /*CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS
-    IF NOT IT SHOULD CREATE A NEW ITEMHISTORY DOCUMENT*/
-  ItemHistory.find({item_id: item.newItem._id}).exec((err, histItem) => {
-    if(!histItem.length) {
+const searchForItemInHistory = (item, callback) => {
+  /* CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS
+    IF NOT IT SHOULD CREATE A NEW ITEMHISTORY DOCUMENT */
+  ItemHistory.find({ item_id: item.newItem._id }).exec((err, histItem) => {
+    if (!histItem.length) {
       // add item functionality
       createHistoryItem(item, (newHistItem) => {
-        //find the current grocery list
-        GroceryList.find({_id: item.list}).exec((err, list) => {
-          console.log(newHistItem,'newHistoryItem')
-          list[0].items.push(newHistItem)
-          list[0].save( (err) => {
-            if(err) { console.error(err) };
-          console.log('this is the list', list[0].items);
-            callback(list[0])
+        // find the current grocery list
+        GroceryList.find({ _id: item.list }).exec((err, list) => {
+          console.log(newHistItem, 'newHistoryItem');
+          list[0].items.push(newHistItem);
+          list[0].save((err) => {
+            if (err) { console.error(err); }
+            console.log('this is the list', list[0].items);
+            callback(list[0]);
           });
         });
       });
@@ -180,26 +181,26 @@ var createHistoryItem = (item, callback) => {
   });
 };
 
-var updateList = function(list, callback) {
-  let updateParams = {};
+const updateList = function (list, callback) {
+  const updateParams = {};
 
-  if(list.name) { updateParams.name = list.name };
-  if(list.items) { updateParams.items = list.items }
-  if(list.total_price) { updateParams.total_price = list.total_price }
-  if(list.store_id) {
-    if(list.store_id._id !== 'select') {
-      updateParams.store_id = list.store_id._id
+  if (list.name) { updateParams.name = list.name; }
+  if (list.items) { updateParams.items = list.items; }
+  if (list.total_price) { updateParams.total_price = list.total_price; }
+  if (list.store_id) {
+    if (list.store_id._id !== 'select') {
+      updateParams.store_id = list.store_id._id;
     }
   }
 
-  GroceryList.update({_id: list._id}, updateParams, {upsert: true}, (err, updatedList) => {
-    if(callback) {
+  GroceryList.update({ _id: list._id }, updateParams, { upsert: true }, (err, updatedList) => {
+    if (callback) {
       callback(updatedList);
     }
-  })
+  });
 }
 
-const storeSave = async (store) => (await (new Store(store)).save());
+const storeSave = async store => (await (new Store(store)).save());
 
 module.exports.saveUser = saveUser;
 module.exports.searchForUserById = searchForUserById;
