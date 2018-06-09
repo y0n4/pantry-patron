@@ -129,7 +129,6 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
 // adds an item to a specified grocerylist then returns
 // the list in populated form.
 app.post('/addItem', (req, res) => {
-  console.log('inside add item!!!!!!!!', req.body)
   database.searchForItemInHistory(req.body, (updatedList) =>{
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
       res.end(JSON.stringify(populatedList))
