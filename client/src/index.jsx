@@ -44,6 +44,7 @@ class App extends React.Component {
 
     this.verify = this.verify.bind(this);
     this.update = this.update.bind(this);
+    this.deleteList = this.deleteList.bind(this);
   }
 
   componentDidMount() {
@@ -60,12 +61,12 @@ class App extends React.Component {
       success: (data) => {
         this.getStores();
 
-        if(callback){ callback(JSON.parse(data)) }
+        if (callback) { callback(JSON.parse(data)); }
       },
       error: (err) => {
         console.error(err);
-      }
-    })
+      },
+    });
   }
 
   getStores() {
@@ -77,7 +78,7 @@ class App extends React.Component {
       type: 'GET',
       contentType: 'application/json',
       success: (data) => {
-        this.setState({stores: JSON.parse(data)});
+        this.setState({ stores: JSON.parse(data) });
       },
       error: (err) => {
         console.error(`${err}in getStores function`);
@@ -123,10 +124,15 @@ class App extends React.Component {
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({ _id }),
-      success: (data) => {
-        if (!data) {
+      success: (deletedId) => {
+        if (!deletedId) {
           console.error('No response from server');
+          return;
         }
+
+        const lists = this.state.lists.filter(list => list._id !== deletedId);
+
+        this.setState({ lists });
       },
       error: (err) => {
         console.error(err);
