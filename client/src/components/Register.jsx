@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import $ from 'jquery';
 
 class Register extends React.Component {
   constructor(props){
@@ -9,7 +10,8 @@ class Register extends React.Component {
       entry: '',
       reEntry: ''
     }
-
+    this.timer;
+    this.delay = 300;
   } // end constructor
 
   checkPasswords(callback) {
@@ -17,6 +19,7 @@ class Register extends React.Component {
     let match = this.state.entry === this.state.reEntry && (this.state.entry !== '' && this.state.reEntry !== '') ;
 
     if(match){
+      $('.register-error').hide();
       // send username and pasword information to callback  to be processed later
       callback({username: this.state.username, password: this.state.entry}, (loc)  => {
         this.props.history.push('/');
@@ -24,28 +27,61 @@ class Register extends React.Component {
       // console.log(this.state.username, this.state.entry, 'was saved.')
     } else {
       // figure out how to display a div of color red
-      console.log('passwords do not match');
+      $('.register-error').text('Passwords do not match').show();
     }
   }
 
   // changes state on change of values
   handleUsername(e) {
-    this.setState({username: e.target.value})
+    this.setState({username: e.target.value});
+
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      $.ajax({
+        url: '/search/users',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({'username': this.state.username}),
+        success: (data) => {
+          data = JSON.parse(data);
+
+          if(data.error) {
+            $('.register-error').text(data.message).show();
+          } else {
+            $('.register-error').hide();
+            $('.register-success').text(data.message).show();
+          }
+
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+    }, this.delay);
   }
 
   handleEntryChange(e) {
-    this.setState({entry: e.target.value})
+    let entry = e.target.value;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({entry: entry})
+    }, this.delay);
   }
 
   handleReEntryChange(e) {
-    this.setState({reEntry: e.target.value})
+    let reEntry = e.target.value;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.setState({reEntry: reEntry})
+    }, this.delay);
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="wrapper">
-        <form className="form-signin">
+        <div className="register-error form-error" hidden>Error</div>
+        <div className="register-success form-success" hidden>Success</div>
+        <form className="form-signin" onSubmit={(e) => { e.preventDefault()}}>
           <Link to="/login">
             <button
               className="btn btn-lg btn-primary btn-sm btn-block"
