@@ -69,11 +69,13 @@ class ListEntry extends React.Component {
     const oldItems = this.state.items;
     oldItems.forEach((item) => {
       if(item._id === updatedItem._id) {
-        item.name = updatedItem.name;
+        item.name = updatedItem.item_id.name;
         item.quantity = updatedItem.quantity;
         item.price = updatedItem.price;
       }
     });
+
+    this.setState({items: oldItems});
   }
 
   updateList(updatedList) {
