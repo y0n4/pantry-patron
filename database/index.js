@@ -25,7 +25,6 @@ const Store = require('./schemas/StoreSchema.js');
 const ItemHistory = require('./schemas/ItemHistorySchema.js');
 const GroceryList = require('./schemas/GroceryListSchema.js');
 
-
 const saveUser = function (user) {
   const newUser = new User(user);
 
@@ -94,8 +93,9 @@ const deleteListById = (_id) => {
   GroceryList.find({ _id })
     .then(([list]) => {
       list.items.forEach((_id) => {
-        console.log('Item history id', _id);
+        ItemHistory.find({ _id }).remove();
       });
+      list.remove();
     });
 };
 
