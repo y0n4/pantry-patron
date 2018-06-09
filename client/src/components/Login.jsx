@@ -30,6 +30,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className="wrapper">
+        <div className="signin-error form-error" hidden>Test</div>
         <form className="form-signin">
           <h3 className="form-signin-heading">Please login</h3>
           <div>

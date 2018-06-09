@@ -110,7 +110,6 @@ var searchForUserById = (query, callback) => {
 };
 
 const searchForListsAndPopulate = (listIds, callback) => {
-  console.log('list id\'s', listIds);
 
   GroceryList.find({ _id: { $in: listIds } })
     .populate({
@@ -121,7 +120,6 @@ const searchForListsAndPopulate = (listIds, callback) => {
     })
     .populate('store_id')
     .exec((err, data) => {
-      console.log('searchForListsAndPopulate found', data);
       callback(data);
     });
 };
@@ -130,7 +128,6 @@ var searchForItemInHistoryAndPopulate = (item, shouldUpdate, callback) => {
   ItemHistory.find({_id: item._id})
   .populate('item_id')
   .exec((err, oldItem) => {
-      console.log('old', oldItem)
     if(err) { console.error(err) };
       if (shouldUpdate) {
         oldItem[0].item_id.name = item.name;
@@ -171,7 +168,6 @@ var searchForItemInHistory = (item, callback) => {
         });
       });
     } else {
-
       callback(histItem[0]);
     }
   });
@@ -201,25 +197,6 @@ var updateList = function(list, callback) {
       callback(updatedList);
     }
   })
-
-
-  // // search in grocery list collection for the list
-  // GroceryList.findOne({_id: list._id}).exec((err, groceryList) => {
-  //   if(err) { console.error(err) };
-  //   // update name, items, total_price, store_id
-  //   console.log('this is the store I searched for, is it correct?', store);
-  //   groceryList.set('name', list.name);
-  //   groceryList.set('items', list.items);
-  //   groceryList.set('total_price', list.total_price);
-  //   groceryList.set('store_id', list.store_id);
-
-  //   //save
-  //   groceryList.save((err) => {
-  //     console.error(err);
-  //     console.log('---------------', groceryList, '-------------------')
-  //     callback(groceryList);
-  //   });
-  // });
 }
 
 const storeSave = async (store) => (await (new Store(store)).save());
@@ -236,3 +213,4 @@ module.exports.searchForListsAndPopulate = searchForListsAndPopulate;
 module.exports.searchForItemInHistory = searchForItemInHistory;
 module.exports.searchForItemInHistoryAndPopulate = searchForItemInHistoryAndPopulate;
 module.exports.updateList = updateList;
+module.exports.searchUser = User.findOne.bind(User);

@@ -18,15 +18,12 @@ export default class ListItemEntry extends React.Component {
   }
 
   updateItemHistory() {
-    console.log(this.props.item._id, this.state.item.item_id.name);
-
     let updatedItem = {
       _id: this.props.item._id,
       name: this.state.item.item_id.name,
       price: this.state.price,
       quantity: this.state.quantity
       }
-    console.log( updatedItem);
 
     $.ajax({
       url: '/updateHistory',

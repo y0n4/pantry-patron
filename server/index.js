@@ -60,8 +60,9 @@ app.post('/login', (req, res) => {
     })
       .then(({ user, hash, isValidUser }) => {
         if (!isValidUser) {
-          res.end('/login');
+          res.end(JSON.stringify({'loc': '/login', 'message' : 'Username and password do not match our records'}));
         }
+
         req.session.username = username;
         req.session.hash = hash;
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
@@ -71,9 +72,10 @@ app.post('/login', (req, res) => {
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
+        res.end(JSON.stringify({ 'loc': '/register', 'message': 'The user entered does not have an account with us. Please register to continue'}))
       });
   } else {
-    res.redirect('/login');
+    res.end(JSON.stringify({'loc': '/login'}));
   }
 });
 
@@ -93,10 +95,6 @@ app.get('/logout', (req, res) => {
 
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
-  /*
-  What happens when a username already exists?
-  */
-  // If user
   if (username && password) {
     bcrypt.hash(password, SALT_ROUNDS)
       .then(async hash => (
@@ -131,7 +129,6 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
 // adds an item to a specified grocerylist then returns
 // the list in populated form.
 app.post('/addItem', (req, res) => {
-  console.log('inside add item!!!!!!!!', req.body)
   database.searchForItemInHistory(req.body, (updatedList) =>{
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
       res.end(JSON.stringify(populatedList))
@@ -185,6 +182,17 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
       console.error(`Could not create store ${name} in Stores database (Duplicate?)`, err);
       res.send('Apologies for this error. From our expreience this occurs when the store name is a duplicate. We advise checking the store name.');
     });
+});
+
+app.post('/search/users', (req, res) => {
+  console.log(req.body)
+  database.searchUser(req.body).exec((err, user) => {
+    if(user) {
+      res.end(JSON.stringify({'message': 'username already exists', 'error': true}))
+    } else {
+      res.end(JSON.stringify({'message': 'Username is available', 'error': false}))
+    }
+  });
 });
 
 // Initialization
