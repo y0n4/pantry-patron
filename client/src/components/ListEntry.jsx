@@ -9,7 +9,7 @@ class ListEntry extends React.Component {
     super(props);
     this.state = {
       _id: this.props.list._id,
-      store_id: this.props.list.store_id || {_id: 'select'},
+      store_id: this.props.list.store_id || { _id: 'select' },
       total_price: 0.00,
       items: this.props.list.items,
       stores: this.props.stores,
@@ -20,42 +20,40 @@ class ListEntry extends React.Component {
 
   componentDidMount() {
     // set the store drop down to the store in state, if it exists
-    if(this.state.store_id._id) {
-      console.log(this.state.store_id._id)
+    if (this.state.store_id._id) {
+      console.log(this.state.store_id._id);
       $('.store-selection').val(this.state.store_id._id).change();
     }
   }
 
   handleStoreChange(e) {
-    if(e.target.value === 'new') {
-      alert('You want to make a new store?')
+    if (e.target.value === 'new') {
+      alert('You want to make a new store?');
       let newStoreName = prompt('What store are you at?');
 
-      while(newStoreName === '') {
-        newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?')
+      while (newStoreName === '') {
+        newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?');
       }
 
       // create the object needed for endpoint call.
-      this.props.createStore({name: newStoreName}, (newStore) => {
-        let updatedList = {};
+      this.props.createStore({ name: newStoreName }, (newStore) => {
+        const updatedList = {};
         updatedList._id = this.state._id;
         updatedList.name = this.state.name;
         updatedList.items = this.state.items;
         updatedList.total_price = this.state.total_price;
-        updatedList.store_id = {_id: newStore._id};
+        updatedList.store_id = { _id: newStore._id };
 
         // send it to the server to update current list
         this.updateList(updatedList);
         // update the stores on the client side.
-        this.setState({stores: this.state.stores.concat([newStore])});
+        this.setState({ stores: this.state.stores.concat([newStore]) });
       });
-
     } else {
-
       (async () => {
-              await this.setState({store_id: { _id: e.target.value}});
-              this.updateList(this.state);
-            })()
+        await this.setState({ store_id: { _id: e.target.value } });
+        this.updateList(this.state);
+      })();
     }
   }
 
@@ -88,62 +86,58 @@ class ListEntry extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(updatedList),
       success: () => {
-        this.setState({store_id: updatedList.store_id});
+        this.setState({ store_id: updatedList.store_id });
       },
       error: (err) => {
         console.error(err);
-      }
+      },
 
-    })
+    });
   }
 
   render() {
-      return (
-        <div>
-          <h3>
-            {this.props.list.name} total:
-            ${ this.state.items.reduce((sum, item) => { return sum + (Number(item.price) * Number(item.quantity)) }, 0).toFixed(2) }
-          </h3>
-          <br/>
-          <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
-            <option value={'select'} key="select">Stores</option>
-            <option value={'new'} key="new">New store</option>
-            {
-              this.state.stores.map((store, index) => {
-                return <option value={store._id} key={index}>{store.name}</option>
-              })
+    return (
+      <div>
+        <h3>
+          {this.props.list.name} total:
+            ${ this.state.items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0).toFixed(2) }
+        </h3>
+        <br />
+        <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
+          <option value="select" key="select">Stores</option>
+          <option value="new" key="new">New store</option>
+          {
+              this.state.stores.map((store, index) => <option value={store._id} key={index}>{store.name}</option>)
             }
-          </select>
-          <br/>
-          <br/>
-          <table className="table table-hover" id="table" align="center">
-            <thead>
-              <tr>
-                 <th>Item Name</th>
-                 <th># of Items/Pounds</th>
-                 <th>Price Per Item</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                this.state.items.map((item) => {
-                  return <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item}/>
-                })
+        </select>
+        <br />
+        <br />
+        <table className="table table-hover" id="table" align="center">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th># of Items/Pounds</th>
+              <th>Price Per Item</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+                this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} />)
               }
-            </tbody>
-          </table>
+          </tbody>
+        </table>
 
-          <br/>
-          <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
-          <div>
-            <br></br>
-            <a href="#">
-              <span className="glyphicon glyphicon-trash"></span>Delete List
-            </a>
-          </div>
-          {/*<button type="calculate">Calculate</button>*/}
+        <br />
+        <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem} />
+        <div>
+          <br />
+          <button onClick={this.props.deleteList}>
+            <span className="glyphicon glyphicon-trash" />Delete List
+          </button>
         </div>
-      );
+        {/* <button type="calculate">Calculate</button> */}
+      </div>
+    );
   } // end render
 } // end component
 
