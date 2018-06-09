@@ -18,7 +18,7 @@ const Home = (props) => (
     <ul>
       <li className="tip">
         Don't go shopping hungry to prevent buying too many snacks!
-      </li >
+      </li>
       <li className="tip">
         Bring cash instead of your card so you would have to stick to a budget.
       </li>
