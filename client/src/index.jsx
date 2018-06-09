@@ -96,13 +96,19 @@ class App extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(credentials),
       success: (data) => {
-        console.log(JSON.parse(data), 'in verify credentials');
-        this.setState({ isLoggedIn: true });
-        // //get user information
-        this.setState({ lists: JSON.parse(data).lists || [] });
-        this.setState({ user: JSON.parse(data).userData || {} });
-        this.setState({ categories: JSON.parse(data).categories || [] });
-        callback(JSON.parse(data).loc);
+        data = JSON.parse(data);
+        console.log(data, 'in verify credentials');
+        if(data.loc === '/') {
+          this.setState({ isLoggedIn: true });
+          // //get user information
+          this.setState({ lists: data.lists || [] });
+          this.setState({ user: data.userData || {} });
+          this.setState({ categories: data.categories || [] });
+          callback(data.loc);
+        } else {
+          $('.signin-error').text(data.message).show();
+          console.log('Account does not exist');
+        }
       },
       error: (err) => {
         console.error(err);
