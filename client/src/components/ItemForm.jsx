@@ -84,14 +84,14 @@ class ItemForm extends React.Component {
     return(
 
       <div align="center">
-        <form>
+        <form onSubmit={(e) => {this.handleSubmit(); e.preventDefault()}}>
           <input
             type="text"
             placeholder="Enter an item..."
             name="item"
             value={this.state.name}
             onChange={this.handleNameChange}/>
-            <a href="#" onClick={()=> (this.handleSubmit())}>
+            <a onClick={()=> (this.handleSubmit())}>
               <span className="glyphicon glyphicon-plus"></span>
             </a>
         </form>
