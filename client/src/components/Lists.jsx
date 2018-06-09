@@ -47,12 +47,16 @@ class Lists extends React.Component {
       }),
       success: (data) => {
         data = JSON.parse(data);
-        let newState = this.state.selectedList;
-        newState.items = data[0].items;
+        if(data[0].items === undefined) {
+          console.log('you cannot have two of the same items in a list');
+        } else {
+          let newState = this.state.selectedList;
+          newState.items = data[0].items;
 
-        this.setState({selectedList: newState});
-        if(callback) {
-          callback(data[0].items)
+          this.setState({selectedList: newState});
+          if(callback) {
+            callback(data[0].items)
+          }
         }
       },
       error: (err) => {
