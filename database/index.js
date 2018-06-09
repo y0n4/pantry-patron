@@ -3,21 +3,24 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = Promise;
+
 // establish connection
 const uri = process.env.MONGOOSE_URI || 'mongodb://localhost/pantry-patron';
 mongoose.connect(uri);
 const db = mongoose.connection;
+
 // feedback from database connection
 db.on('error', () => {
   console.log('No connection to database');
 });
+
 db.once('open', () => {
   console.log('Database connection established');
 });
+
 // import collections here
 const User = require('./schemas/UserSchema.js');
 const Items = require('./schemas/ItemSchema.js');
-// const Category = require('./schemas/CategorySchema.js');
 const Store = require('./schemas/StoreSchema.js');
 const ItemHistory = require('./schemas/ItemHistorySchema.js');
 const GroceryList = require('./schemas/GroceryListSchema.js');
@@ -115,7 +118,9 @@ const searchForListsAndPopulate = (listIds, callback) => {
       populate: {
         path: 'item_id',
       },
-    }).exec((err, data) => {
+    })
+    .populate('store_id')
+    .exec((err, data) => {
       console.log('searchForListsAndPopulate found', data);
       callback(data);
     });
@@ -180,26 +185,41 @@ var createHistoryItem = (item, callback) => {
 };
 
 var updateList = function(list, callback) {
-  console.log(list)
-  // var newList = new GroceryList(list.body);
-  // var name = newList.name;
-  // List.findOne({name: name}, function(noList, listExists) {
-  //   // list doesn't exist
-  //   if (noList) {
-  //     newList.save()
-  //     .then(function(category) {
-  //       res.end('List saved to database');
-  //     })
-  //     .catch(function(err) {
-  //       res.status(400).end('Unable to save list to database');
-  //     })
-  //   }
-  // }).then(listExists => {
-  //   List.findOneAndUpdate({name: listExists.name}, { "$set": {"items": newList.items, "name": newList.name, "user_id": newList.user_id, "total_price": newList.total_price} }, {new: true}, function(err, doc) {
-  //     if (err) return res.end(500, {error: err});
-  //     res.end('Updated existing list');
-  //   })
-  // }).catch(err => console.error(err));
+  let updateParams = {};
+
+  if(list.name) { updateParams.name = list.name };
+  if(list.items) { updateParams.items = list.items }
+  if(list.total_price) { updateParams.total_price = list.total_price }
+  if(list.store_id) {
+    if(list.store_id._id !== 'select') {
+      updateParams.store_id = list.store_id._id
+    }
+  }
+
+  GroceryList.update({_id: list._id}, updateParams, {upsert: true}, (err, updatedList) => {
+    if(callback) {
+      callback(updatedList);
+    }
+  })
+
+
+  // // search in grocery list collection for the list
+  // GroceryList.findOne({_id: list._id}).exec((err, groceryList) => {
+  //   if(err) { console.error(err) };
+  //   // update name, items, total_price, store_id
+  //   console.log('this is the store I searched for, is it correct?', store);
+  //   groceryList.set('name', list.name);
+  //   groceryList.set('items', list.items);
+  //   groceryList.set('total_price', list.total_price);
+  //   groceryList.set('store_id', list.store_id);
+
+  //   //save
+  //   groceryList.save((err) => {
+  //     console.error(err);
+  //     console.log('---------------', groceryList, '-------------------')
+  //     callback(groceryList);
+  //   });
+  // });
 }
 
 const storeSave = async (store) => (await (new Store(store)).save());
@@ -215,3 +235,4 @@ module.exports.searchForItem = searchForItem;
 module.exports.searchForListsAndPopulate = searchForListsAndPopulate;
 module.exports.searchForItemInHistory = searchForItemInHistory;
 module.exports.searchForItemInHistoryAndPopulate = searchForItemInHistoryAndPopulate;
+module.exports.updateList = updateList;

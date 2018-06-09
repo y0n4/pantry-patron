@@ -149,6 +149,9 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
 
 app.post('/updateList', (req, res) => {
   console.log(req.body)
+  database.updateList(req.body, (updatedList) => {
+    res.end(JSON.stringify(updatedList))
+  })
 });
 
 app.post('/lists/delete', (req, res) => {
