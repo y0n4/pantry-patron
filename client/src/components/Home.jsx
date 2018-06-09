@@ -8,26 +8,36 @@ const Home = (props) => (
     <NavBar {...props}/>
     <br/>
 
-    <h3> Welcome {props.user.username} ! </h3>
-    <hr width="30%" align='center'/>
+    <h3 className="greeting"> Welcome {props.user.username} ! </h3>
     <div> Ready to shop mindfully? Check out the list tab to get started </div>
 
     <br/>
-    <h3> Tips </h3>
-    <hr width="30%" align='center'/>
+    <h3 className="greeting"> Tips </h3>
   {/*BEGIN TIPS*/}
-    <div className="tip">
-      <p>Reprehenderit elit dolore ut eiusmod veniam pariatur commodo duis consequat adipisicing dolore eu magna.</p>
-    </div>
-    <div className="tip">
-      <p>Laboris do occaecat ex mollit magna eiusmod labore nulla quis quis labore non laboris ut in ex commodo sed commodo amet sit nulla reprehenderit dolore nisi ut ut veniam occaecat in mollit sed deserunt occaecat laborum nisi pariatur enim nulla officia ut est dolor nulla magna ex ex nulla non fugiat in do anim ullamco dolore voluptate eu velit incididunt sit aliquip aute non ut reprehenderit fugiat officia excepteur aliqua ad duis sit consequat deserunt sit cillum aliqua mollit incididunt cupidatat cillum aliquip velit et sunt et ex ut consequat qui quis occaecat quis dolore consectetur sunt adipisicing commodo aliquip</p>
-    </div>
-    <div className="tip">
-      <p>Aute consectetur.</p>
-    </div>
-    <div className="tip">
-      <p>Fugiat eu nisi sunt nisi fugiat ullamco irure ut nostrud anim incididunt.</p>
-    </div>
+    <div></div>
+    <ul>
+      <li className="tip">
+        Don't go shopping hungry to prevent buying too many snacks!
+      </li >
+      <li className="tip">
+        Bring cash instead of your card so you would have to stick to a budget.
+      </li>
+      <li className="tip">
+        Go for the non-organic stuff, it's cheaper.
+      </li>
+      <li className="tip">
+        Look for the sales tags!
+      </li>
+      <li className="tip">
+        Try out the store brand, they're usually not as bad as you think.
+      </li>
+      <li className="tip">
+        If you have extra money, buy extra non-perishables that you can hold onto if possible.
+      </li>
+      <li className="tip">
+        Canned goods can help you prepare meals quicker. They also don't expire and spoil as fast as normal stuff.
+      </li>
+    </ul>
   {/*END TIPS*/}
   </div>
 );

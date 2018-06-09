@@ -2,6 +2,23 @@
 body {
   background: #fff !important;
 }
+.greeting {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 15px;
+  margin: auto;
+  margin-bottom: 15px;
+  max-width: 400px;
+}
+.tip {
+  list-style: none;
+  border-bottom: 1px solid lightgrey;
+  margin: auto;
+  max-width: 400px;
+  position: relative;
+  left: -17px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
 
 .dropdown {
   margin: auto;
