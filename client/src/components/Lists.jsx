@@ -150,8 +150,8 @@ Lists.propTypes = {
   deleteList: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-  }).isRequired,
+    _id: PropTypes.string,
+  }),
   stores: PropTypes.array.isRequired,
 };
 

@@ -42,14 +42,20 @@ class ListEntry extends React.Component {
         updatedList.name = this.state.name;
         updatedList.items = this.state.items;
         updatedList.total_price = this.state.total_price;
-        updatedList.store_id = newStore._id;
+        updatedList.store_id = {_id: newStore._id};
 
         // send it to the server to update current list
         this.updateList(updatedList);
+        // update the stores on the client side.
+        this.setState({stores: this.state.stores.concat([newStore])});
       });
 
     } else {
-      this.setState({store_id: { _id: e.target.value}});
+
+      (async () => {
+              await this.setState({store_id: { _id: e.target.value}});
+              this.updateList(this.state);
+            })()
     }
   }
 
@@ -71,7 +77,9 @@ class ListEntry extends React.Component {
   }
 
   updateList(updatedList) {
-    console.log('this is the updated item ', updatedList)
+    console.log('this is the updated item ', this.state);
+
+
     $.ajax({
       url: '/updateList',
       type: 'POST',
