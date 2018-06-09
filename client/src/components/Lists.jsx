@@ -130,7 +130,7 @@ class Lists extends React.Component {
       <div className="text-center">
         <NavBar {...this.props} />
         <br />
-        <select id="list-select" defaultValue="x" onChange={this.handleListSelect}>
+        <select data-live-search="true" className="form-control dropdown" id="list-select" defaultValue="x" onChange={this.handleListSelect}>
           <option value="x" key="x"> Select </option>
           <option value="new" key="new">New list</option>
           {

@@ -62,7 +62,7 @@ class ListEntry extends React.Component {
     */
     const oldItems = this.state.items;
     oldItems.forEach((item) => {
-      if (item._id === updatedItem._id) {
+      if(item._id === updatedItem._id) {
         item.name = updatedItem.name;
         item.quantity = updatedItem.quantity;
         item.price = updatedItem.price;
@@ -90,9 +90,12 @@ class ListEntry extends React.Component {
   render() {
       return (
         <div>
-          <h3>{this.props.list.name}</h3>
+          <h3>
+            {this.props.list.name} total:
+            ${ this.state.items.reduce((sum, item) => { return sum + (Number(item.price) * Number(item.quantity)) }, 0).toFixed(2) }
+          </h3>
           <br/>
-          <select className="store-selection" onChange={this.handleStoreChange.bind(this)}>
+          <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
             <option value={'select'} key="select">Stores</option>
             <option value={'new'} key="new">New store</option>
             {
@@ -103,12 +106,12 @@ class ListEntry extends React.Component {
           </select>
           <br/>
           <br/>
-          <table>
+          <table className="table table-hover" id="table" align="center">
             <thead>
               <tr>
-                <th>Items</th>
-                <th>Qty</th>
-                <th>Price</th>
+                 <th>Item Name</th>
+                 <th># of Items/Pounds</th>
+                 <th>Price Per Item</th>
               </tr>
             </thead>
             <tbody>
@@ -122,8 +125,13 @@ class ListEntry extends React.Component {
 
           <br/>
           <ItemForm setListEntryState={this.setState.bind(this)} updateItem={this.props.updateItem}/>
-          <button type="button" onClick={this.onDeleteClick}>Delete</button>
-          <button type="calculate">Calculate</button>
+          <div>
+            <br></br>
+            <a href="#">
+              <span className="glyphicon glyphicon-trash"></span>Delete List
+            </a>
+          </div>
+          {/*<button type="calculate">Calculate</button>*/}
         </div>
       );
   } // end render
