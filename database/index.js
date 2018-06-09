@@ -168,7 +168,6 @@ var searchForItemInHistory = (item, callback) => {
         });
       });
     } else {
-
       callback(histItem[0]);
     }
   });
