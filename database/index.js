@@ -163,7 +163,14 @@ const searchForItemInHistory = (item, callback) => {
         });
       });
     } else {
-      callback(histItem[0]);
+      GroceryList.find({ _id: item.list }).exec((err, list) => {
+          list[0].items.push(histItem[0]);
+          list[0].save((err) => {
+            if (err) { console.error(err); }
+            callback(list[0]);
+          });
+        });
+      // callback(histItem[0]);
     }
   });
 };

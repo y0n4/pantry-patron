@@ -25,21 +25,6 @@ import Lists from './components/Lists.jsx';
   }
 
 */
-function sendNewUserCredentials(newUserCreds, callback) {
-  $.ajax({
-    url: '/register',
-    type: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(newUserCreds),
-    success: (loc) => {
-      console.log('New user information saved to db');
-      callback(loc);
-    },
-    error: (err) => {
-      console.error(err);
-    },
-  });
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -54,6 +39,23 @@ class App extends React.Component {
     this.verify = this.verify.bind(this);
     this.update = this.update.bind(this);
     this.deleteList = this.deleteList.bind(this);
+  }
+
+  sendNewUserCredentials(newUserCreds, callback) {
+    $.ajax({
+      url: '/register',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(newUserCreds),
+      success: (loc) => {
+        console.log('New user information saved to db');
+        console.log(loc)
+        callback(loc);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   /*
@@ -190,7 +192,7 @@ class App extends React.Component {
           <Route
             exact
             path="/register"
-            render={props => <Register grabUserCredentials={sendNewUserCredentials} {...props} />
+            render={props => <Register grabUserCredentials={this.sendNewUserCredentials.bind(this)} {...props} />
           }
           />
           <Route exact path="/logout" render={props => <Login verify={this.verify} {...props} />} />

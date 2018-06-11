@@ -51,7 +51,7 @@ class Lists extends React.Component {
   updates the lists when changed on the backend then on the front end in
   the success.
   */
-  updateList(newItem, callback) {
+  updateList(newItem, callback) { console.log('update List got this', newItem);
     $.ajax({
       url: '/addItem',
       type: 'POST',
@@ -63,7 +63,6 @@ class Lists extends React.Component {
       success: (data) => {
         data = JSON.parse(data);
         if(data[0].items === undefined) {
-          console.log('you cannot have two of the same items in a list');
         } else {
           let newState = this.state.selectedList;
           newState.items = data[0].items;
