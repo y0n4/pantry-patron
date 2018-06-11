@@ -24,16 +24,13 @@ class ItemForm extends React.Component {
     this.setState({name: e.target.value});
 
     clearTimeout(this.timer);
-    // setTimeout(() => console.log('done'), this.delay);
   }
 
   handleQuantChange(e) {
-    // console.log('new qty', e.target.value);
     this.setState({quantity: e.target.value});
   }
 
   handlePriceChange(e) {
-    // console.log('new price', e.target.value);
     this.setState({price: e.target.value});
   }
 

@@ -24,7 +24,6 @@ class Register extends React.Component {
       callback({username: this.state.username, password: this.state.entry}, (loc)  => {
         this.props.history.push('/login');
       });
-      // console.log(this.state.username, this.state.entry, 'was saved.')
     } else {
       // figure out how to display a div of color red
       $('.register-error').text('Passwords do not match').show();

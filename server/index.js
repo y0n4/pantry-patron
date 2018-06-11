@@ -60,22 +60,22 @@ app.post('/login', (req, res) => {
     })
       .then(({ user, hash, isValidUser }) => {
         if (!isValidUser) {
-          res.end(JSON.stringify({'loc': '/login', 'message' : 'Username and password do not match our records'}));
+          res.end(JSON.stringify({ loc: '/login', message: 'Username and password do not match our records' }));
         }
 
         req.session.username = username;
         req.session.hash = hash;
         database.searchForListsAndPopulate(user.grocery_lists, (lists) => {
-          const results = { loc: '\/', lists, userData: user };
+          const results = { loc: '/', lists, userData: user };
           res.end(JSON.stringify(results));
         });
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
-        res.end(JSON.stringify({ 'loc': '/register', 'message': 'The user entered does not have an account with us. Please register to continue'}))
+        res.end(JSON.stringify({ loc: '/register', message: 'The user entered does not have an account with us. Please register to continue' }));
       });
   } else {
-    res.end(JSON.stringify({'loc': '/login'}));
+    res.end(JSON.stringify({ loc: '/login' }));
   }
 });
 
@@ -127,7 +127,7 @@ app.post('/search/item', util.checkLoggedIn, (req, res) => {
 // adds an item to a specified grocerylist then returns
 // the list in populated form.
 app.post('/addItem', (req, res) => {
-  database.searchForItemInHistory(req.body, (updatedList) =>{
+  database.searchForItemInHistory(req.body, (updatedList) => {
     database.searchForListsAndPopulate([updatedList._id], (populatedList) => {
       res.end(JSON.stringify(populatedList));
     });
@@ -142,7 +142,6 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
 });
 
 app.post('/updateList', (req, res) => {
-  console.log(req.body)
   database.updateList(req.body, (updatedList) => {
     res.end(JSON.stringify(updatedList));
   });
@@ -158,7 +157,9 @@ app.post('/lists/delete', util.checkLoggedIn, (req, res) => {
 app.get('/store/search', (req, res) => {
   const { name } = req.query;
 
-  const promiseSearch = name ? database.storeSearch({ name }).exec() : database.storeSearch({}).exec();
+  const promiseSearch = name ?
+    database.storeSearch({ name }).exec() :
+    database.storeSearch({}).exec();
 
   promiseSearch.then(stores => res.end(JSON.stringify(stores)));
 });
@@ -185,10 +186,10 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
 
 app.post('/search/users', (req, res) => {
   database.searchUser(req.body).exec((err, user) => {
-    if(user) {
-      res.end(JSON.stringify({'message': 'username already exists', 'error': true}))
+    if (user) {
+      res.end(JSON.stringify({ message: 'username already exists', error: true }));
     } else {
-      res.end(JSON.stringify({'message': 'Username is available', 'error': false}))
+      res.end(JSON.stringify({ message: 'Username is available', error: false }));
     }
   });
 });

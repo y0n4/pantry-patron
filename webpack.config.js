@@ -1,12 +1,13 @@
-var path = require('path');
-var source = path.join(__dirname, './client/src');
-var destination = path.join(__dirname, './client/dist');
+const path = require('path');
+
+const source = path.join(__dirname, './client/src');
+const destination = path.join(__dirname, './client/dist');
 
 module.exports = {
   entry: `${source}/index.jsx`,
-  output : {
+  output: {
     filename: 'bundle.js',
-    path: destination
+    path: destination,
   },
   module: {
     rules: [
@@ -15,8 +16,8 @@ module.exports = {
         include: source,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
-        }
+          presets: ['react', 'es2015'],
+        },
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -24,11 +25,11 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 8192
-            }
-          }
-        ]
-      }
+              limit: 8192,
+            },
+          },
+        ],
+      },
     ],
-  }
+  },
 };

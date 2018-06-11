@@ -76,9 +76,6 @@ class ListEntry extends React.Component {
   }
 
   updateList(updatedList) {
-    console.log('this is the updated item ', this.state);
-
-
     $.ajax({
       url: '/updateList',
       type: 'POST',

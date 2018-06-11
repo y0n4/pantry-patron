@@ -51,7 +51,7 @@ class Lists extends React.Component {
   updates the lists when changed on the backend then on the front end in
   the success.
   */
-  updateList(newItem, callback) { console.log('update List got this', newItem);
+  updateList(newItem, callback) {
     $.ajax({
       url: '/addItem',
       type: 'POST',
