@@ -2,6 +2,13 @@
 body {
   background: #fff !important;
 }
+
+.username-display {
+  display: inline-block;
+  margin-left: 10px;
+  color: #30d2ff;
+}
+
 .greeting {
   border-bottom: 1px solid lightgrey;
   padding-bottom: 15px;

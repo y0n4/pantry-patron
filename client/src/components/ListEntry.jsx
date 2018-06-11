@@ -21,18 +21,16 @@ class ListEntry extends React.Component {
   componentDidMount() {
     // set the store drop down to the store in state, if it exists
     if (this.state.store_id._id) {
-      console.log(this.state.store_id._id);
       $('.store-selection').val(this.state.store_id._id).change();
     }
   }
 
   handleStoreChange(e) {
     if (e.target.value === 'new') {
-      alert('You want to make a new store?');
       let newStoreName = prompt('What store are you at?');
 
       while (newStoreName === '') {
-        newStoreName = prompt('I know for sure there is not a store without \nsome sort of name out there. Where you at?');
+        newStoreName = prompt('Come on, where you at gurl?');
       }
 
       // create the object needed for endpoint call.
@@ -48,6 +46,7 @@ class ListEntry extends React.Component {
         this.updateList(updatedList);
         // update the stores on the client side.
         this.setState({ stores: this.state.stores.concat([newStore]) });
+        $('.store-selection').val(this.state.stores[this.state.stores.length -1]._id);
       });
     } else {
       (async () => {
@@ -135,7 +134,6 @@ class ListEntry extends React.Component {
             <span className="glyphicon glyphicon-trash" />Delete List
           </button>
         </div>
-        {/* <button type="calculate">Calculate</button> */}
       </div>
     );
   } // end render
