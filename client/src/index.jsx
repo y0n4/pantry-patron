@@ -15,6 +15,16 @@ import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 import Lists from './components/Lists.jsx';
 
+/*
+  connected to the resgister component. This function sends a new users credentials
+  to the database to be hashed, salted, and stored.
+
+  object = {
+    username: <username>,
+    password: <password>
+  }
+
+*/
 function sendNewUserCredentials(newUserCreds, callback) {
   $.ajax({
     url: '/register',
@@ -40,19 +50,34 @@ class App extends React.Component {
       user: {},
       lists: [],
     };
-    console.log(`the user is logged in: ${this.state.isLoggedIn}, under user info ${this.state.user.username}`);
 
     this.verify = this.verify.bind(this);
     this.update = this.update.bind(this);
     this.deleteList = this.deleteList.bind(this);
   }
 
+  /*
+  once the app mounts, grab the stores from the database
+  */
   componentDidMount() {
     this.getStores();
   }
 
+  /*
+    When invoked this function makes a post request to
+    /store/create passing in a newStoreNameObj
+
+    newStoreNameObj = {
+       name: <storeName>
+     }
+
+     it returns a document from a Store collection that contains
+      {
+        _id: <ObjectId>,
+        name: <store name>
+      }
+  */
   createNewStore(newStoreNameObj, callback) {
-    // newStoreNameObj === { name: <storeName> }
     $.ajax({
       url: '/store/create',
       type: 'POST',
@@ -69,10 +94,12 @@ class App extends React.Component {
     });
   }
 
+  /*
+    retrieves all Mongoose Store Collection document from the data base.
+
+    type: Array
+  */
   getStores() {
-    /*
-    gets all the stores from the database
-    */
     $.ajax({
       url: '/store/search',
       type: 'GET',
@@ -90,6 +117,11 @@ class App extends React.Component {
     this.setState(data);
   }
 
+  /*
+    connected to the Login component, verifies user entered credentials with the documents
+    in the database. If sucessful, should return the user information and the grocerylists that user has.
+
+  */
   verify(credentials, callback) {
     $.ajax({
       url: '/login',
@@ -98,13 +130,11 @@ class App extends React.Component {
       data: JSON.stringify(credentials),
       success: (data) => {
         data = JSON.parse(data);
-        console.log(data, 'in verify credentials');
         if(data.loc === '/') {
           this.setState({ isLoggedIn: true });
           // //get user information
           this.setState({ lists: data.lists || [] });
           this.setState({ user: data.userData || {} });
-          this.setState({ categories: data.categories || [] });
           callback(data.loc);
         } else {
           $('.signin-error').text(data.message).show();
@@ -118,6 +148,9 @@ class App extends React.Component {
     });
   } // end verify
 
+  /*
+  sends the ObjectId of a list to the server for deletion
+  */
   deleteList({ _id }) {
     $.ajax({
       url: '/lists/delete',
@@ -141,7 +174,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('USER INFO', this.state)
     return (
       <Router>
         <Switch>
@@ -179,17 +211,6 @@ class App extends React.Component {
       </Router>
     );
   } // end render
-}
+} // end App
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-/*
-/'
-/login
-/register
-/logout
-/list
-
-------------> think about we add a /list/edit  <-----  new challenge!!!!!!
-
-*/

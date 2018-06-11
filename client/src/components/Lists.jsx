@@ -12,20 +12,31 @@ class Lists extends React.Component {
       userLists: this.props.lists || [],
       selectedList: { name: null, items: [] },
     };
+     /*
+      these two lines of code are presets.
+      !!!DO NOT DELETE this unless you want to refactor everything
 
+      basically we are taking advantage of how array only iterate through
+      numerical indexes
+     */
     this.state.userLists.x = { name: null, items: [] };
     this.state.userLists.new = { name: 'new', items: [] };
+    // thank you - I'm sorry for the small technical gotcha
 
     this.handleListSelect = this.handleListSelect.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
   componentDidMount() {
-    const context = this;
+  /*
+    When the component mounts we are setting an event listner that checks to see if the
+    lists dropdown is hovered over for more than 500 ms. This functionality allows for the lists
+    data to reset.
+  */
     $('#list-select').on('mouseover', () => {
       setTimeout(() => {
         if ($('#list-select').is(':hover')) {
-          context.setState({ selectedList: this.state.userLists.x });
+          this.setState({ selectedList: this.state.userLists.x });
           $('#list-select').val('x').change();
         }
       }, 500);
@@ -36,6 +47,10 @@ class Lists extends React.Component {
     this.props.deleteList(this.state.selectedList);
   }
 
+  /*
+  updates the lists when changed on the backend then on the front end in
+  the success.
+  */
   updateList(newItem, callback) {
     $.ajax({
       url: '/addItem',
@@ -65,8 +80,11 @@ class Lists extends React.Component {
     })
   }
 
+  /*
+    grabs the user information for the _id then prompts the user for more informaation
+    when the user enters something, ask the backend to do it's magic.
+  */
   handleNewList(user, callback) {
-    console.log('This is the user I got', user);
     let listName = prompt('What\'s this lists name?');
 
     while (listName === '') {
@@ -84,16 +102,15 @@ class Lists extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify(newList),
       success: (data) => {
-        console.log(JSON.parse(data), 'here is the data');
-
         this.setState({
           userLists: this.state.userLists.concat([JSON.parse(data)]),
           selectedList: JSON.parse(data),
         });
 
+        // !!!!!!!!! DON'T DELETE
         this.state.userLists.x = { name: null, items: [] };
         this.state.userLists.new = { name: 'new', items: [] };
-        // set the drop down to the list
+        // unless refactoring
 
         this.props.update({ lists: this.state.userLists });
         if (callback) {
@@ -134,7 +151,10 @@ class Lists extends React.Component {
       <div className="text-center">
         <NavBar {...this.props} />
         <br />
-        <select data-live-search="true" className="form-control dropdown" id="list-select" defaultValue="x" onChange={this.handleListSelect}>
+        <select data-live-search="true"
+          className="form-control dropdown"
+          id="list-select" defaultValue="x"
+          onChange={this.handleListSelect}>
           <option value="x" key="x"> Select </option>
           <option value="new" key="new">New list</option>
           {

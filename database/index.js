@@ -31,8 +31,7 @@ const saveUser = function (user) {
   newUser.save((err, docs) => {
     if (err) throw err;
 
-
-    console.log('User saved: ', docs);
+    console.log('User saved to database.');
   });
 };
 
@@ -75,11 +74,9 @@ var createItem = (item, callback) => {
 };
 
 const createList = (query, callback) => {
-  console.log(query);
   searchForUserById(query.user_id, (user) => {
     const newList = new GroceryList({ name: query.name });
     user.grocery_lists.push(newList);
-    console.log(user.grocery_lists);
 
     newList.save((err) => {
       if (err) console.error(err);
@@ -101,11 +98,9 @@ const deleteListById = async (_id) => {
 };
 
 var searchForUserById = (query, callback) => {
-  console.log('search for user', query);
   // query = {name: , user_id: }
   User.findById(query).exec((err, user) => {
     if (err) { console.error(err); }
-    console.log('user-found', user.username);
     callback(user);
   });
 };
@@ -159,11 +154,9 @@ const searchForItemInHistory = (item, callback) => {
       createHistoryItem(item, (newHistItem) => {
         // find the current grocery list
         GroceryList.find({ _id: item.list }).exec((err, list) => {
-          console.log(newHistItem, 'newHistoryItem');
           list[0].items.push(newHistItem);
           list[0].save((err) => {
             if (err) { console.error(err); }
-            console.log('this is the list', list[0].items);
             callback(list[0]);
           });
         });

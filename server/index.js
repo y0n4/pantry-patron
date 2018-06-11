@@ -81,14 +81,12 @@ app.post('/login', (req, res) => {
 
 app.post('/updateHistory', (req, res) => {
   database.searchForItemInHistoryAndPopulate(req.body, true, (historyItem) => {
-    console.log('check me out ', historyItem);
     res.end(JSON.stringify(historyItem));
   });
 });
 
 app.get('/logout', (req, res) => {
   // Remove user
-  console.log('Logout', req.session);
   req.session.destroy();
   res.redirect('/login');
 });
@@ -138,14 +136,12 @@ app.post('/addItem', (req, res) => {
 
 
 app.post('/lists/create', util.checkLoggedIn, (req, res) => {
-  console.log('BEFORE', req.body);
   database.createList(req.body, (list) => {
     res.end(JSON.stringify(list));
   });
 });
 
 app.post('/updateList', (req, res) => {
-  console.log(req.body);
   database.updateList(req.body, (updatedList) => {
     res.end(JSON.stringify(updatedList));
   });
@@ -177,7 +173,6 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
 
   database.storeSave({ name })
     .then((store) => {
-      console.log('Wow a NEW store', store);
       res.end(JSON.stringify(store));
     })
     .catch((err) => {
@@ -188,7 +183,6 @@ app.post('/store/create', util.checkLoggedIn, (req, res) => {
 });
 
 app.post('/search/users', (req, res) => {
-  console.log(req.body)
   database.searchUser(req.body).exec((err, user) => {
     if(user) {
       res.end(JSON.stringify({'message': 'username already exists', 'error': true}))

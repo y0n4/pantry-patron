@@ -37,6 +37,9 @@ const Home = (props) => (
       <li className="tip">
         Canned goods can help you prepare meals quicker. They also don't expire and spoil as fast as normal stuff.
       </li>
+      <li className="tip">
+        Make it you time, put some music on and walk around, look at everything, you might just find some super specials.
+      </li>
     </ul>
   {/*END TIPS*/}
   </div>

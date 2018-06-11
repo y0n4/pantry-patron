@@ -46,6 +46,7 @@ class Register extends React.Component {
           data = JSON.parse(data);
 
           if(data.error) {
+            $('.register-success').hide();
             $('.register-error').text(data.message).show();
           } else {
             $('.register-error').hide();
@@ -61,19 +62,11 @@ class Register extends React.Component {
   }
 
   handleEntryChange(e) {
-    let entry = e.target.value;
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.setState({entry: entry})
-    }, this.delay);
+    this.setState({entry: e.target.value});
   }
 
   handleReEntryChange(e) {
-    let reEntry = e.target.value;
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.setState({reEntry: reEntry})
-    }, this.delay);
+    this.setState({reEntry: e.target.value});
   }
 
   render() {
@@ -92,10 +85,20 @@ class Register extends React.Component {
           </Link>
           <h3 className="form-signin-heading">Register</h3>
           <div>
-            <input type="text" className="form-control" placeholder="username" name="register-username" value={this.state.username} onChange={this.handleUsername.bind(this)}/>
+            <input type="text"
+              className="form-control"
+              placeholder="username"
+              name="register-username"
+              value={this.state.username}
+              onChange={this.handleUsername.bind(this)}/>
           </div>
           <div>
-            <input type="password" className="form-control" placeholder="password" name="register-password" value={this.state.password} onChange={this.handleEntryChange.bind(this)}/>
+            <input type="password"
+              className="form-control"
+              placeholder="password"
+              name="register-password"
+              value={this.state.password}
+              onChange={this.handleEntryChange.bind(this)}/>
           </div>
           <div>
             <input type="password" className="form-control" placeholder="re-enter password"  value={this.state.reEntry}
@@ -113,7 +116,6 @@ class Register extends React.Component {
       </div>
     );
   } // end render
-}
-// NEED GRABNEWUSERCREDENTIALS CALLBACK FUNCTION THAT TAKES AN OBJECT {USERNAME, PASSWORD}
+} // end component
 
 export default Register;

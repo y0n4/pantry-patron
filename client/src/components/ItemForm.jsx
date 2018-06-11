@@ -12,7 +12,6 @@ class ItemForm extends React.Component {
     this.delay = 2000;
     this.timer;
 
-    console.log(this.props.store)
     // bindings
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleQuantChange = this.handleQuantChange.bind(this);
@@ -22,11 +21,10 @@ class ItemForm extends React.Component {
 
   // handle value changes
   handleNameChange(e) {
-    // console.log(e.target.value, 'was entered')
     this.setState({name: e.target.value});
 
-    // clearTimeout(this.timer);
-    // setTimeout(() => console.log('done')), this.delay);
+    clearTimeout(this.timer);
+    // setTimeout(() => console.log('done'), this.delay);
   }
 
   handleQuantChange(e) {
@@ -41,7 +39,8 @@ class ItemForm extends React.Component {
 
   // handle submit of edit
   handleSubmit() {
-    let itemName = this.state.name ? this.state.name : prompt('There is no such things as a null object in life. Give it a name');
+    let itemName = this.state.name ? this.state.name
+    : prompt('There is no such things as a null object in life. Give it a name');
 
     while(itemName === '') {
       itemName = prompt('Stop trying to be sneaky!');
@@ -54,17 +53,16 @@ class ItemForm extends React.Component {
     // the item with the corresponding item id
     // then sends it to be added to the list
     newItem = this.transformItem(newItem, (newItem) => {
-          // newItem.price = this.state.price;
-          // newItem.quantity = this.state.quantity;
       this.props.updateItem(newItem, (items) => {
         this.props.setListEntryState({items: items});
+        $('.add-item-input').val('');
       });
     });
   }
 
   transformItem(newItem, callback) {
     /*
-    sends the item to the database to get an objectId
+    sends the item to the database so we can get an objectId
     */
     $.ajax({
       url: 'search/item',
@@ -82,10 +80,10 @@ class ItemForm extends React.Component {
 
   render() {
     return(
-
       <div align="center">
         <form onSubmit={(e) => {this.handleSubmit(); e.preventDefault()}}>
           <input
+            className="add-item-input"
             type="text"
             placeholder="Enter an item..."
             name="item"
