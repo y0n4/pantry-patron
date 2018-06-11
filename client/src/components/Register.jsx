@@ -22,7 +22,7 @@ class Register extends React.Component {
       $('.register-error').hide();
       // send username and pasword information to callback  to be processed later
       callback({username: this.state.username, password: this.state.entry}, (loc)  => {
-        this.props.history.push('/');
+        this.props.history.push('/login');
       });
       // console.log(this.state.username, this.state.entry, 'was saved.')
     } else {
