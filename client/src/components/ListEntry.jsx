@@ -21,7 +21,6 @@ class ListEntry extends React.Component {
   componentDidMount() {
     // set the store drop down to the store in state, if it exists
     if (this.state.store_id._id) {
-      console.log(this.state.store_id._id);
       $('.store-selection').val(this.state.store_id._id).change();
     }
   }
@@ -47,6 +46,7 @@ class ListEntry extends React.Component {
         this.updateList(updatedList);
         // update the stores on the client side.
         this.setState({ stores: this.state.stores.concat([newStore]) });
+        $('.store-selection').val(this.state.stores[this.state.stores.length -1]._id);
       });
     } else {
       (async () => {
