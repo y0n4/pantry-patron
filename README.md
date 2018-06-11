@@ -1,4 +1,4 @@
-# Project Name #
+# PantryPatron #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,7 +17,7 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > Ever go grocery shopping and wonder. How much money have I spent so far? Well worry no longer PantryPatron can help with just that! Login, create a grocery list in advanced, then when you get to the grocery store go down the list and enter the price. We will take care of the rest. Before you get to the register you will know how much you owe before taxes.
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
