@@ -10,7 +10,7 @@ const util = require('./util.js');
 
 // Module constants
 const SALT_ROUNDS = 10; // Difficulty  to crack (Incrementing doubles compute time)
-const CLIENT_FOLDER = path.join(__dirname, '..//client/dist');
+const CLIENT_FOLDER = path.join(__dirname, '../client/dist');
 
 const app = express();
 
@@ -142,6 +142,7 @@ app.post('/lists/create', util.checkLoggedIn, (req, res) => {
 });
 
 app.post('/updateList', (req, res) => {
+  console.log(req.body)
   database.updateList(req.body, (updatedList) => {
     res.end(JSON.stringify(updatedList));
   });

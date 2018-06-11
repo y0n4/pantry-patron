@@ -67,7 +67,6 @@ class Lists extends React.Component {
         } else {
           let newState = this.state.selectedList;
           newState.items = data[0].items;
-
           this.setState({selectedList: newState});
           if(callback) {
             callback(data[0].items)

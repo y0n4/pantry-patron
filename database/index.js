@@ -74,6 +74,7 @@ var createItem = (item, callback) => {
 };
 
 const createList = (query, callback) => {
+  // queries user collection and searches for ObjectId
   searchForUserById(query.user_id, (user) => {
     const newList = new GroceryList({ name: query.name });
     user.grocery_lists.push(newList);

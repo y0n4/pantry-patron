@@ -31,7 +31,6 @@ export default class ListItemEntry extends React.Component {
       data: JSON.stringify(updatedItem),
       contentType: 'application/json',
       success: (data) => {
-        console.log('returned', JSON.parse(data))
         this.props.update(JSON.parse(data)[0]);
       }
     });
