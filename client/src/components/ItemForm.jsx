@@ -53,7 +53,6 @@ class ItemForm extends React.Component {
     // the item with the corresponding item id
     // then sends it to be added to the list
     newItem = this.transformItem(newItem, (newItem) => {
-      console.log('Is this correct item? ', newItem);
       this.props.updateItem(newItem, (items) => {
 
         this.props.setListEntryState({items: items});

@@ -150,9 +150,7 @@ const searchForItemInHistory = (item, callback) => {
   /* CHECKS THE ITEMHISTORY TO SEE IF THE ITEM EXISTS
     IF NOT IT SHOULD CREATE A NEW ITEMHISTORY DOCUMENT */
   ItemHistory.find({ item_id: item.newItem._id }).exec((err, histItem) => {
-    console.log(histItem, 'stage 1~~~~~~~~~~~~~~~~~~~~~')
     if (!histItem.length) {
-      console.log(histItem, 'stage 2a~~~~~~~~~~~~~~~~~~~~~')
       // add item functionality
       createHistoryItem(item, (newHistItem) => {
         // find the current grocery list
@@ -165,13 +163,9 @@ const searchForItemInHistory = (item, callback) => {
         });
       });
     } else {
-      console.log(histItem,'12312312312', item, 'stage 2b~~~~~~~~~~~~~~~~~~~~~');
       GroceryList.find({ _id: item.list }).exec((err, list) => {
-        console.log('found this item', list)
-        console.log(histItem)
           list[0].items.push(histItem[0]);
           list[0].save((err) => {
-            console.log('im in save')
             if (err) { console.error(err); }
             callback(list[0]);
           });
