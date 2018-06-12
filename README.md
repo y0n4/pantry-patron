@@ -20,25 +20,27 @@ Once the project moves into development, the press release can be used as a touc
   > Ever go grocery shopping and wonder. How much money have I spent so far? Well worry no longer PantryPatron can help with just that! Login, create a grocery list in advanced, then when you get to the grocery store go down the list and enter the price. We will take care of the rest. Before you get to the register you will know how much you owe before taxes.
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > This app is for people who just want to keep track of how much money they are spending as they shop. We make the accidental clearing of the calculator a thing of the past. Just don't delete the list.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-
+  > PantryPatron is intended for people who are fed up with getting to the cash register after a grocery run and thinking, how the hell did I go over my budget by $50! Happens all the time. Add items before you go to the store then right before you begin enter the prices and quatities you buy and we do the math for you. 
+  
 ## Problem ##
-  > Describe the problem your product solves.
+  > Have you ever tried to use calculator while grocery shopping? The banana's weight 2.75 pounds and it's $0.34 a pound. I don't got time for that.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
-
+  > Never worry about working those complicated calulators again. Give me how much you bought and how much it cost and we are good.
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Let us do the math for you"
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > 1. create an account
+  > 2. log in
+  > 3. create a list
+  > 4. enter item information
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "Damn girl, now I don't have to figure out how to multiply prices vs pounds and risk loosing my history." 
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Our software is pretty easy to use. Play around with and see like it before continuing.
