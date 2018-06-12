@@ -6,7 +6,7 @@ const path = require('path');
 
 const database = require('../database/index.js');
 const User = require('../database/schemas/UserSchema.js');
-const util = require('./util.js');
+const utils = require('./utils.js');
 
 // Module constants
 const SALT_ROUNDS = 10; // Difficulty  to crack (Incrementing doubles compute time)
@@ -33,13 +33,13 @@ function serveStatic(endpoint, authorizeCallback = (req, res, next) => next()) {
 }
 
 allPublicEndpoints.forEach(endpoint => serveStatic(endpoint));
-allPrivateEndpoints.forEach(endpoint => serveStatic(endpoint, util.checkLoggedIn));
+allPrivateEndpoints.forEach(endpoint => serveStatic(endpoint, utils.checkLoggedIn));
 
 // Make all files in dist public (Must be after setting static endpoints)
 app.use(express.static(CLIENT_FOLDER));
 
 // All public API calls
-app.get('/', util.checkLoggedIn, (req, res) => {
+app.get('/', utils.checkLoggedIn, (req, res) => {
   res.end();
 });
 
@@ -118,7 +118,7 @@ app.post('/register', (req, res) => {
 
 // searches the database for an item, if it doesn't exists a new item
 // will be created
-app.post('/search/item', util.checkLoggedIn, (req, res) => {
+app.post('/search/item', utils.checkLoggedIn, (req, res) => {
   database.searchForItem(req.body, (item) => {
     res.end(JSON.stringify(item));
   });
@@ -135,7 +135,7 @@ app.post('/addItem', (req, res) => {
 });
 
 
-app.post('/lists/create', util.checkLoggedIn, (req, res) => {
+app.post('/lists/create', utils.checkLoggedIn, (req, res) => {
   database.createList(req.body, (list) => {
     res.end(JSON.stringify(list));
   });
@@ -147,7 +147,7 @@ app.post('/updateList', (req, res) => {
   });
 });
 
-app.post('/lists/delete', util.checkLoggedIn, (req, res) => {
+app.post('/lists/delete', utils.checkLoggedIn, (req, res) => {
   const { _id } = req.body;
 
   database.deleteListById(_id)
@@ -164,7 +164,7 @@ app.get('/store/search', (req, res) => {
   promiseSearch.then(stores => res.end(JSON.stringify(stores)));
 });
 
-app.post('/store/create', util.checkLoggedIn, (req, res) => {
+app.post('/store/create', utils.checkLoggedIn, (req, res) => {
   const { name } = req.body;
 
   if (!name) {
