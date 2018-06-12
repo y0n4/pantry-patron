@@ -34,7 +34,7 @@ class ItemForm extends React.Component {
     this.setState({price: e.target.value});
   }
 
-  // handle submit of edit
+  // handle submit of edi t
   handleSubmit() {
     let itemName = this.state.name ? this.state.name
     : prompt('There is no such things as a null object in life. Give it a name');
