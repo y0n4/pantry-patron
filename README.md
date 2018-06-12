@@ -44,3 +44,30 @@ Once the project moves into development, the press release can be used as a touc
 
 ## Closing and Call to Action ##
   > Our software is pretty easy to use. Play around with and see like it before continuing.
+
+## Server Endpoints ## 
+> GET /   -- takes you to home page 
+
+> POST /login  -- takes in a username and password in the form of {username: <username> , password: <password> } if the user exists, it creates a session and returns the user's information, location for redirection and grocery lists the user has made.
+ 
+> POST /updateHistory -- takes in an item id at the least. We pass it an updated item history object in order to find and update any record in the database. This endpoint returns the updated database document. 
+
+> GET /logout  -- destroys the session then redirects to login 
+
+> POST /register -- creates a new user account and redirects to login 
+
+> POST /search/item -- only really requires and item name. Returns an item document from the database
+
+> POST /addItem -- given a item document from the database this endpoint creates an item history and returns a grocerylist with the new item added onto it.
+
+> POST /lists/create - used to create a list  
+
+> POST /updateList -- used to update a list 
+
+> POST /lists/delete --  used to delete a list 
+
+> GET /store/search -- return all store documents from the database
+
+> POST /store/create -- creates a new store document for the database 
+
+> pOST /search/users -- searches the database to check if a username exists or not 
