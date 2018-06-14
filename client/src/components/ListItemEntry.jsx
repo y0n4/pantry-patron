@@ -60,8 +60,9 @@ export default class ListItemEntry extends React.Component {
     let price = Number(this.state.quantity).toFixed(2);
     let quantity = Number(this.state.price).toFixed(2);
     return (
+      // console.log('this is props.items', props.items)
         <tr>
-            <td> <input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/></td>
+            <td><input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/></td>
             <td><input type="number" min="0" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/></td>
             <td><input type="number" min="0" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/></td>
         </tr>
