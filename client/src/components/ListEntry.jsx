@@ -112,13 +112,13 @@ class ListEntry extends React.Component {
           <thead>
             <tr>
               <th>Item Name</th>
-              <th># of Items/Pounds</th>
+              <th>Quantity</th>
               <th>Price Per Item</th>
             </tr>
           </thead>
           <tbody>
             {
-                this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} />)
+                this.state.items.map((item, id) => <ListItemEntry update={this.updateItem.bind(this)} key={id} item={item} />)
               }
           </tbody>
         </table>
