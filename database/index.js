@@ -72,6 +72,7 @@ const searchForItem = (item, callback) => {
   });
 };
 
+//NEED TO CONSOLE LOG USER
 const searchForUserById = (query, callback) => {
   // query = {name: , user_id: }
   User.findById(query).exec((err, user) => {
