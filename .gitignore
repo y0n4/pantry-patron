@@ -61,5 +61,6 @@ typings/
 .next
 # client/dist/bundle.js
 
-#bundle and package lock
+#bundle and api
 client/dist/bundle.js
+client/src/api/edamamApi.js
