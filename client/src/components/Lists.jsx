@@ -43,7 +43,7 @@ class Lists extends React.Component {
           this.setState({ selectedList: this.state.userLists.x });
           $('#list-select').val('x').change();
         }
-      }, 10000); //bug seems like this part automatically sets select option by itself when mouseover
+      }, 0); //bug seems like this part automatically sets select option by itself when mouseover
     });
   }
 
