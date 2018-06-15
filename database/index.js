@@ -35,6 +35,7 @@ const saveUser = function (user) {
   });
 };
 
+//might be a bug here, could explain why it accepts duplicate items (we don't want that)
 const addItemToList = function (item) {
   const newItem = new Items(item.body);
   newItem.save((err) => {
@@ -72,7 +73,6 @@ const searchForItem = (item, callback) => {
   });
 };
 
-//NEED TO CONSOLE LOG USER
 const searchForUserById = (query, callback) => {
   // query = {name: , user_id: }
   User.findById(query).exec((err, user) => {
