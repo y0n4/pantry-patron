@@ -201,6 +201,7 @@ class App extends React.Component {
             path="/lists"
             render={props => (<Lists
               user={this.state.user}
+              verify={this.verify}
               lists={this.state.lists}
               update={this.update.bind(this)}
               stores={this.state.stores}
