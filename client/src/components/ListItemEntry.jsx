@@ -67,7 +67,7 @@ export default class ListItemEntry extends React.Component {
         order: 'asc',
         numItems: '1',
       },
-      dataType: 'jsonp', // use json only, not jsonp
+      dataType: 'jsonp', // use jsonp only
       crossDomain: true, // tell browser to allow cross domain
       success: (data) => {
         this.setState({
