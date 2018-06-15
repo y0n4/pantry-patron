@@ -63,4 +63,4 @@ typings/
 
 #bundle and api
 client/dist/bundle.js
-client/src/api/edamamApi.js
+client/src/api/*
