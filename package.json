@@ -6,8 +6,9 @@
   "scripts": {
     "test": "nodemon --inspect server/index.js",
     "react-dev": "webpack --watch --mode=development",
-    "react-prod": "webpack --watch --mode=production",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js"
+    "react-prod": "webpack --mode production",
+    "eslint": "node ./node_modules/eslint/bin/eslint.js",
+    "postinstall": "npm run react-prod"
   },
   "repository": {
     "type": "git",
