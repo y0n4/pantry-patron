@@ -2,7 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 import config from '../config/walmart.js';
 
-import Category from './Category.jsx'
 export default class ListItemEntry extends React.Component {
   constructor(props) {
     super(props);
