@@ -68,3 +68,4 @@ client/src/api/edamamApi.js
 
 # walmart api key
 client/src/config/walmart.js
+client/src/api/*
