@@ -63,4 +63,8 @@ typings/
 
 #bundle and api
 client/dist/bundle.js
+<<<<<<< HEAD
 client/src/api/*
+=======
+client/src/api/edamamApi.js
+>>>>>>> Added API to gitignore
