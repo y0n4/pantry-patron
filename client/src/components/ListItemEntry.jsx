@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import walmart from '../config/walmart.js';
+import config from '../config/walmart.js';
 
 import Category from './Category.jsx'
 export default class ListItemEntry extends React.Component {
@@ -62,7 +62,7 @@ export default class ListItemEntry extends React.Component {
     $.ajax({
       url: 'http://api.walmartlabs.com/v1/search',
       data: {
-        apiKey: this.props.apiKey,
+        apiKey: config.WALMART_API_KEY,
         query: this.state.item.item_id.name,
         sort: 'price',
         order: 'asc',

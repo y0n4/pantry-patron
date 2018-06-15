@@ -119,7 +119,7 @@ class ListEntry extends React.Component {
           </thead>
           <tbody>
             {
-               this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} apiKey={window.WALMART_API_KEY}/>)
+               this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} />)
               }
           </tbody>
         </table>
