@@ -33,15 +33,19 @@ class Lists extends React.Component {
     lists dropdown is hovered over for more than 500 ms. This functionality allows for the lists
     data to reset.
   */
+  this.selectList()
+}
+  selectList() {
     $('#list-select').on('mouseover', () => {
       setTimeout(() => {
         if ($('#list-select').is(':hover')) {
           this.setState({ selectedList: this.state.userLists.x });
           $('#list-select').val('x').change();
         }
-      }, 10000); //bug seems like this part automatically sets select option by itself when mouseover
+      }, 0); //bug seems like this part automatically sets select option by itself when mouseover
     });
   }
+
 
   onDeleteClick() {
     this.props.deleteList(this.state.selectedList);
@@ -116,7 +120,7 @@ class Lists extends React.Component {
         }
       },
       err: (err) => {
-        console.error(err);
+        console.error(err, 'this is creating list error');
       },
     });
   }
