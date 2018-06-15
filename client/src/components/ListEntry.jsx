@@ -114,6 +114,7 @@ class ListEntry extends React.Component {
               <th>Item Name</th>
               <th>Quantity</th>
               <th>Price Per Item</th>
+              <th>Use Suggested Price</th>
             </tr>
           </thead>
           <tbody>

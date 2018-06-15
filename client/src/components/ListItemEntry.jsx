@@ -31,6 +31,7 @@ export default class ListItemEntry extends React.Component {
       data: JSON.stringify(updatedItem),
       contentType: 'application/json',
       success: (data) => {
+        console.log('Saved to the database')
         this.props.update(JSON.parse(data)[0]);
       }
     });
@@ -56,6 +57,30 @@ export default class ListItemEntry extends React.Component {
     this.timer();
   }
 
+  setPrice() {
+    $.ajax({
+      url: 'http://api.walmartlabs.com/v1/search',
+      data: {
+        apiKey: 'ncv9h343s66ypue97exbhwj8',
+        query: this.state.item.item_id.name,
+        sort: 'price',
+        order: 'asc',
+        numItems: '1',
+      },
+      dataType: 'jsonp', // use json only, not jsonp
+      crossDomain: true, // tell browser to allow cross domain
+      success: (data) => {
+        this.setState({
+          price: data.items[0].salePrice,
+        });
+        this.updateItemHistory();
+      },
+      error: (err) => {
+        console.log('Walmart API Error', err);
+      }
+    });
+  }
+
   render() {
     let price = Number(this.state.quantity).toFixed(2);
     let quantity = Number(this.state.price).toFixed(2);
@@ -65,6 +90,7 @@ export default class ListItemEntry extends React.Component {
             <td><input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/></td>
             <td><input type="number" min="0" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/></td>
             <td><input type="number" min="0" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/></td>
+            <td><button onClick={this.setPrice.bind(this)}></button></td>
         </tr>
     );
   }
