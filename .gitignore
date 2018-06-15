@@ -63,3 +63,6 @@ typings/
 
 #bundle and package lock
 client/dist/bundle.js
+
+# walmart api key
+client/src/config/walmart.js
