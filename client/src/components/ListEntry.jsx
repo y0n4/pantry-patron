@@ -3,6 +3,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import ListItemEntry from './ListItemEntry.jsx';
 import ItemForm from './ItemForm.jsx';
+import RecipeFilter from './RecipeFilter.jsx';
 
 class ListEntry extends React.Component {
   constructor(props) {
@@ -131,6 +132,9 @@ class ListEntry extends React.Component {
           <button onClick={this.props.deleteList}>
             <span className="glyphicon glyphicon-trash" />Delete List
           </button>
+        </div>
+        <div>
+          <RecipeFilter />
         </div>
       </div>
     );
