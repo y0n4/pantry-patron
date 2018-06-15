@@ -61,8 +61,11 @@ typings/
 .next
 # client/dist/bundle.js
 
-#bundle and package lock
+#bundle and api
 client/dist/bundle.js
+client/src/api/*
+client/src/api/edamamApi.js
 
 # walmart api key
 client/src/config/walmart.js
+client/src/api/*
