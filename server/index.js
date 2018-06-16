@@ -54,6 +54,16 @@ app.get('/api/walmart', (req, res) => {
   });
 });
 
+app.get('/api/edamam', (req, res) => {
+  var id = process.env.RECIPELIST_API_ID || config.RECIPELIST_API_ID;
+  var keys = process.env.RECIPELIST_API_KEYS || config.RECIPELIST_API_KEYS
+
+  request(`https://api.edamam.com/search?q=${req.query.q}&app_id=${id}&app_key=${keys}&from=0&to=3`, (error, response, body) => {
+    res.send(JSON.parse(body));
+    console.log('sending back recipe lists!');
+  });
+});
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body; // might only be req.body
 
