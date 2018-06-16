@@ -10,6 +10,8 @@ class RecipeFilter extends React.Component {
       caloriesRangeEnd: '',
       cookTimeStart: '',
       cookTimeEnd: '',
+      diet: '',
+      health: '',
       items: '',
     };
     this.handleRangeStartChange = this.handleRangeStartChange.bind(this);
@@ -37,6 +39,16 @@ class RecipeFilter extends React.Component {
   // function to update the end value of prep time
   handleCookTimeEndChange(e) {
     this.setState({ cookTimeEnd: e.target.value });
+  }
+
+  // this function will update the dietary changes
+  handleDietChange(e) {
+    this.setState( {diet: e.target.value} );
+  }
+
+  // this function will update health changes
+  handleHealthChange(e) {
+    this.setState( {health: e.target.value} );
   }
   // this function will loop through the entire list and fetch all of the grocery names
   getGroceryItems(list) {
@@ -105,6 +117,26 @@ class RecipeFilter extends React.Component {
             </label>
           <input type="text" value={this.state.cookTimeStart} placeholder="from" onChange={this.handleCookTimeStartChange} />
           <input type="text" value={this.state.cookTimeEnd} placeholder="to" onChange={this.handleCookTimeEndChange} />
+        </div>
+        <div>
+          <label>
+            Dietary Plan:
+          </label>
+          <select value={this.state.diet} onChange={this.handleDietChange}>
+            <option value="balanced">Balanced</option>
+            <option value="high-protein">High Protein</option>
+            <option value="low-fat">Low Fat</option>
+            <option value="low-carb">Low Carb</option>
+          </select>
+        </div>
+        <div>
+          <label>
+            Dietary Restriction
+            </label>
+            <select value={this.state.health} onChange={this.handleHealthChange}>
+              <option value="peanut-free">No Peanuts</option>
+              <option value="tree-nut-free">No Tree Nuts</option>
+            </select>
         </div>
         <input className="grocery-filter-button" type="submit" value="Submit" />
       </form>
