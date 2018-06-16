@@ -10,12 +10,16 @@ class RecipeFilter extends React.Component {
       caloriesRangeEnd: '',
       cookTimeStart: '',
       cookTimeEnd: '',
+      diet: 'balanced',
+      health: 'dairy-free',
       items: '',
     };
     this.handleRangeStartChange = this.handleRangeStartChange.bind(this);
     this.handleRangeEndChange = this.handleRangeEndChange.bind(this);
     this.handleCookTimeStartChange = this.handleCookTimeStartChange.bind(this);
     this.handleCookTimeEndChange = this.handleCookTimeEndChange.bind(this);
+    this.handleDietChange = this.handleDietChange.bind(this);
+    this.handleHealthChange = this.handleHealthChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -38,6 +42,16 @@ class RecipeFilter extends React.Component {
   handleCookTimeEndChange(e) {
     this.setState({ cookTimeEnd: e.target.value });
   }
+
+  // this function will update the dietary changes
+  handleDietChange(e) {
+    this.setState( {diet: e.target.value} );
+  }
+
+  // this function will update health changes
+  handleHealthChange(e) {
+    this.setState( {health: e.target.value} );
+  }
   // this function will loop through the entire list and fetch all of the grocery names
   getGroceryItems(list) {
     const itemHolder = [];
@@ -52,6 +66,9 @@ class RecipeFilter extends React.Component {
   caloriesFilter(itemList) {
     let range = '0-10000';
     let time = '0-1000';
+    let diet = this.state.diet;
+    let health = this.state.health;
+
     if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
       range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
     }
@@ -70,6 +87,8 @@ class RecipeFilter extends React.Component {
         to: 3,
         calories: range,
         time: time,
+        diet: diet,
+        health: health,
       },
       dataType: 'jsonp',
       crossDomain: true,
@@ -93,18 +112,44 @@ class RecipeFilter extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label>
+          <label className="filter-labels">
             Calories Range:
           </label>
-          <input type="text" value={this.state.caloriesRangeStart} placeholder="from" onChange={this.handleRangeStartChange} />
-          <input type="text" value={this.state.caloriesRangeEnd} placeholder="to" onChange={this.handleRangeEndChange} />
+          <input className="filter-input-box" type="text" value={this.state.caloriesRangeStart} placeholder="from" onChange={this.handleRangeStartChange} />
+          <input className="filter-input-box" type="text" value={this.state.caloriesRangeEnd} placeholder="to" onChange={this.handleRangeEndChange} />
         </div>
         <div>
-            <label>
+            <label className="filter-labels">
               Preparation Time:
             </label>
-          <input type="text" value={this.state.cookTimeStart} placeholder="from" onChange={this.handleCookTimeStartChange} />
-          <input type="text" value={this.state.cookTimeEnd} placeholder="to" onChange={this.handleCookTimeEndChange} />
+          <input className="filter-input-box" type="text" value={this.state.cookTimeStart} placeholder="from" onChange={this.handleCookTimeStartChange} />
+          <input className="filter-input-box" type="text" value={this.state.cookTimeEnd} placeholder="to" onChange={this.handleCookTimeEndChange} />
+        </div>
+        <div>
+          <label className="filter-labels">
+            Dietary Plan:
+          </label>
+          <select value={this.state.diet} onChange={this.handleDietChange}>
+            <option value="balanced">Balanced</option>
+            <option value="high-protein">High Protein</option>
+            <option value="low-carb">Low Carb</option>
+            <option value="low-fat">Low Fat</option>
+          </select>
+        </div>
+        <div>
+          <label className="filter-labels">
+            Dietary Restriction
+            </label>
+            <select value={this.state.health} onChange={this.handleHealthChange}>
+              <option value="dairy-free">Dairy Free</option>
+              <option value="gluten-free">Gluten Free</option>
+              <option value="kosher">Kosher</option>
+              <option value="paleo">Paleo</option>
+              <option value="peanut-free">No Peanuts</option>
+              <option value="tree-nut-free">No Tree Nuts</option>
+              <option value="vegan">Vegan</option>
+              <option value="vegetarian">Vegetarian</option>
+            </select>
         </div>
         <input className="grocery-filter-button" type="submit" value="Submit" />
       </form>
