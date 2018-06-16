@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import recipeAPI from '../api/edamamApi.js';
+import recipeAPI from '../config/walmart.js';
 
 class RecipeFilter extends React.Component {
   constructor(props) {
