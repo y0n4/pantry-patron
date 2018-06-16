@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ListItemEntry from './ListItemEntry.jsx';
 import ItemForm from './ItemForm.jsx';
 import RecipeFilter from './RecipeFilter.jsx';
+import RecipeList from './RecipeList.jsx';
 
 class ListEntry extends React.Component {
   constructor(props) {
@@ -12,11 +13,12 @@ class ListEntry extends React.Component {
       _id: this.props.list._id,
       store_id: this.props.list.store_id || { _id: 'select' },
       total_price: 0.00,
-      items: this.props.list.items,
-      stores: this.props.stores,
+      items: this.props.list.items, //items db
+      ingredients: this.props.list.items.map(item => item.item_id.name).join(', '),
+      recipeHit: [],
+      stores: this.props.stores
     };
-    this.updateItem = this.updateItem.bind(this);
-    this.handleStoreChange = this.handleStoreChange.bind(this);
+    this.updateItem = this.updateItem.bind(this);this.handleStoreChange.bind(this);
   } // end constructor
 
   componentDidMount() {
@@ -26,6 +28,7 @@ class ListEntry extends React.Component {
     }
   }
 
+  //this func is not going to be used by us pls ignore
   handleStoreChange(e) {
     if (e.target.value === 'new') {
       let newStoreName = prompt('What store are you at?');
@@ -58,6 +61,13 @@ class ListEntry extends React.Component {
   }
 
   updateItem(updatedItem) {
+    //edit work need to see from console but delete it and add it to ajax req for recipe l8r
+    var newIngredients = this.state.items.map(item => item.item_id.name).join(', ');
+    this.setState({ingredients: newIngredients});
+    console.log('current ingredients:', this.state.ingredients);
+
+    //end it here edit
+    this.recipeRender();
     /*
     grab current list
       find item using id
@@ -76,6 +86,7 @@ class ListEntry extends React.Component {
     this.setState({items: oldItems});
   }
 
+  //invoked by handleStoreChange() meant for store list- not being used atm
   updateList(updatedList) {
     $.ajax({
       url: '/updateList',
@@ -87,9 +98,44 @@ class ListEntry extends React.Component {
       },
       error: (err) => {
         console.error(err);
-      },
-
+      }
     });
+  }
+
+  setRecipes() {
+    $.ajax({
+      url: 'https://api.edamam.com/search',
+      method: 'GET',
+      data: {
+        q: this.state.ingredients,
+        app_id: '6dfc4916',
+        app_key: 'b5bbee65ae2104a9a5e33fa57cc83aeb',
+        from: 0,
+        to: 9
+      },
+      dataType: 'jsonp',
+      crossDomain: true,
+      success: (data) => {
+        // console.log('got it');
+        this.setState({recipeHit: data.hits});
+      },
+      err: (err) => {
+        console.log('recipes not going through', err);
+      }
+    });
+  }
+
+  //gets invoked from render func, displays recipes from given items thus far
+  recipeRender() {
+    //get recipe data and then render it to page
+    this.setRecipes();
+    // console.log(this.state.recipeHit);
+
+    return (
+      <div className="recipe-display">
+        {this.state.recipeHit.map((hit, index) => <RecipeList hit={hit} key={index} />)}
+      </div>
+    )
   }
 
   render() {
@@ -103,7 +149,7 @@ class ListEntry extends React.Component {
         <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
           <option value="select" key="select">Stores</option>
           <option value="new" key="new">New store</option>
-          {
+            {
               this.state.stores.map((store, index) => <option value={store._id} key={index}>{store.name}</option>)
             }
         </select>
@@ -120,8 +166,8 @@ class ListEntry extends React.Component {
           </thead>
           <tbody>
             {
-               this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} apiKey={window.WALMART_API_KEY}/>)
-              }
+              this.state.items.map(item => <ListItemEntry update={this.updateItem.bind(this)} key={item._id} item={item} />)
+            }
           </tbody>
         </table>
 
@@ -135,6 +181,10 @@ class ListEntry extends React.Component {
         </div>
         <div>
           <RecipeFilter groceryItems={this.state}/>
+        </div>
+        <br />
+        <div className="recipe-display">
+          {this.recipeRender()}
         </div>
       </div>
     );
