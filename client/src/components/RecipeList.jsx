@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../config/walmart.js';
 
 class RecipeList extends React.Component {
   constructor(props) {
