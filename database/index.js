@@ -216,3 +216,4 @@ module.exports.searchForItemInHistory = searchForItemInHistory;
 module.exports.searchForItemInHistoryAndPopulate = searchForItemInHistoryAndPopulate;
 module.exports.updateList = updateList;
 module.exports.searchUser = User.findOne.bind(User);
+module.exports.walmartApiKey = walmartApiKey;

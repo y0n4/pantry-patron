@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import config from '../config/walmart.js';
 
 export default class ListItemEntry extends React.Component {
   constructor(props) {
@@ -59,16 +58,10 @@ export default class ListItemEntry extends React.Component {
 
   setPrice() {
     $.ajax({
-      url: 'http://api.walmartlabs.com/v1/search',
+      url: '/api/walmart',
       data: {
-        apiKey: config.WALMART_API_KEY,
         query: this.state.item.item_id.name,
-        sort: 'price',
-        order: 'asc',
-        numItems: '1',
       },
-      dataType: 'jsonp', // use jsonp only
-      crossDomain: true, // tell browser to allow cross domain
       success: (data) => {
         this.setState({
           price: data.items[0].salePrice,
