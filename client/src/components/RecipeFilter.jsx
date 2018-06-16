@@ -37,7 +37,10 @@ class RecipeFilter extends React.Component {
 
   // this ajax request will make a call to edamam and return items based on the calories
   caloriesFilter(itemList) {
-    let range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+    let range = '0-10000'
+    if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
+      range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+    }
     $.ajax({
       url: 'https://api.edamam.com/search',
       method: 'GET',
