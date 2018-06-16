@@ -12,8 +12,9 @@ class ListEntry extends React.Component {
       _id: this.props.list._id,
       store_id: this.props.list.store_id || { _id: 'select' },
       total_price: 0.00,
-      items: this.props.list.items,
-      stores: this.props.stores,
+      items: this.props.list.items, //items db
+      ingredients: this.props.list.items.map(item => item.item_id.name).join(', '),
+      stores: this.props.stores
     };
     this.updateItem = this.updateItem.bind(this);
     this.handleStoreChange = this.handleStoreChange.bind(this);
@@ -26,6 +27,7 @@ class ListEntry extends React.Component {
     }
   }
 
+  //this func is not going to be used by us pls ignore
   handleStoreChange(e) {
     if (e.target.value === 'new') {
       let newStoreName = prompt('What store are you at?');
@@ -58,6 +60,13 @@ class ListEntry extends React.Component {
   }
 
   updateItem(updatedItem) {
+    //edit work need to see from console but delete it and add it to ajax req for recipe l8r
+    console.log(this.state.ingredients);
+    var newIngredients = this.state.items.map(item => item.item_id.name).join(', ');
+    this.setState({ingredients: newIngredients});
+    console.log(this.state.ingredients);
+    //end it here edit
+    // console.log(this.state.items.length);
     /*
     grab current list
       find item using id
@@ -76,6 +85,7 @@ class ListEntry extends React.Component {
     this.setState({items: oldItems});
   }
 
+  //invoked by handleStoreChange() meant for store list- not being used atm
   updateList(updatedList) {
     $.ajax({
       url: '/updateList',
@@ -87,8 +97,29 @@ class ListEntry extends React.Component {
       },
       error: (err) => {
         console.error(err);
-      },
+      }
+    });
+  }
 
+  setRecipes() {
+    $.ajax({
+      url: 'https://api.edamam.com/search',
+      method: 'GET',
+      data: {
+        q: 'beef',
+        app_id: '6dfc4916',
+        app_key: 'b5bbee65ae2104a9a5e33fa57cc83aeb',
+        from: 0,
+        to: 1
+      },
+      dataType: 'jsonp',
+      crossDomain: true,
+      success: (data) => {
+        console.log('got it!', data);
+      },
+      err: (err) => {
+        console.log('recipes not going through', err);
+      }
     });
   }
 
@@ -135,6 +166,8 @@ class ListEntry extends React.Component {
         </div>
         <div>
           <RecipeFilter groceryItems={this.state}/>
+        </div>
+        <div>
         </div>
       </div>
     );
