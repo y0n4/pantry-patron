@@ -47,7 +47,7 @@ app.get('/', utils.checkLoggedIn, (req, res) => {
 });
 
 app.get('/api/walmart', (req, res) => {
-  var data = config.WALMART_API_KEY || process.env.WALMART_API_KEY;
+  var data = process.env.WALMART_API_KEY || config.WALMART_API_KEY;
 
   request(`http://api.walmartlabs.com/v1/search?apiKey=${data}&query=${req.query.query}&sort=price&order=asc&numItems=1`, function (error, response, body) {
     res.send(JSON.parse(body));
