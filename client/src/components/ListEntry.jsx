@@ -5,6 +5,7 @@ import ListItemEntry from './ListItemEntry.jsx';
 import ItemForm from './ItemForm.jsx';
 import RecipeFilter from './RecipeFilter.jsx';
 import RecipeList from './RecipeList.jsx';
+import config from '../config/walmart.js';
 
 class ListEntry extends React.Component {
   constructor(props) {
@@ -108,8 +109,8 @@ class ListEntry extends React.Component {
       method: 'GET',
       data: {
         q: this.state.ingredients,
-        app_id: '6dfc4916',
-        app_key: 'b5bbee65ae2104a9a5e33fa57cc83aeb',
+        app_id: config.RECIPELIST_API_ID,
+        app_key: config.RECIPELIST_API_KEYS,
         from: 0,
         to: 9
       },
