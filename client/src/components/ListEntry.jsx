@@ -5,7 +5,7 @@ import ListItemEntry from './ListItemEntry.jsx';
 import ItemForm from './ItemForm.jsx';
 import RecipeFilter from './RecipeFilter.jsx';
 import RecipeList from './RecipeList.jsx';
-import config from '../config/walmart.js';
+// import config from '../config/walmart.js';
 
 class ListEntry extends React.Component {
   constructor(props) {
@@ -106,17 +106,14 @@ class ListEntry extends React.Component {
 
   setRecipes() {
     $.ajax({
-      url: 'https://api.edamam.com/search',
+      url: '/api/edamam',
       method: 'GET',
       data: {
-        q: this.state.ingredients,
-        from: 0,
-        to: 9
+        q: this.state.ingredients
       },
-      dataType: 'jsonp',
       crossDomain: true,
       success: (data) => {
-        // console.log('got it');
+        console.log('got it', data);
         this.setState({recipeHit: data.hits});
       },
       err: (err) => {
