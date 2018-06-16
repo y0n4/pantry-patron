@@ -134,7 +134,7 @@ class ListEntry extends React.Component {
           </button>
         </div>
         <div>
-          <RecipeFilter />
+          <RecipeFilter groceryItems={this.state}/>
         </div>
       </div>
     );

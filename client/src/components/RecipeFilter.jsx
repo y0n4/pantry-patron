@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import recipeAPI from '../api/edamamApi.js'
+import recipeAPI from '../api/edamamApi.js';
 
 class RecipeFilter extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class RecipeFilter extends React.Component {
     this.state = {
       caloriesRangeStart: '',
       caloriesRangeEnd: '',
-      holder: [],
+      items: '',
     };
     this.handleRangeStartChange = this.handleRangeStartChange.bind(this);
     this.handleRangeEndChange = this.handleRangeEndChange.bind(this);
@@ -25,18 +25,28 @@ class RecipeFilter extends React.Component {
     this.setState({ caloriesRangeEnd: e.target.value });
   }
 
+  // this function will loop through the entire list and fetch all of the grocery names
+  getGroceryItems(list) {
+    const itemHolder = [];
+    list.forEach(names => {
+      itemHolder.push(names.item_id.name)
+    })
+    const itemHolderString = itemHolder.join();
+    this.caloriesFilter(itemHolderString);
+  }
+
   // this ajax request will make a call to edamam and return items based on the calories
-  caloriesFilter() {
+  caloriesFilter(itemList) {
     let range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
     $.ajax({
       url: 'https://api.edamam.com/search',
       method: 'GET',
       data: {
-        q: 'beef',
+        q: `${itemList}`,
         app_id: recipeAPI.RECIPE_API_ID,
         app_key: recipeAPI.RECIPE_API_KEYS,
         from: 0,
-        to: 1,
+        to: 3,
         calories: range,
       },
       dataType: 'jsonp',
@@ -46,14 +56,15 @@ class RecipeFilter extends React.Component {
       },
       err: (err) => {
         console.log(err);
-      }
+      },
     });
   }
 
   // this function update the state with a beginning and an end for calories
   handleSubmit(e) {
+    let entireGroceryList = this.props.groceryItems.items;
     e.preventDefault();
-    this.caloriesFilter();
+    this.getGroceryItems(entireGroceryList);
   }
 
   render() {
