@@ -9,7 +9,7 @@ class RecipeList extends React.Component {
   }
 
   render() {
-    console.log('from recipelist', this.props.hit.recipe.image)
+    console.log('from recipelist', this.props.hit.recipe)
     return (
       <div className="each-recipe">
         <img src={this.props.hit.recipe.image}/>
