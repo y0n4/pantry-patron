@@ -112,21 +112,21 @@ class RecipeFilter extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label>
+          <label className="filter-labels">
             Calories Range:
           </label>
-          <input type="text" value={this.state.caloriesRangeStart} placeholder="from" onChange={this.handleRangeStartChange} />
-          <input type="text" value={this.state.caloriesRangeEnd} placeholder="to" onChange={this.handleRangeEndChange} />
+          <input className="filter-input-box" type="text" value={this.state.caloriesRangeStart} placeholder="from" onChange={this.handleRangeStartChange} />
+          <input className="filter-input-box" type="text" value={this.state.caloriesRangeEnd} placeholder="to" onChange={this.handleRangeEndChange} />
         </div>
         <div>
-            <label>
+            <label className="filter-labels">
               Preparation Time:
             </label>
-          <input type="text" value={this.state.cookTimeStart} placeholder="from" onChange={this.handleCookTimeStartChange} />
-          <input type="text" value={this.state.cookTimeEnd} placeholder="to" onChange={this.handleCookTimeEndChange} />
+          <input className="filter-input-box" type="text" value={this.state.cookTimeStart} placeholder="from" onChange={this.handleCookTimeStartChange} />
+          <input className="filter-input-box" type="text" value={this.state.cookTimeEnd} placeholder="to" onChange={this.handleCookTimeEndChange} />
         </div>
         <div>
-          <label>
+          <label className="filter-labels">
             Dietary Plan:
           </label>
           <select value={this.state.diet} onChange={this.handleDietChange}>
@@ -137,7 +137,7 @@ class RecipeFilter extends React.Component {
           </select>
         </div>
         <div>
-          <label>
+          <label className="filter-labels">
             Dietary Restriction
             </label>
             <select value={this.state.health} onChange={this.handleHealthChange}>
