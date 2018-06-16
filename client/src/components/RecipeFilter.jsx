@@ -76,24 +76,32 @@ class RecipeFilter extends React.Component {
     if ((this.state.cookTimeStart !== '') && (this.state.cookTimeEnd !== '')) {
       time = this.state.cookTimeStart + '-' + this.state.cookTimeEnd;
     }
+    // $.ajax({
+    //   url: 'https://api.edamam.com/search',
+    //   method: 'GET',
+    //   data: {
+    //     q: `${itemList}`,
+    //     app_id: recipeAPI.RECIPE_API_ID,
+    //     app_key: recipeAPI.RECIPE_API_KEYS,
+    //     from: 0,
+    //     to: 3,
+    //     calories: range,
+    //     time: time,
+    //     diet: diet,
+    //     health: health,
+    //   },
     $.ajax({
-      url: 'https://api.edamam.com/search',
+      url: '/api/edamam/filter',
       method: 'GET',
       data: {
         q: `${itemList}`,
-        app_id: recipeAPI.RECIPE_API_ID,
-        app_key: recipeAPI.RECIPE_API_KEYS,
-        from: 0,
-        to: 3,
         calories: range,
         time: time,
         diet: diet,
         health: health,
       },
-      dataType: 'jsonp',
-      crossDomain: true,
       success: (data) => {
-        console.log('Data is', data);
+        console.log('Data is ->', data);
       },
       err: (err) => {
         console.log(err);

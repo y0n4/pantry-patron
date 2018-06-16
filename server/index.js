@@ -55,12 +55,24 @@ app.get('/api/walmart', (req, res) => {
 });
 
 app.get('/api/edamam', (req, res) => {
-  var id = process.env.RECIPELIST_API_ID || config.RECIPELIST_API_ID;
-  var keys = process.env.RECIPELIST_API_KEYS || config.RECIPELIST_API_KEYS
+  var id = process.env.RECIPE_API_ID || config.RECIPE_API_ID;
+  var keys = process.env.RECIPE_API_KEYS || config.RECIPE_API_KEYS
 
   request(`https://api.edamam.com/search?q=${req.query.q}&app_id=${id}&app_key=${keys}&from=0&to=3`, (error, response, body) => {
     res.send(JSON.parse(body));
     console.log('sending back recipe lists!');
+  });
+});
+
+app.get('/api/edamam/filter', (req, res) => {
+  var id = process.env.RECIPELIST_API_ID || config.RECIPELIST_API_ID;
+  var keys = process.env.RECIPELIST_API_KEYS || config.RECIPELIST_API_KEYS
+
+  request(`https://api.edamam.com/search?q=${req.query.q}&app_id=${id}&app_key=${keys}&from=0&to=3&calories=${req.query.calories}&time=${req.query.time}&diet=${req.query.diet}&health=${req.query.health}`, (error, response, body) => {
+    res.send(JSON.parse(body));
+    console.log(req.query)
+    console.log(req.query.health)
+    console.log('sending back filtered recipe lists!');
   });
 });
 
