@@ -27,6 +27,7 @@ class ListEntry extends React.Component {
     if (this.state.store_id._id) {
       $('.store-selection').val(this.state.store_id._id).change();
     }
+    this.setRecipes();
   }
 
   //this func is not going to be used by us pls ignore
@@ -68,7 +69,7 @@ class ListEntry extends React.Component {
     console.log('current ingredients:', this.state.ingredients);
 
     //end it here edit
-    this.recipeRender();
+    // this.recipeRender();
     /*
     grab current list
       find item using id
@@ -109,8 +110,6 @@ class ListEntry extends React.Component {
       method: 'GET',
       data: {
         q: this.state.ingredients,
-        app_id: config.RECIPELIST_API_ID,
-        app_key: config.RECIPELIST_API_KEYS,
         from: 0,
         to: 9
       },
@@ -129,8 +128,7 @@ class ListEntry extends React.Component {
   //gets invoked from render func, displays recipes from given items thus far
   recipeRender() {
     //get recipe data and then render it to page
-    this.setRecipes();
-    // console.log(this.state.recipeHit);
+    console.log('recipeHit', this.state.recipeHit);
 
     return (
       <div className="recipe-display">
