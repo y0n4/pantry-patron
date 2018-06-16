@@ -1,5 +1,4 @@
 import React from 'react';
-import api from '../config/walmart.js';
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -13,6 +12,7 @@ class RecipeList extends React.Component {
     console.log('from recipelist', this.props.hit.recipe)
     return (
       <div className="each-recipe">
+      <div><h3 className="recipe-title">{this.props.hit.recipe.label}</p></div>
         <img src={this.props.hit.recipe.image}/>
       </div>
     )
