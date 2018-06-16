@@ -8,6 +8,8 @@ const path = require('path');
 const database = require('../database/index.js');
 const User = require('../database/schemas/UserSchema.js');
 const utils = require('./utils.js');
+const request = require('request');
+const config = require('../client/src/config/walmart.js');
 
 // Module constants
 const SALT_ROUNDS = 10; // Difficulty  to crack (Incrementing doubles compute time)
@@ -45,8 +47,11 @@ app.get('/', utils.checkLoggedIn, (req, res) => {
 });
 
 app.get('/api/walmart', (req, res) => {
-  var data = database.walmartApiKey();
-  res.json(data);
+  var data = config.WALMART_API_KEY || database.walmartApiKey();
+
+  request(`http://api.walmartlabs.com/v1/search?apiKey=${data}&query=${req.query.query}&sort=price&order=asc&numItems=1`, function (error, response, body) {
+    res.send(JSON.parse(body));
+  });
 });
 
 app.post('/login', (req, res) => {
