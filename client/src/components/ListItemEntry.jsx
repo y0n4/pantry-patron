@@ -59,7 +59,7 @@ export default class ListItemEntry extends React.Component {
 
   setPrice() {
     $.ajax({
-      url: 'http://api.walmartlabs.com/v1/search',
+      url: 'https://api.walmartlabs.com/v1/search',
       data: {
         apiKey: config.WALMART_API_KEY,
         query: this.state.item.item_id.name,
