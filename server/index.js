@@ -44,6 +44,11 @@ app.get('/', utils.checkLoggedIn, (req, res) => {
   res.end();
 });
 
+app.get('/api/walmart', (req, res) => {
+  var data = database.walmartApiKey();
+  res.json(data);
+});
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body; // might only be req.body
 

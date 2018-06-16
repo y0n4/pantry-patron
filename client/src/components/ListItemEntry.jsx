@@ -67,13 +67,8 @@ export default class ListItemEntry extends React.Component {
         order: 'asc',
         numItems: '1',
       },
-<<<<<<< HEAD
-      dataType: 'jsonp', // use jsonp only
-      crossDomain: true, // tell browser to allow cross domain
-=======
       dataType: 'jsonp',
       crossDomain: true,
->>>>>>> Remove notes from AJAX call
       success: (data) => {
         this.setState({
           price: data.items[0].salePrice,
