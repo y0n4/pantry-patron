@@ -10,14 +10,16 @@ class RecipeFilter extends React.Component {
       caloriesRangeEnd: '',
       cookTimeStart: '',
       cookTimeEnd: '',
-      diet: '',
-      health: '',
+      diet: 'balanced',
+      health: 'dairy-free',
       items: '',
     };
     this.handleRangeStartChange = this.handleRangeStartChange.bind(this);
     this.handleRangeEndChange = this.handleRangeEndChange.bind(this);
     this.handleCookTimeStartChange = this.handleCookTimeStartChange.bind(this);
     this.handleCookTimeEndChange = this.handleCookTimeEndChange.bind(this);
+    this.handleDietChange = this.handleDietChange.bind(this);
+    this.handleHealthChange = this.handleHealthChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -64,6 +66,9 @@ class RecipeFilter extends React.Component {
   caloriesFilter(itemList) {
     let range = '0-10000';
     let time = '0-1000';
+    let diet = this.state.diet;
+    let health = this.state.health;
+
     if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
       range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
     }
@@ -82,6 +87,8 @@ class RecipeFilter extends React.Component {
         to: 3,
         calories: range,
         time: time,
+        diet: diet,
+        health: health,
       },
       dataType: 'jsonp',
       crossDomain: true,
@@ -125,8 +132,8 @@ class RecipeFilter extends React.Component {
           <select value={this.state.diet} onChange={this.handleDietChange}>
             <option value="balanced">Balanced</option>
             <option value="high-protein">High Protein</option>
-            <option value="low-fat">Low Fat</option>
             <option value="low-carb">Low Carb</option>
+            <option value="low-fat">Low Fat</option>
           </select>
         </div>
         <div>
@@ -134,8 +141,14 @@ class RecipeFilter extends React.Component {
             Dietary Restriction
             </label>
             <select value={this.state.health} onChange={this.handleHealthChange}>
+              <option value="dairy-free">Dairy Free</option>
+              <option value="gluten-free">Gluten Free</option>
+              <option value="kosher">Kosher</option>
+              <option value="paleo">Paleo</option>
               <option value="peanut-free">No Peanuts</option>
               <option value="tree-nut-free">No Tree Nuts</option>
+              <option value="vegan">Vegan</option>
+              <option value="vegetarian">Vegetarian</option>
             </select>
         </div>
         <input className="grocery-filter-button" type="submit" value="Submit" />
