@@ -147,15 +147,6 @@ class ListEntry extends React.Component {
             ${ this.state.items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0).toFixed(2) }
         </h3>
         <br />
-        <select className="form-control store-selection dropdown" onChange={this.handleStoreChange.bind(this)}>
-          <option value="select" key="select">Stores</option>
-          <option value="new" key="new">New store</option>
-            {
-              this.state.stores.map((store, index) => <option value={store._id} key={index}>{store.name}</option>)
-            }
-        </select>
-        <br />
-        <br />
         <table className="table table-hover" id="table" align="center">
           <thead>
             <tr>
