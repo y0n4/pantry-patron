@@ -70,10 +70,27 @@ export default class ListItemEntry extends React.Component {
       dataType: 'jsonp',
       crossDomain: true,
       success: (data) => {
-        this.setState({
-          price: data.items[0].salePrice,
+        $.ajax({
+          url: 'https://api.walmartlabs.com/v1/search',
+          data: {
+            apiKey: config.WALMART_API_KEY || data,
+            query: this.state.item.item_id.name,
+            sort: 'price',
+            order: 'asc',
+            numItems: '1',
+          },
+          dataType: 'jsonp',
+          crossDomain: true,
+          success: (data) => {
+            this.setState({
+              price: data.items[0].salePrice,
+            });
+            this.updateItemHistory();
+          },
+          error: (err) => {
+            console.log('Walmart API Error', err);
+          }
         });
-        this.updateItemHistory();
       },
       error: (err) => {
         console.log('Walmart API Error', err);
