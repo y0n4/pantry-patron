@@ -203,6 +203,10 @@ const updateList = (list, callback) => {
 
 const storeSave = async store => (new Store(store)).save();
 
+const walmartApiKey = () => {
+  return process.env.WALMART_API_KEY;
+};
+
 module.exports.saveUser = saveUser;
 module.exports.searchForUserById = searchForUserById;
 module.exports.storeSearch = Store.find.bind(Store);
