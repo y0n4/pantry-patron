@@ -66,10 +66,10 @@ class ListEntry extends React.Component {
     //edit work need to see from console but delete it and add it to ajax req for recipe l8r
     var newIngredients = this.state.items.map(item => item.item_id.name).join(', ');
     this.setState({ingredients: newIngredients});
-    console.log('LATEST INGREDIENTS:', this.state.ingredients);
+    console.log('current ingredients:', this.state.ingredients);
 
     //end it here edit
-
+    // this.recipeRender();
     /*
     grab current list
       find item using id
@@ -86,7 +86,6 @@ class ListEntry extends React.Component {
     });
 
     this.setState({items: oldItems});
-    this.setRecipes();
   }
 
   //invoked by handleStoreChange() meant for store list- not being used atm
@@ -114,7 +113,7 @@ class ListEntry extends React.Component {
       },
       crossDomain: true,
       success: (data) => {
-        console.log('DAT HIT DOE', data);
+        console.log('got it', data);
         this.setState({recipeHit: data.hits});
       },
       err: (err) => {
