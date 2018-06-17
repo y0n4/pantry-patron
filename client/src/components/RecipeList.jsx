@@ -12,8 +12,8 @@ class RecipeList extends React.Component {
     // console.log('from recipelist', this.props.hit.recipe)
     return (
       <div className="each-recipe">
-        <a href={this.props.hit.recipe.url}><p className="recipe-title">{this.props.hit.recipe.label}</p></a>
-        <a href={this.props.hit.recipe.url}><img src={this.props.hit.recipe.image} target="_blank" className="recipe-pic"/></a>
+        <a href={this.props.hit.recipe.url} target="_blank"><p className="recipe-title">{this.props.hit.recipe.label}</p></a>
+        <a href={this.props.hit.recipe.url} target="_blank"><img src={this.props.hit.recipe.image} className="recipe-pic"/></a>
         <br /><br />
         <p className="recipe-type">
           <b>Diet:</b> {this.props.hit.recipe.dietLabels.join(', ')}<br />
