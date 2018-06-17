@@ -21,6 +21,7 @@ class RecipeList extends React.Component {
         <ul className="recipe-ingredients">
           {this.props.hit.recipe.ingredientLines.map(eachIngredient => <li>{eachIngredient}</li>)}
         </ul>
+        <p><b><a href={this.props.hit.recipe.url}>Step-by-step instructions here</a></b></p>
       </div>
     )
   }
