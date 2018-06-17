@@ -83,7 +83,7 @@ export default class ListItemEntry extends React.Component {
             <td><input type="text" name="item" value={this.state.item.item_id.name} onChange={this.handleNameChange.bind(this)}/></td>
             <td><input type="number" min="0" name="quantity" value={this.state.quantity} onChange={this.handleQtyChange.bind(this)} step="any"/></td>
             <td><input type="number" min="0" name="price" value={this.state.price} onChange={this.handlePriceChange.bind(this)} step="any"/></td>
-            <td><button onClick={this.setPrice.bind(this)}></button></td>
+            <td><button className="price-button" onClick={this.setPrice.bind(this)}></button></td>
         </tr>
     );
   }
