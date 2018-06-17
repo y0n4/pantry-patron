@@ -171,6 +171,7 @@ class ListEntry extends React.Component {
           <RecipeFilter groceryItems={this.state}/>
         </div>
         <br />
+        <h2 className="recipe-recc">Recipes based on the items from your list...</h2>
         <div className="recipe-display">
           {this.recipeRender()}
         </div>

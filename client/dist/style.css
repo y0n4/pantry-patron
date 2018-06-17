@@ -119,3 +119,36 @@ body {
     border-top-right-radius: 0;
   }
 }
+
+
+.recipe-display {
+  margin-bottom: 40px;
+}
+
+.recipe-recc {
+  font-weight: bold;
+  color: red;
+}
+
+.each-recipe {
+  background-color: #fff5f5;
+  display: inline-block;
+  width: 350px;
+  overflow-y: scroll;
+  height: 500px;
+  margin: 5px;
+}
+
+.recipe-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.recipe-type {
+  padding: 10px;
+  text-align: left;
+}
+
+.recipe-ingredients li {
+  text-align: left;
+}
