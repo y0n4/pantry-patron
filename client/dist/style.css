@@ -119,3 +119,21 @@ body {
     border-top-right-radius: 0;
   }
 }
+
+
+.each-recipe {
+  border: 1px solid black;
+  display: inline-block;
+  width: 350px;
+  overflow-y: scroll;
+  height: 500px;
+}
+
+.recipe-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.recipe-ingredients li {
+  list-style-type: none;
+}
