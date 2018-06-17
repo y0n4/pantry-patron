@@ -85,15 +85,15 @@ class RecipeFilter extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
+      <form className="filter-form" onSubmit={this.handleSubmit}>
+        <div className="filter-container">
           <label className="filter-labels">
             Calories Range:
           </label>
           <input className="filter-input-box" type="text" value={this.state.caloriesRangeStart} placeholder="from" onChange={this.handleRangeStartChange} />
           <input className="filter-input-box" type="text" value={this.state.caloriesRangeEnd} placeholder="to" onChange={this.handleRangeEndChange} />
         </div>
-        <div>
+        <div className="filter-container">
           <label className="filter-labels">
             Dietary Plan:
           </label>
@@ -104,7 +104,7 @@ class RecipeFilter extends React.Component {
             <option value="low-fat">Low Fat</option>
           </select>
         </div>
-        <div>
+        <div className="filter-container">
           <label className="filter-labels">
             Dietary Restriction
             </label>
