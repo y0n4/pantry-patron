@@ -3,6 +3,19 @@ body {
   background: #fff !important;
 }
 
+.filter-form {
+  width: 75%;
+  margin: auto;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+
+.filter-container {
+  text-align: left;
+}
+
 .username-display {
   display: inline-block;
   margin-left: 10px;
