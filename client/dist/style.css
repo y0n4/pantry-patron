@@ -120,8 +120,14 @@ body {
   }
 }
 
+
 .recipe-display {
   margin-bottom: 40px;
+}
+
+.recipe-recc {
+  font-weight: bold;
+  color: red;
 }
 
 .each-recipe {
