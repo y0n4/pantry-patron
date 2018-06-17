@@ -137,6 +137,11 @@ body {
   font-weight: bold;
 }
 
+.recipe-type {
+  padding: 10px;
+  text-align: left;
+}
+
 .recipe-ingredients li {
   text-align: left;
 }
