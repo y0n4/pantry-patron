@@ -17,8 +17,8 @@ class Home extends React.Component {
       message: '',
       messages: [],
     };
-
-    this.socket = io('localhost:3000');
+    const port = process.env.PORT || 3000;
+    this.socket = io(`${port}`);
 
     this.socket.on('receivedMsg', (data) => {
       console.log(data);
