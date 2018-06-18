@@ -132,34 +132,40 @@ class ListEntry extends React.Component {
     });
   }
 
-  // this ajax request will make a call to edamam and return items based on the calories
-  groceryFilter(itemList) {
-    let range = '0-10000';
-    let diet = this.state.diet;
-    let health = this.state.health;
+  // // this ajax request will make a call to edamam and return items based on the calories
+  // groceryFilter(itemList) {
+  //   let range = '0-10000';
+  //   let diet = this.state.diet;
+  //   let health = this.state.health;
 
-    if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
-      range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
-    }
+  //   if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
+  //     range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+  //   }
 
-    $.ajax({
-      url: '/api/edamam/filter',
-      method: 'GET',
-      data: {
-        q: `${itemList}`,
-        calories: range,
-        diet: diet,
-        health: health,
-      },
-      success: (data) => {
-        this.setState( {filteredItem: data.hits} )
-        console.log('Data is ->', data);
-      },
-      err: (err) => {
-        console.log(err);
-      },
-    });
-  }
+  //   $.ajax({
+  //     url: '/api/edamam/filter',
+  //     method: 'GET',
+  //     data: {
+  //       q: `${itemList}`,
+  //       calories: range,
+  //       diet: diet,
+  //       health: health,
+  //     },
+  //     success: (data) => {
+  //       this.setState({
+  //         filteredItem: data.hits, 
+  //         q: `${itemList}`,
+  //         calories: range,
+  //         diet,
+  //         health,
+  //       })
+  //       console.log('Data is ->', data);
+  //     },
+  //     err: (err) => {
+  //       console.log(err);
+  //     },
+  //   });
+  // }
 
   //gets invoked from render func, displays recipes from given items thus far
   recipeRender() {
@@ -204,7 +210,7 @@ class ListEntry extends React.Component {
           </button>
         </div>
         <div>
-          <RecipeFilter groceryItems={this.state} groceryFilter={this.groceryFilter.bind(this)}/>
+          <RecipeFilter groceryItems={this.state} />
         </div>
         <br />
         <h2 className="recipe-recc">Recommended recipes based on the items from your list...</h2>

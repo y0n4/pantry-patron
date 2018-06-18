@@ -47,7 +47,8 @@ class RecipeFilter extends React.Component {
       itemHolder.push(names.item_id.name)
     })
     const itemHolderString = itemHolder.join();
-    this.props.groceryFilter(itemHolderString);
+    this.groceryFilter(itemHolderString);
+
     return (
       <div className="recipe-display">
         {this.state.filteredItem.map((hit, index) => <RecipeList hit={hit} key={index} />)}
@@ -55,34 +56,34 @@ class RecipeFilter extends React.Component {
     );
   }
 
-  // // this ajax request will make a call to edamam and return items based on the calories
-  // groceryFilter(itemList) {
-  //   let range = '0-10000';
-  //   let diet = this.state.diet;
-  //   let health = this.state.health;
+  // this ajax request will make a call to edamam and return items based on the calories
+  groceryFilter(itemList) {
+    let range = '0-10000';
+    let diet = this.state.diet;
+    let health = this.state.health;
 
-  //   if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
-  //     range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
-  //   }
+    if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
+      range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+    }
 
-  //   $.ajax({
-  //     url: '/api/edamam/filter',
-  //     method: 'GET',
-  //     data: {
-  //       q: `${itemList}`,
-  //       calories: range,
-  //       diet: diet,
-  //       health: health,
-  //     },
-  //     success: (data) => {
-  //       this.setState( {filteredItem: data.hits} )
-  //       console.log('Data is ->', data);
-  //     },
-  //     err: (err) => {
-  //       console.log(err);
-  //     },
-  //   });
-  // }
+    $.ajax({
+      url: '/api/edamam/filter',
+      method: 'GET',
+      data: {
+        q: `${itemList}`,
+        calories: range,
+        diet: diet,
+        health: health,
+      },
+      success: (data) => {
+        this.setState( {filteredItem: data.hits} )
+        console.log('Data is ->', data);
+      },
+      err: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
   // this function update the state with a beginning and an end for calories
   handleSubmit(e) {
