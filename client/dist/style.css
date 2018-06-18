@@ -133,6 +133,11 @@ body {
   }
 }
 
+.row {
+  font-size: 16px;
+  text-align: center;
+  margin: auto,
+}
 
 .recipe-display {
   margin-bottom: 40px;

@@ -1,7 +1,10 @@
-
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const express = require('express');
+
+const socket = require('socket.io');
+
+const app = express();
 const session = require('express-session');
 const path = require('path');
 
@@ -15,28 +18,29 @@ const config = require('../client/src/config/walmart.js');
 const SALT_ROUNDS = 10; // Difficulty  to crack (Incrementing doubles compute time)
 const CLIENT_FOLDER = path.join(__dirname, '../client/dist');
 
-const app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || '0979zx7v6vvq0398ubvq7w6dc8c7z5rvg7i1',
-  cookie: {},
-  resave: true,
-  saveUninitialized: true,
-}));
+    secret:
+      process.env.SESSION_SECRET || '0979zx7v6vvq0398ubvq7w6dc8c7z5rvg7i1',
+    cookie: {},
+    resave: true,
+    saveUninitialized: true,
+  }),);
 
 // Handle static endpoints
 const allPublicEndpoints = ['/login', '/register'];
 const allPrivateEndpoints = ['/', '/lists'];
 
 function serveStatic(endpoint, authorizeCallback = (req, res, next) => next()) {
-  app.get(endpoint, authorizeCallback, (req, res) => res.sendFile(path.join(CLIENT_FOLDER, 'index.html')));
+  app.get(endpoint, authorizeCallback, (req, res) =>
+    res.sendFile(path.join(CLIENT_FOLDER, 'index.html')),);
 }
 
 allPublicEndpoints.forEach(endpoint => serveStatic(endpoint));
-allPrivateEndpoints.forEach(endpoint => serveStatic(endpoint, utils.checkLoggedIn));
+allPrivateEndpoints.forEach(endpoint =>
+  serveStatic(endpoint, utils.checkLoggedIn),);
 
 // Make all files in dist public (Must be after setting static endpoints)
 app.use(express.static(CLIENT_FOLDER));
@@ -91,7 +95,10 @@ app.post('/login', (req, res) => {
     })
       .then(({ user, hash, isValidUser }) => {
         if (!isValidUser) {
-          res.end(JSON.stringify({ loc: '/login', message: 'Username and password do not match our records' }));
+          res.end(JSON.stringify({
+              loc: '/login',
+              message: 'Username and password do not match our records',
+            }),);
         }
 
         req.session.username = username;
@@ -103,7 +110,11 @@ app.post('/login', (req, res) => {
       })
       .catch((err) => {
         if (err) console.error('user does not exist.');
-        res.end(JSON.stringify({ loc: '/register', message: 'The user entered does not have an account with us. Please register to continue' }));
+        res.end(JSON.stringify({
+            loc: '/register',
+            message:
+              'The user entered does not have an account with us. Please register to continue',
+          }),);
       });
   } else {
     res.end(JSON.stringify({ loc: '/login' }));
@@ -125,16 +136,16 @@ app.get('/logout', (req, res) => {
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
   if (username && password) {
-    bcrypt.hash(password, SALT_ROUNDS)
-      .then(async hash => (
+    bcrypt
+      .hash(password, SALT_ROUNDS)
+      .then(async hash =>
         database.saveUser({
           username,
           hash,
           grocery_list: [],
           last_login: new Date(),
           failed_login_attempts: 0,
-        })
-      ))
+        }),)
       .then((hash) => {
         req.session.username = username;
         req.session.hash = hash;
@@ -165,7 +176,6 @@ app.post('/addItem', (req, res) => {
   });
 });
 
-
 app.post('/lists/create', utils.checkLoggedIn, (req, res) => {
   database.createList(req.body, (list) => {
     res.end(JSON.stringify(list));
@@ -181,16 +191,15 @@ app.post('/updateList', (req, res) => {
 app.post('/lists/delete', utils.checkLoggedIn, (req, res) => {
   const { _id } = req.body;
 
-  database.deleteListById(_id)
-    .then(deletedId => res.send(deletedId));
+  database.deleteListById(_id).then(deletedId => res.send(deletedId));
 });
 
 app.get('/store/search', (req, res) => {
   const { name } = req.query;
 
-  const promiseSearch = name ?
-    database.storeSearch({ name }).exec() :
-    database.storeSearch({}).exec();
+  const promiseSearch = name
+    ? database.storeSearch({ name }).exec()
+    : database.storeSearch({}).exec();
 
   promiseSearch.then(stores => res.end(JSON.stringify(stores)));
 });
@@ -204,23 +213,27 @@ app.post('/store/create', utils.checkLoggedIn, (req, res) => {
     return;
   }
 
-  database.storeSave({ name })
+  database
+    .storeSave({ name })
     .then((store) => {
       res.end(JSON.stringify(store));
     })
     .catch((err) => {
       res.status(500);
-      console.error(`Could not create store ${name} in Stores database (Duplicate?)`, err);
-      res.send('Apologies for this error. From our expreience this occurs when the store name is a duplicate. We advise checking the store name.');
+      console.error(
+        `Could not create store ${name} in Stores database (Duplicate?)`,
+        err,
+      );
+      res.send('Apologies for this error. From our expreience this occurs when the store name is a duplicate. We advise checking the store name.',);
     });
 });
 
 app.post('/search/users', (req, res) => {
   database.searchUser(req.body).exec((err, user) => {
     if (user) {
-      res.end(JSON.stringify({ message: 'username already exists', error: true }));
+      res.end(JSON.stringify({ message: 'username already exists', error: true }),);
     } else {
-      res.end(JSON.stringify({ message: 'Username is available', error: false }));
+      res.end(JSON.stringify({ message: 'Username is available', error: false }),);
     }
   });
 });
@@ -228,6 +241,17 @@ app.post('/search/users', (req, res) => {
 // Initialization
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+});
+
+// socket.io
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log(socket.id);
+
+  socket.on('sendMsg', (data) => {
+    io.emit('receivedMsg', data);
+  });
 });

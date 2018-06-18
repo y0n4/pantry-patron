@@ -4,4 +4,6 @@ module.exports = {
   WALMART_API_KEY: 'ncv9h343s66ypue97exbhwj8',
   RECIPELIST_API_ID: '8249bd90',
   RECIPELIST_API_KEYS: '32c96a83afe63b9a87796b3277af3cbd',
-}
+
+};
+
