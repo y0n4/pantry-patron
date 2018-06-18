@@ -17,7 +17,11 @@ class ListEntry extends React.Component {
       items: this.props.list.items, //items db
       ingredients: this.props.list.items.map(item => item.item_id.name).join(', '),
       recipeHit: [],
-      stores: this.props.stores
+      stores: this.props.stores,
+      caloriesRangeStart: '',
+      caloriesRangeEnd: '',
+      diet: 'balanced',
+      health: 'peanut-free',
     };
     this.updateItem = this.updateItem.bind(this);this.handleStoreChange.bind(this);
   } // end constructor
@@ -128,11 +132,38 @@ class ListEntry extends React.Component {
     });
   }
 
+  // this ajax request will make a call to edamam and return items based on the calories
+  groceryFilter(itemList) {
+    let range = '0-10000';
+    let diet = this.state.diet;
+    let health = this.state.health;
+
+    if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
+      range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+    }
+
+    $.ajax({
+      url: '/api/edamam/filter',
+      method: 'GET',
+      data: {
+        q: `${itemList}`,
+        calories: range,
+        diet: diet,
+        health: health,
+      },
+      success: (data) => {
+        this.setState( {filteredItem: data.hits} )
+        console.log('Data is ->', data);
+      },
+      err: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
   //gets invoked from render func, displays recipes from given items thus far
   recipeRender() {
     //get recipe data and then render it to page
-    console.log('recipeHit', this.state.recipeHit);
-
     return (
       <div className="recipe-display">
         {this.state.recipeHit.map((hit, index) => <RecipeList hit={hit} key={index} />)}
@@ -173,7 +204,7 @@ class ListEntry extends React.Component {
           </button>
         </div>
         <div>
-          <RecipeFilter groceryItems={this.state}/>
+          <RecipeFilter groceryItems={this.state} groceryFilter={this.groceryFilter.bind(this)}/>
         </div>
         <br />
         <h2 className="recipe-recc">Recommended recipes based on the items from your list...</h2>

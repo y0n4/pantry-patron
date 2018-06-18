@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
-import recipeAPI from '../config/walmart.js';
+import RecipeList from './RecipeList.jsx';
+import ListEntry from './ListEntry.jsx';
 
 class RecipeFilter extends React.Component {
   constructor(props) {
@@ -9,8 +10,9 @@ class RecipeFilter extends React.Component {
       caloriesRangeStart: '',
       caloriesRangeEnd: '',
       diet: 'balanced',
-      health: 'dairy-free',
-      items: '',
+      health: 'peanut-free',
+      filteredItem: [],
+      currentItems: [],
     };
     this.handleRangeStartChange = this.handleRangeStartChange.bind(this);
     this.handleRangeEndChange = this.handleRangeEndChange.bind(this);
@@ -45,42 +47,49 @@ class RecipeFilter extends React.Component {
       itemHolder.push(names.item_id.name)
     })
     const itemHolderString = itemHolder.join();
-    this.caloriesFilter(itemHolderString);
+    this.props.groceryFilter(itemHolderString);
+    return (
+      <div className="recipe-display">
+        {this.state.filteredItem.map((hit, index) => <RecipeList hit={hit} key={index} />)}
+      </div>
+    );
   }
 
-  // this ajax request will make a call to edamam and return items based on the calories
-  caloriesFilter(itemList) {
-    let range = '0-10000';
-    let diet = this.state.diet;
-    let health = this.state.health;
+  // // this ajax request will make a call to edamam and return items based on the calories
+  // groceryFilter(itemList) {
+  //   let range = '0-10000';
+  //   let diet = this.state.diet;
+  //   let health = this.state.health;
 
-    if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
-      range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
-    }
+  //   if ((this.state.caloriesRangeStart !== '') && (this.state.caloriesRangeEnd !== '')) {
+  //     range = this.state.caloriesRangeStart + '-' + this.state.caloriesRangeEnd;
+  //   }
 
-    $.ajax({
-      url: '/api/edamam/filter',
-      method: 'GET',
-      data: {
-        q: `${itemList}`,
-        calories: range,
-        diet: diet,
-        health: health,
-      },
-      success: (data) => {
-        console.log('Data is ->', data);
-      },
-      err: (err) => {
-        console.log(err);
-      },
-    });
-  }
+  //   $.ajax({
+  //     url: '/api/edamam/filter',
+  //     method: 'GET',
+  //     data: {
+  //       q: `${itemList}`,
+  //       calories: range,
+  //       diet: diet,
+  //       health: health,
+  //     },
+  //     success: (data) => {
+  //       this.setState( {filteredItem: data.hits} )
+  //       console.log('Data is ->', data);
+  //     },
+  //     err: (err) => {
+  //       console.log(err);
+  //     },
+  //   });
+  // }
 
   // this function update the state with a beginning and an end for calories
   handleSubmit(e) {
     let entireGroceryList = this.props.groceryItems.items;
     e.preventDefault();
     this.getGroceryItems(entireGroceryList);
+    this.setState( {currentItems: entireGroceryList} )
   }
 
   render() {

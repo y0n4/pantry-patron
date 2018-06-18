@@ -9,7 +9,7 @@ class RecipeList extends React.Component {
   }
 
   render() {
-    // console.log('from recipelist', this.props.hit.recipe)
+    console.log('from recipefilter', this.props)
     return (
       <div className="each-recipe">
         <a href={this.props.hit.recipe.url} target="_blank"><p className="recipe-title">{this.props.hit.recipe.label}</p></a>
