@@ -17,7 +17,7 @@ class Home extends React.Component {
       message: '',
       messages: [],
     };
-    const port = process.env.PORT || 3000;
+    const port = 'localhost:3000';
     this.socket = io(`${port}`);
 
     this.socket.on('receivedMsg', (data) => {
@@ -39,21 +39,27 @@ class Home extends React.Component {
   render() {
     return (
 
-      <div className="msgContainer">
+      <div className="container text-center">
         <NavBar {...this.props} />
         <img src={Welcome} style={{ width: '300px', height: '120px' }} />
         <h3 className="username-display"> {this.props.user.username} ! </h3>
         <div className="row">
-          <div className="col-4">
+          <div className="col-md centered">
             <div className="card">
               <div className="card-body">
-                <div className="card-title">Share your daily tips here!</div>
+                <div className="card-title"><h3>Share your daily tips here!</h3></div>
                 <hr />
-                <div className="messages">
+                <div className="messages text-warning">
+                  <h4>Yona: Go for the non-organic stuff, it's cheaper </h4>
+                  <h4>Ainslie: Bring cash instead of your card so you would have to stick to a budget.</h4>
+                  <h4>Kenny: Don't go shopping hungry to prevent buying too many snacks!</h4>
+                  <h4>Selena: What should I eat today?</h4>
                   {this.state.messages.map((message, key) => (
-                    <div className="messageList" key={key}>
+                    <h4 className="messageList" key={key}>
+
                       {message.user}: {message.message}
-                    </div>
+                    </h4>
+
                     ))}
                 </div>
               </div>
