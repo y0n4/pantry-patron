@@ -5,7 +5,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-
+import registerServiceWorker from './components/registerServiceWorker';
 import $ from 'jquery';
 
 
@@ -49,7 +49,7 @@ class App extends React.Component {
       data: JSON.stringify(newUserCreds),
       success: (loc) => {
         console.log('New user information saved to db');
-        console.log(loc)
+        console.log(loc);
         callback(loc);
       },
       error: (err) => {
@@ -132,7 +132,7 @@ class App extends React.Component {
       data: JSON.stringify(credentials),
       success: (data) => {
         data = JSON.parse(data);
-        if(data.loc === '/') {
+        if (data.loc === '/') {
           this.setState({ isLoggedIn: true });
           // //get user information
           this.setState({ lists: data.lists || [] });
@@ -217,3 +217,4 @@ class App extends React.Component {
 } // end App
 
 ReactDOM.render(<App />, document.getElementById('app'));
+registerServiceWorker();

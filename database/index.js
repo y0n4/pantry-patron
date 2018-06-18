@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 
 // establish connection
-const uri = process.env.MONGOOSE_URI || 'mongodb://localhost/pantry-patron';
+const uri = process.env.PORT || 'mongodb://localhost/pantry-patron';
 mongoose.connect(uri);
 const db = mongoose.connection;
 

@@ -15,6 +15,9 @@ const UserSchema = Schema({
   }],
   last_login: Date,
   failed_login_attempts: Number,
+  message: [{
+    type: String,
+  }],
 });
 
 module.exports = mongoose.model('Users', UserSchema);
